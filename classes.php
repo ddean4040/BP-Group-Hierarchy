@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Hierarchy-aware extension for Groups class
+ */
 class BP_Groups_Hierarchy extends BP_Groups_Group {
 
 	var $vars = null;
@@ -97,6 +100,10 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g WHERE g.parent_id=%d",$id));
 	}
 	
+	/**
+	 * Is the passed group a child of the current object?
+	 * @param int ChildGroupID ID of suspected child group
+	 */
 	function is_child( $group_id ) {
 		return $wpdb->get_var($wpdb->prepare("SELECT COUNT(g.id) FROM {$bp->groups->table_name} g WHERE g.parent_id=%d AND g.id = %d",$this->id, $group_id));
 	}
@@ -108,6 +115,21 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			return false;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE slug = %s AND parent_id = %d", $slug, $parent_id ) );
+		
+	}
+	
+	function check_slug_stem( $path ) {
+		
+		global $bp, $wpdb;
+		
+		if(strpos( $path, '/' )) {
+			$path = explode('/',$path);
+			$path = $path[count($path)-1];
+		}
+		if(strlen($path) == 0)	return array();
+		
+		$slug = esc_sql(like_escape(stripslashes($path)));
+		return $wpdb->get_col( "SELECT slug FROM {$bp->groups->table_name} WHERE slug LIKE '$slug%'" );
 		
 	}
 	
@@ -134,13 +156,22 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return self::group_exists( $slug, $parent_id );
 	}
 	
+	/**
+	 * Get the full path for a group
+	 */
+	function get_path( $group_id ) {
+		$group = new BP_Groups_Hierarchy( $group_id );
+		if($group) {
+			return $group->path;
+		}
+		return false;
+	}
+	
 	function get_by_parent( $parent_id, $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( !is_super_admin() )
 			$hidden_sql = $wpdb->prepare( " AND status != 'hidden'");
-
-		$letter = like_escape( $wpdb->escape( $letter ) );
 
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -179,6 +210,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	
 }
 
+/**
+ * Hierarchy-aware extension for Groups template class
+ */
 class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 
 	var $vars = array();

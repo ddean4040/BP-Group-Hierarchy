@@ -6,7 +6,6 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	
 	function bp_groups_hierarchy_extension() {
 		
-		
 		$this->name = __( 'Parent Group', 'bp-group-hierarchy' );
 		$this->nav_item_name = __( 'Member Groups', 'bp-group-hierarchy' );
 		$this->slug = 'hierarchy';
@@ -26,6 +25,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	function enable_nav_item() {
 		global $bp;
 		
+		// Only display the nav item if the group has child groups
 		if (BP_Groups_Hierarchy::has_children( $bp->groups->current_group->id )) {
 			return true;
 		}
@@ -210,7 +210,6 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 	<?php
 	}
-	
 }
 
 bp_register_group_extension( 'BP_Groups_Hierarchy_Extension' );

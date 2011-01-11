@@ -1,7 +1,8 @@
 <?php
 
 /**
- * @return int|bool number of matching groups or FALSE if none
+ *	Override group retrieval for groups template
+ *  @return int|bool number of matching groups or FALSE if none
  */
 function bp_group_hierarchy_override_template($has_groups) {
 	
@@ -39,8 +40,46 @@ function bp_group_hierarchy_override_template($has_groups) {
 	
 	return $has_groups;
 }
-
 add_filter( 'bp_has_groups', 'bp_group_hierarchy_override_template', 10, 2 );
+
+
+/**
+ * Fix forum topic permalinks for subgroups
+ */
+function bp_group_hierarchy_fixup_forum_paths( $topics ) {
+	
+	// replace each simple slug with its full path
+	if(is_array($topics)) {
+		foreach($topics as $key => $topic) {
+	
+			$group_id = BP_Groups_Group::group_exists($topic->object_slug);
+			if($group_id) {
+				$topics[$key]->object_slug = BP_Groups_Hierarchy::get_path( $group_id );
+			}
+		}
+	}
+	return $topics;
+	
+}
+add_filter( 'bp_forums_get_forum_topics', 'bp_group_hierarchy_fixup_forum_paths', 10, 2 );
+
+/**
+ * Fix forum topic action links (Edit, Delete, Close, Sticky, etc.)
+ */
+function bp_group_hierarchy_fixup_forum_links( $has_topics ) {
+	global $forum_template;
+	
+	$group_id = BP_Groups_Group::group_exists( $forum_template->topic->object_slug );
+	$forum_template->topic->object_slug = BP_Groups_Hierarchy::get_path( $group_id );
+	
+	return $has_topics;
+	
+}
+add_filter( 'bp_has_topic_posts', 'bp_group_hierarchy_fixup_forum_links', 10, 2 );
+
+/************************************
+ * Utility and replacement functions
+ ***********************************/
 
 function bp_group_hierarchy_copy_vars($from, &$to, $attribs) {
 	foreach($attribs as $var) {
@@ -142,7 +181,7 @@ function bp_group_hierarchy_get_by_hierarchy($args) {
 }
 
 /**
- * Group-specific copy of avatar retrieval function - used for the group extension
+ * Group-specific copy of avatar retrieval function - used for the group hierarchy extension
  */
 function bp_group_hierarchy_get_avatar_by_group( $args = '', $group = false ) {
 	global $bp, $groups_template;
@@ -171,7 +210,7 @@ function bp_group_hierarchy_get_avatar_by_group( $args = '', $group = false ) {
 }
 
 /**
- * Group-specific copy of member count retrieval function - used for the group extension
+ * Group-specific copy of member count retrieval function - used for the group hierarchy extension
  */
 function bp_group_hierarchy_get_group_member_count_by_group( $group = false ) {
 	global $groups_template;
