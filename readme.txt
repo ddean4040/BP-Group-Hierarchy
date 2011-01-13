@@ -45,6 +45,11 @@ No. I don't know how you will want to use subgroups, so no assumptions have been
 = 1.0 =
 * Initial release
 
+== Upgrade Notice ==
+
+= 1.0.1 =
+Fixes forum topic permalink bug
+
 == Known Issues ==
 
 Currently known issues:
