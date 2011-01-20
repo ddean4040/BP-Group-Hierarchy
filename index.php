@@ -3,10 +3,10 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.jerseyconnect.net/development/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.0.1
-Revision Date: 01/11/2011
+Version: 1.0.2
+Revision Date: 01/20/2011
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
-Tested up to: WP 3.0.4 , BuddyPress 1.2.7
+Tested up to: WP 3.1 , BuddyPress 1.2.7
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.jerseyconnect.net/development/
@@ -111,7 +111,8 @@ function bp_group_hierarchy_override_routing() {
 
 	require ( dirname( __FILE__ ) . '/classes.php' );
 	
-	if($current_component == 'groups' && !in_array($current_action, array('create','')) ) {
+	// BP Groups not instantiated yet, and running groups_setup_globals() prevents proper routing, so just make a best-effort copy of the forbidden names list
+	if($current_component == 'groups' && !in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', BP_GROUPS_SLUG, '' ) ) ) ) {
 		
 		$action_vars = $action_variables;
 		
