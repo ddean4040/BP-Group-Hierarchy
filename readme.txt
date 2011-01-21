@@ -3,7 +3,7 @@ Contributors: ddean
 Tags: buddypress, groups, subgroups, hierarchy
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 
 Allows BuddyPress groups to have subgroups.
 
@@ -37,8 +37,10 @@ No. I don't know how you will want to use subgroups, so no assumptions have been
 
 == Changelog ==
 
-= 1.0.2 =
+= 1.0.3 =
+* Fixed bug when using custom group slug reported by avahaf
 
+= 1.0.2 =
 * Fixed group invite bug reported by cezar
 
 = 1.0.1 =
@@ -51,8 +53,11 @@ No. I don't know how you will want to use subgroups, so no assumptions have been
 
 == Upgrade Notice ==
 
-= 1.0.2 =
+= 1.0.3 =
+Fixed custom group slug bug
+Users with custom BP_GROUPS_SLUG should upgrade immediately
 
+= 1.0.2 =
 Fixed group invite bug
 
 = 1.0.1 =
