@@ -77,6 +77,30 @@ function bp_group_hierarchy_fixup_forum_links( $has_topics ) {
 }
 add_filter( 'bp_has_topic_posts', 'bp_group_hierarchy_fixup_forum_links', 10, 2 );
 
+/**
+ * Override the group slug in permalinks with a group's full path
+ * NOTE: this may obviate some of the other functions; they will disappear over time if that turns out to be the case
+ */
+function bp_group_hierarchy_fixup_permalink( $permalink ) {
+	
+	global $bp;
+	
+	/** Extract the group slug from the permalink */
+	$group_slug = substr( $permalink, strlen( $bp->root_domain . '/' . $bp->groups->slug . '/' ), -1 );
+	
+	if(strpos($group_slug,'/'))	return $permalink;
+	
+	$group_id = BP_Groups_Group::get_id_from_slug( $group_slug );
+	
+	if( !is_null($group_id) ) {
+		$group_path = BP_Groups_Hierarchy::get_path( $group_id );
+		return str_replace($group_slug,$group_path,$permalink);
+	}
+	return $permalink;
+	
+}
+add_filter( 'bp_get_group_permalink', 'bp_group_hierarchy_fixup_permalink' );
+
 /************************************
  * Utility and replacement functions
  ***********************************/

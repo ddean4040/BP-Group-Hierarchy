@@ -187,12 +187,27 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
-			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
+			$paged_groups = self::get_group_extras( &$paged_groups, $group_ids, 'newest' );
 		}
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	function get_group_extras( $paged_groups, $group_ids, $type = false ) {
+
+		foreach($paged_groups as $key => $group) {
+			if(!isset($group->path)) {
+				$paged_groups[$key]->path = self::get_path($group->id);
+				$paged_groups[$key]->slug = $paged_groups[$key]->path;
+			}
+		}
+
+		if ( empty( $group_ids ) )
+			return $paged_groups;
+
+		return parent::get_group_extras( $paged_groups, $group_ids, $type );
+		
+	}
 	
 	
 	function __isset($varName) {

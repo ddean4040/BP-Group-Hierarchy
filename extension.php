@@ -6,6 +6,8 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	
 	function bp_groups_hierarchy_extension() {
 		
+		global $bp;
+		
 		$this->name = __( 'Parent Group', 'bp-group-hierarchy' );
 		$this->nav_item_name = __( 'Member Groups', 'bp-group-hierarchy' );
 		$this->slug = 'hierarchy';
@@ -19,7 +21,6 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		}
 		
 		$this->enable_nav_item = $this->enable_nav_item();
-		
 	}
 	
 	function enable_nav_item() {
@@ -74,8 +75,6 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 		/** save the selected parent_id */
 		$parent_id = (int)$_POST['parent_id'];
-		
-		
 		
 		$bp->groups->current_group = new BP_Groups_Hierarchy( $bp->groups->new_group_id );
 		$bp->groups->current_group->parent_id = $parent_id;
@@ -172,42 +171,44 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		$subgroups->synchronize();
 		
 		?>
-		<ul id="groups-list" class="item-list">
-		<?php foreach($subgroups->groups as $subgroup) : ?>
-		<?php if($subgroup->status != 'public') continue; ?>
-		<li>
-			<div class="item-avatar">
-				<a href="<?php echo bp_get_group_permalink( $subgroup ) ?>"><?php echo bp_group_hierarchy_get_avatar_by_group( 'type=thumb&width=50&height=50', $subgroup ) ?></a>
-			</div>
-
-			<div class="item">
-				<div class="item-title"><a href="<?php echo bp_get_group_permalink( $subgroup ) ?>"><?php echo bp_get_group_name( $subgroup ) ?></a></div>
-				<div class="item-meta"><span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active( $subgroup ) ) ?></span></div>
-
-				<div class="item-desc"><?php echo bp_get_group_description_excerpt( $subgroup ) ?></div>
-
-				<?php do_action( 'bp_directory_groups_item' ) ?>
-
-			</div>
-
-			<div class="action">
-
-				<?php do_action( 'bp_directory_groups_actions' ) ?>
-
-				<div class="meta">
-
-					<?php echo bp_get_group_type( $subgroup ) ?> / <?php echo bp_group_hierarchy_get_group_member_count_by_group( $subgroup ) ?>
-
-				</div>
-
-			</div>
-
-			<div class="clear"></div>
-		</li>
-
-	<?php endforeach; ?>
-	</ul>
 		
+		<ul id="groups-list" class="item-list">
+		<?php if($subgroups->group_count > 0) : ?>
+			<?php foreach($subgroups->groups as $subgroup) : ?>
+			<?php if($subgroup->status != 'public') continue; ?>
+			<li>
+				<div class="item-avatar">
+					<a href="<?php echo bp_get_group_permalink( $subgroup ) ?>"><?php echo bp_group_hierarchy_get_avatar_by_group( 'type=thumb&width=50&height=50', $subgroup ) ?></a>
+				</div>
+	
+				<div class="item">
+					<div class="item-title"><a href="<?php echo bp_get_group_permalink( $subgroup ) ?>"><?php echo bp_get_group_name( $subgroup ) ?></a></div>
+					<div class="item-meta"><span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active( $subgroup ) ) ?></span></div>
+	
+					<div class="item-desc"><?php echo bp_get_group_description_excerpt( $subgroup ) ?></div>
+	
+					<?php do_action( 'bp_directory_groups_item' ) ?>
+	
+				</div>
+	
+				<div class="action">
+	
+					<?php do_action( 'bp_directory_groups_actions' ) ?>
+	
+					<div class="meta">
+	
+						<?php echo bp_get_group_type( $subgroup ) ?> / <?php echo bp_group_hierarchy_get_group_member_count_by_group( $subgroup ) ?>
+	
+					</div>
+	
+				</div>
+	
+				<div class="clear"></div>
+			</li>
+	
+			<?php endforeach; ?>
+		<?php endif; ?>
+		</ul>
 	<?php
 	}
 }
