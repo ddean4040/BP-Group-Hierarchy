@@ -70,7 +70,7 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 
 = 1.0.5 =
 Fixed an issue that hid private member groups
-Added ability to restrict subgroups to member or admins
+Added ability to restrict subgroups to member or administrators
 
 = 1.0.4 =
 Fixed notification link bug
