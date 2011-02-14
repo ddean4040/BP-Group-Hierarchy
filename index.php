@@ -14,7 +14,7 @@ Site Wide Only: true
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
-define ( 'BP_GROUP_HIERARCHY_VERSION', '1.0.1' );
+define ( 'BP_GROUP_HIERARCHY_VERSION', '1.0.5' );
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', '1' );
 define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
 
@@ -110,6 +110,8 @@ function bp_group_hierarchy_override_routing() {
 	global $current_component, $current_action, $action_variables, $bp;
 
 	require ( dirname( __FILE__ ) . '/classes.php' );
+	
+	do_action( 'bp_group_hierarchy_route_requests' );
 	
 	// BP Groups not instantiated yet, and running groups_setup_globals() prevents proper routing, so just make a best-effort copy of the forbidden names list
 	if($current_component == BP_GROUPS_SLUG && !in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', BP_GROUPS_SLUG, '' ) ) ) ) {

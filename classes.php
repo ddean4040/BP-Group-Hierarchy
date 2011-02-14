@@ -91,6 +91,10 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return false;
 	}
 	
+	/**
+	 * Does the passed group or current group have children?
+	 * @param int GroupID optional ID of a group to check for children (will use current group object if omitted)
+	 */
 	function has_children( $id = null) {
 		global $bp, $wpdb;
 		if(is_null($id)) {
@@ -101,11 +105,16 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 	
 	/**
-	 * Is the passed group a child of the current object?
+	 * Is the passed group a child of the current object, or the passed group id?
 	 * @param int ChildGroupID ID of suspected child group
+	 * @param int ParentID ID of parent group (optional - will refer to current group object if omitted)
 	 */
-	function is_child( $group_id ) {
-		return $wpdb->get_var($wpdb->prepare("SELECT COUNT(g.id) FROM {$bp->groups->table_name} g WHERE g.parent_id=%d AND g.id = %d",$this->id, $group_id));
+	function is_child( $group_id, $parent_id = null ) {
+		if(is_null($parent_id)) {
+			if(!isset($this->id) || $this->id == 0)	return false;
+			$parent_id = $this->id;
+		}
+		return $wpdb->get_var($wpdb->prepare("SELECT COUNT(g.id) FROM {$bp->groups->table_name} g WHERE g.parent_id=%d AND g.id = %d",$parent_id, $group_id));
 	}
 	
 	function check_slug( $slug, $parent_id ) {

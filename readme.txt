@@ -3,7 +3,7 @@ Contributors: ddean
 Tags: buddypress, groups, subgroups, hierarchy
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 
 Allows BuddyPress groups to have subgroups.
 
@@ -35,7 +35,18 @@ No. The plugin creates a hierarchy of group URLs, but does not put restrictions 
 
 No. I don't know how you will want to use subgroups, so no assumptions have been made.
 
+= If I restrict new subgroups to member or admins, can a subgroup be made with more lenient restrictions? =
+
+Yes. Restrictions affect only the group to which they are applied.  Subgroups can themselves be more or less restrictive.
+
 == Changelog ==
+
+= 1.0.5 =
+* Added: Group creators can now restrict subgroups to group members or group admins (with hooks for other types of restrictions)
+* Added: Create a Member Group button on Member Groups tab for more streamlined use
+* Changed: Reveal Member Groups tab to those allowed to create subgroups
+* Changed: Default permissions now allow only group members to create subgroups
+* Fixed: Private member groups were not being shown on that tab - thanks, Deadpan110
 
 = 1.0.4 =
 * Added get_group_extras fixup for Group Forum Extras and others
@@ -56,6 +67,10 @@ No. I don't know how you will want to use subgroups, so no assumptions have been
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.0.5 =
+Fixed an issue that hid private member groups
+Added ability to restrict subgroups to member or admins
 
 = 1.0.4 =
 Fixed notification link bug
