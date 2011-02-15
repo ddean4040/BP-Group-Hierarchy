@@ -31,7 +31,9 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			'group_admins'	=> __('only Group Admins','bp-group-hierarchy')
 		);
 		
-		$bp->groups->current_group->can_create_subitems = bp_group_hierarchy_can_create_subgroups();
+		if($bp->groups->current_group) {
+			$bp->groups->current_group->can_create_subitems = bp_group_hierarchy_can_create_subgroups();
+		}
 		
 		$this->enable_nav_item = $this->enable_nav_item();
 				
