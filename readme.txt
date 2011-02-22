@@ -3,7 +3,7 @@ Contributors: ddean
 Tags: buddypress, groups, subgroups, hierarchy
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 
 Allows BuddyPress groups to have subgroups.
 
@@ -41,6 +41,11 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 
 == Changelog ==
 
+= 1.0.7 =
+* Changed: extension brings the Member Groups tab into the BuddyPress loop
+* Changed: behavior of check_slug method for self-sufficiency
+* Fixed: Join and Leave Group buttons on Member Groups tab refer to parent group - thanks, Deadpan110
+
 = 1.0.6 =
 * Fixed: bug that caused forum topics to not display reported by cezar
 
@@ -70,6 +75,10 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.0.7 =
+Fixed a bug affecting the Member Groups tab.
+All users should upgrade immediately.
 
 = 1.0.6 =
 Fixed a bug that caused forum topics to not display

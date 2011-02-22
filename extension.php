@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * This extension is a reference user interface for Hierarchical groups 
+ */
 class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	
 	var $visibility = 'public';
@@ -22,7 +24,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 
 		/** workaround for buddypress bug #2701 */
 		if(!$bp->is_item_admin && !is_super_admin()) {
-			$this->enable_edit_item = false;	
+			$this->enable_edit_item = false;
 		}
 				
 		$this->subgroup_permission_options = array(
@@ -266,35 +268,36 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	}
 	
 	function display() {
-		global $bp;
-		$subgroups = new BP_Groups_Hierarchy_Template();
-		$subgroups->params = array(
+		global $bp, $groups_template;
+		
+		$parent_template = $groups_template;
+
+		bp_has_groups_hierarchy(array(
 			'type'		=> 'by_parent',
 			'parent_id'	=> $bp->groups->current_group->id
-		);
-		$subgroups->synchronize();
+		));
 		
 		?>
-		
 		<?php if($bp->is_item_admin || $bp->groups->current_group->can_create_subitems) { ?>
 		<div class="generic-button group-button">
 			<a title="<?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?>" href="<?php echo $bp->root_domain . '/' . $bp->groups->slug . '/' . 'create' .'/?parent_id=' . $bp->groups->current_group->id ?>"><?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?></a>
 		</div>
 		<?php } ?>
 		<ul id="groups-list" class="item-list">
-		<?php if($subgroups->group_count > 0) : ?>
-			<?php foreach($subgroups->groups as $subgroup) : ?>
+		<?php if($groups_template) : ?>
+			<?php while ( bp_groups() ) : bp_the_group(); ?>
+			<?php $subgroup = $groups_template->group; ?>
 			<?php if($subgroup->status == 'hidden' && !( groups_is_user_member( $bp->loggedin_user->id, $subgroup->id ) || groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) ) continue; ?>
 			<li>
 				<div class="item-avatar">
-					<a href="<?php echo bp_get_group_permalink( $subgroup ) ?>"><?php echo bp_group_hierarchy_get_avatar_by_group( 'type=thumb&width=50&height=50', $subgroup ) ?></a>
+					<a href="<?php bp_group_permalink() ?>"><?php bp_group_avatar_thumb() ?></a>
 				</div>
 	
 				<div class="item">
-					<div class="item-title"><a href="<?php echo bp_get_group_permalink( $subgroup ) ?>"><?php echo bp_get_group_name( $subgroup ) ?></a></div>
-					<div class="item-meta"><span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active( $subgroup ) ) ?></span></div>
+					<div class="item-title"><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></div>
+					<div class="item-meta"><span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span></div>
 	
-					<div class="item-desc"><?php echo bp_get_group_description_excerpt( $subgroup ) ?></div>
+					<div class="item-desc"><?php bp_group_description_excerpt() ?></div>
 	
 					<?php do_action( 'bp_directory_groups_item' ) ?>
 	
@@ -306,7 +309,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	
 					<div class="meta">
 	
-						<?php echo bp_get_group_type( $subgroup ) ?> / <?php echo bp_group_hierarchy_get_group_member_count_by_group( $subgroup ) ?>
+						<?php bp_group_type() ?> / <?php bp_group_member_count() ?>
 	
 					</div>
 	
@@ -315,10 +318,12 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 				<div class="clear"></div>
 			</li>
 	
-			<?php endforeach; ?>
+			<?php endwhile; ?>
 		<?php endif; ?>
 		</ul>
-	<?php
+		<?php
+		// reset the $groups_template global and continue with the page
+		$groups_template = $parent_template;
 	}
 }
 
@@ -431,5 +436,43 @@ function bp_group_hierarchy_enforce_subgroup_permissions( $groups ) {
 	return $allowed_groups;
 }
 add_filter( 'bp_group_hierarchy_available_parent_groups', 'bp_group_hierarchy_enforce_subgroup_permissions' );
+
+
+/**
+ * Hierarchical Group Display functions
+ */
+
+/**
+ * Restrict group listing to top-level groups
+ */
+function bp_group_hierarchy_has_groups_tree($groups, $params) {
+	global $bp, $groups_template;
+		
+	if(!$bp->groups->current_group && !$params['search_terms']) {
+	
+		$params = array_merge( $params, array('type' => 'by_parent', 'parent_id' => 0) );
+		
+		$toplevel_groups = bp_group_hierarchy_get_by_hierarchy( $params );
+		$toplevel_group_ids = array();
+		foreach($toplevel_groups['groups'] as $group) {
+			$toplevel_group_ids[] = $group->id;
+		}
+		$toplevel_groups = array();
+	
+		foreach($groups['groups'] as $group) {
+			if(in_array( $group->id , $toplevel_group_ids )) {
+				$toplevel_groups[] = $group;
+			}
+		}
+		
+		$groups['groups'] = $toplevel_groups;
+		$groups['total'] = count($toplevel_groups);
+				
+	}
+	
+	return $groups;
+	
+}
+//add_filter( 'groups_get_groups', 'bp_group_hierarchy_has_groups_tree', 10, 2 );
 
 ?>

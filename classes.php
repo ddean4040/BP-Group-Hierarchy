@@ -1,5 +1,7 @@
 <?php
 
+define( 'BP_GROUPS_HIERARCHY_ANY_PARENT', -1 );
+
 /**
  * Hierarchy-aware extension for Groups class
  */
@@ -117,12 +119,20 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return $wpdb->get_var($wpdb->prepare("SELECT COUNT(g.id) FROM {$bp->groups->table_name} g WHERE g.parent_id=%d AND g.id = %d",$parent_id, $group_id));
 	}
 	
-	function check_slug( $slug, $parent_id ) {
+	/**
+	 * Check whether slug is valid for a subgroup of passed parent group ID
+	 * @param string Slug group slug to check
+	 * @param int ParentID optional ID of parent group to search (ANY group if omitted)
+	 */
+	function check_slug( $slug, $parent_id = BP_GROUPS_HIERARCHY_ANY_PARENT ) {
 		global $wpdb, $bp;
 
 		if ( !$slug )
 			return false;
 
+		if($parent_id == BP_GROUPS_HIERARCHY_ANY_PARENT) {
+			return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE slug = %s", $slug ) );
+		}
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE slug = %s AND parent_id = %d", $slug, $parent_id ) );
 		
 	}
@@ -158,7 +168,6 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		} else {
 			return self::check_slug( $path, $parent_id );
 		}
-		
 	}
 	
 	function get_id_from_slug( $slug, $parent_id = 0 ) {

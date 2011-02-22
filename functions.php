@@ -205,7 +205,8 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
 add_filter( 'bp_get_group_permalink', 'bp_group_hierarchy_fixup_permalink' );
 
 /**
- * Group-specific copy of avatar retrieval function - used for the group hierarchy extension
+ * Group-specific copy of avatar retrieval function
+ * NO LONGER USED BY EXTENSION
  */
 function bp_group_hierarchy_get_avatar_by_group( $args = '', $group = false ) {
 	global $bp, $groups_template;
@@ -234,7 +235,8 @@ function bp_group_hierarchy_get_avatar_by_group( $args = '', $group = false ) {
 }
 
 /**
- * Group-specific copy of member count retrieval function - used for the group hierarchy extension
+ * Group-specific copy of member count retrieval function
+ * NO LONGER USED BY EXTENSION
  */
 function bp_group_hierarchy_get_group_member_count_by_group( $group = false ) {
 	global $groups_template;
