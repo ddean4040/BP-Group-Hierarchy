@@ -3,10 +3,10 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.jerseyconnect.net/development/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.0.7
-Revision Date: 02/22/2011
+Version: 1.0.8
+Revision Date: 03/25/2011
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
-Tested up to: WP 3.1 , BuddyPress 1.2.7
+Tested up to: WP 3.1 , BuddyPress 1.2.8
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.jerseyconnect.net/development/
@@ -14,7 +14,7 @@ Site Wide Only: true
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
-define ( 'BP_GROUP_HIERARCHY_VERSION', '1.0.7' );
+define ( 'BP_GROUP_HIERARCHY_VERSION', '1.0.8' );
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', '1' );
 define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
 
@@ -71,23 +71,6 @@ function bp_group_hierarchy_setup_globals() {
 }
 add_action( 'plugins_loaded', 'bp_group_hierarchy_setup_globals', 10 );
 add_action( 'admin_menu', 'bp_group_hierarchy_setup_globals', 2 );
-
-/**
- * Add config option to admin bar
- */
-function bp_group_hierarchy_add_admin_menu() {	
-//	global $wpdb, $bp;
-//	
-//	if ( !current_user_can('manage_options') )
-//		return false;
-//	
-//	require ( dirname( __FILE__ ) . '/admin.php' );
-//	
-//	add_submenu_page( 'bp-general-settings', __( 'Group Hierarchy', 'bp-group-hierarchy' ), __( 'Group Hierarchy', 'bp-group-hierarchy' ), 'manage_options', 'bp-group-hierarchy-settings', 'bp_group_hierarchy_admin' );
-//	
-}
-// Admin portion is incomplete - do not activate
-//add_action( 'admin_menu', 'bp_group_hierarchy_add_admin_menu', 50 );
 
 /**
  * Activate group extension

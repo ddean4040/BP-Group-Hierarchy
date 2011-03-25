@@ -3,7 +3,7 @@ Contributors: ddean
 Tags: buddypress, groups, subgroups, hierarchy
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 
 Allows BuddyPress groups to have subgroups.
 
@@ -17,7 +17,7 @@ Every group and subgroup is a normal BuddyPress group and can have members and a
 
 = Notes =
 
-Basic testing has revealed no problems with group extensions.  However, since this is an early release, it is **NOT** recommended for production sites.
+Basic testing has revealed no problems with group extensions.  As always, test plugins before deploying to production sites.
 
 == Installation ==
 
@@ -39,7 +39,18 @@ No. I don't know how you will want to use subgroups, so no assumptions have been
 
 Yes. Restrictions affect only the group to which they are applied.  Subgroups can themselves be more or less restrictive.
 
+== Screenshots ==
+
+1. Group Tree tab on main Groups page
+2. Member Groups item on individual group pages
+3. Hierarchy options when creating new groups
+
 == Changelog ==
+
+= 1.0.8 =
+* Added: Group Tree to extension for viewing groups by hierarchy
+* Added: Admin options for Member Groups and Group Tree
+* Changed: Create a Member Group button to hopefully resolve empty group slug issues
 
 = 1.0.7 =
 * Changed: extension brings the Member Groups tab into the BuddyPress loop
@@ -75,6 +86,10 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.0.8 =
+Added admin options. 
+May resolve empty group slug issue.
 
 = 1.0.7 =
 Fixed a bug affecting the Member Groups tab.

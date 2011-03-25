@@ -1,6 +1,11 @@
 <?php
 /**
- * This extension is a reference user interface for Hierarchical groups 
+ * 
+ * This file contains a reference user interface for hierarchical groups
+ * One part is the Groups extension that adds the Member Groups tab to groups 
+ * and allows creators to place new groups within the hierarchy
+ * The other is an administrative and permissions interface
+ * 
  */
 class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	
@@ -10,13 +15,15 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 		global $bp;
 		
+		$nav_item_name = get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups','bp-group-hierarchy') );
+		
 		$this->name = __( 'Group Hierarchy', 'bp-group-hierarchy' );
 		$this->nav_item_name = __( 'Member Groups', 'bp-group-hierarchy' );
+		$this->nav_item_name = $nav_item_name;
 		$this->slug = 'hierarchy';
 		
 		if(isset($_COOKIE['bp_new_group_parent_id'])) {
 			$bp->group_hierarchy->new_group_parent_id = $_COOKIE['bp_new_group_parent_id'];
-			setcookie( 'bp_new_group_parent_id', false, time() - 1000, COOKIEPATH );
 			add_action( 'bp_after_group_details_creation_step', array( &$this, 'add_parent_selection' ) );
 		}
 		$this->create_step_position = 6;
@@ -67,7 +74,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		<label for="group-parent_id"><?php _e( 'Parent Group', 'bp-group-hierarchy' ); ?></label>
 		<input type="hidden" name="group-parent_id" id="group-parent_id" value="<?php echo $parent_group->id ?>" />
 		<?php echo $parent_group->name ?>
-		<?php		
+		<?php
 	}
 	
 	function create_screen() {
@@ -77,8 +84,13 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		if(!bp_is_group_creation_step( $this->slug )) {
 			return false;
 		}
-		
+				
 		$this_group = new BP_Groups_Hierarchy( $bp->groups->new_group_id );
+
+		if(isset($_COOKIE['bp_new_group_parent_id'])) {
+			$this_group->parent_id = $_COOKIE['bp_new_group_parent_id'];
+			setcookie( 'bp_new_group_parent_id', false, time() - 1000, COOKIEPATH );
+		}
 
 		$groups = BP_Groups_Hierarchy::get_active();
 		$exclude_groups = array($bp->groups->new_group_id);
@@ -330,6 +342,12 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 bp_register_group_extension( 'BP_Groups_Hierarchy_Extension' );
 
 /**
+ * 
+ * Group creation permission / restriction functions
+ * 
+ */
+
+/**
  * Store the ID of the group the user selected as the parent for group creation
  */
 function bp_group_hierarchy_set_parent_id_cookie() {
@@ -344,19 +362,19 @@ add_action( 'bp_group_hierarchy_route_requests', 'bp_group_hierarchy_set_parent_
 /**
  * Save the parent id passed from the group creation screen
  */
-function bp_group_hierarchy_create_group($group_id, $member, $group ) {
-	
-	global $bp;
-	if(isset($_POST['group-parent_id'])) {
-		
-		$my_group = new BP_Groups_Hierarchy( $group_id );
-		$my_group->parent_id = (int)$_POST['group-parent_id'];
-		$my_group->save();
-		
-	}
-	
-}
-add_action( 'groups_create_group', 'bp_group_hierarchy_create_group', 10, 3 );
+//function bp_group_hierarchy_create_group($group_id, $member, $group ) {
+//	
+//	global $bp;
+//	if(isset($_POST['group-parent_id'])) {
+//		
+//		$my_group = new BP_Groups_Hierarchy( $group_id );
+//		$my_group->parent_id = (int)$_POST['group-parent_id'];
+//		$my_group->save();
+//		
+//	}
+//	
+//}
+//add_action( 'groups_create_group', 'bp_group_hierarchy_create_group', 10, 3 );
 
 /**
  * Check whether the user is allowed to create subgroups of the selected group
@@ -439,8 +457,27 @@ add_filter( 'bp_group_hierarchy_available_parent_groups', 'bp_group_hierarchy_en
 
 
 /**
+ * 
  * Hierarchical Group Display functions
+ * These are controlled by admin settings - see admin section, below
  */
+
+function bp_group_hierarchy_tab() {
+	global $bp;
+	?>
+	<li id="groups-tree"><a href="<?php echo bp_loggedin_user_domain() . BP_GROUPS_SLUG . '/group-tree/' ?>"><?php echo $bp->group_hierarchy->extension_settings['group_tree_name'] ?></a></li>
+	<?
+}
+// add_action( 'bp_groups_directory_group_types', 'bp_group_hierarchy_tab' );
+
+function bp_groups_directory_display( $query_string, $object, $filter, $scope, $page, $search_terms, $extras ) {
+	if($scope == 'tree') {
+		$query_string = str_replace( 'type=active', 'type=by_parent&parent_id=0', $query_string );
+		add_filter( 'groups_get_groups', 'bp_group_hierarchy_has_groups_tree', 10, 2 );
+	}
+	return $query_string;
+}
+add_filter( 'bp_dtheme_ajax_querystring', 'bp_groups_directory_display', 10, 7 );
 
 /**
  * Restrict group listing to top-level groups
@@ -475,4 +512,111 @@ function bp_group_hierarchy_has_groups_tree($groups, $params) {
 }
 //add_filter( 'groups_get_groups', 'bp_group_hierarchy_has_groups_tree', 10, 2 );
 
+/**
+ * 
+ * Admin options
+ * 
+ */
+
+function bp_group_hierarchy_admin_page() {
+
+	global $bp, $wpdb;
+	
+	$updated = false;
+	
+	if(isset($_POST['save-settings']) && check_admin_referer( 'bp_group_hierarchy_extension_options' )) {
+		
+		$options = $_POST['options'];
+		update_site_option( 'bpgh_extension_show_group_tree', isset($options['show_group_tree']));
+		update_site_option( 'bpgh_extension_hide_group_list', isset($options['hide_group_list']));
+		update_site_option( 'bpgh_extension_group_tree_name', $options['group_tree_name']);
+		update_site_option( 'bpgh_extension_nav_item_name',   $options['nav_item_name']);
+		
+		$updated = true;
+	}
+	
+	$options = array(
+		'show_group_tree'	=> get_site_option( 'bpgh_extension_show_group_tree', false ),
+		'hide_group_list'	=> get_site_option( 'bpgh_extension_hide_group_list', false ),
+		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') ),
+		'nav_item_name'		=> get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups','bp-group-hierarchy') )
+	);
+	
+	?>
+	<div class="wrap">
+		<?php if($updated) { ?><div id="message" class="updated"><p><strong><?php _e('Settings saved.'); ?></strong></p></div><?php } ?>
+		<h2><?php _e('Group Hierarchy Settings','bp-group-hierarchy'); ?></h2>
+		<form method="post">
+			<h3>Options</h3>
+			<table class="form-table">
+				<tr valign="top">
+					<th scope="row"><label for="show_group_tree"><?php _e('Show Group Tree','bp-group-hierarchy') ?></label></th>
+					<td>
+						<label>
+							<input type="checkbox" id="show_group_tree" name="options[show_group_tree]"<?php if($options['show_group_tree']) echo 'checked'; ?> />
+							<?php _e('Show the Group Tree view on the Groups page along with the flat list of groups.','bp-group-hierarchy'); ?>
+						</label>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="hide_group_list"><?php _e('Hide Group List','bp-group-hierarchy') ?></label></th>
+					<td>
+						<label>
+							<input type="checkbox" id="hide_group_list" name="options[hide_group_list]"<?php if($options['hide_group_list']) echo 'checked'; ?> />
+							<?php _e('Hide the flat list of groups and show ONLY the Group Tree on the Groups page','bp-group-hierarchy'); ?> (EXPERIMENTAL)
+						</label>
+					</td>
+				</tr>
+			</table>
+			<h3>Labels</h3>
+			<table class="form-table">
+				<tr valign="top">
+					<th scope="row"><label for="nav_item_name"><?php _e('Nav Item','bp-group-hierarchy'); ?></label></th>
+					<td>
+						<input type="text" id="nav_item_name" name="options[nav_item_name]" value="<?php echo $options['nav_item_name'] ?>" /><br />
+						<?php _e("Name of the nav item on an individual group's page.",'bp-group-hierarchy'); ?>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="group_tree_name"><?php _e('Group Tree','bp-group-hierarchy'); ?></label></th>
+					<td>
+						<input type="text" id="group_tree_name" name="options[group_tree_name]" value="<?php echo $options['group_tree_name'] ?>" /><br />
+						<?php _e('Name of the Group Tree listing on the main Groups page.','bp-group-hierarchy'); ?>
+					</td>
+				</tr>
+			</table>
+			<?php submit_button( __('Save Changes'), 'primary', 'save-settings' ); ?>
+			<?php wp_nonce_field( 'bp_group_hierarchy_extension_options' ); ?>
+		</form>
+	</div>
+	<?php
+}
+ 
+function bp_group_hierarchy_extension_admin() {
+	add_submenu_page( 'bp-general-settings', __('Group Hierarchy','bp-group-hierarchy'), __('Group Hierarchy','bp-group-hierarchy'), 'manage_options', 'bp_group_hierarchy_settings', 'bp_group_hierarchy_admin_page' );
+}
+add_action( 'network_admin_menu', 'bp_group_hierarchy_extension_admin' );
+add_action( 'admin_menu', 'bp_group_hierarchy_extension_admin' );
+
+
+function bp_group_hierarchy_extension_init() {
+	global $bp;
+	
+	$bp->group_hierarchy->extension_settings = array(
+		'show_group_tree'	=> get_site_option( 'bpgh_extension_show_group_tree', false ),
+		'hide_group_list'	=> get_site_option( 'bpgh_extension_hide_group_list', false ),
+		'nav_item_name'		=> get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups','bp-group-hierarchy') ),
+		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') )
+	);
+	
+	if($bp->group_hierarchy->extension_settings['hide_group_list']) {
+		add_filter( 'groups_get_groups', 'bp_group_hierarchy_has_groups_tree', 10, 2 );
+	} else if($bp->group_hierarchy->extension_settings['show_group_tree']) {
+		add_action( 'bp_groups_directory_group_types', 'bp_group_hierarchy_tab' );
+	}
+	
+}
+add_action( 'init', 'bp_group_hierarchy_extension_init' );
+ 
+ 
 ?>
