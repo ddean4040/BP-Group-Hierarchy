@@ -15,11 +15,15 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 		global $bp;
 		
-		$nav_item_name = get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups','bp-group-hierarchy') );
+		$nav_item_name = get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups (%d)','bp-group-hierarchy') );
 		
 		$this->name = __( 'Group Hierarchy', 'bp-group-hierarchy' );
-		$this->nav_item_name = __( 'Member Groups', 'bp-group-hierarchy' );
 		$this->nav_item_name = $nav_item_name;
+		
+		if($bp->groups->current_group) {
+			$this->nav_item_name = sprintf($this->nav_item_name, BP_Groups_Hierarchy::get_total_subgroup_count( $bp->groups->current_group->id ) );
+		}
+		
 		$this->slug = 'hierarchy';
 		
 		if(isset($_COOKIE['bp_new_group_parent_id'])) {
@@ -575,6 +579,7 @@ function bp_group_hierarchy_admin_page() {
 					<td>
 						<input type="text" id="nav_item_name" name="options[nav_item_name]" value="<?php echo $options['nav_item_name'] ?>" /><br />
 						<?php _e("Name of the nav item on an individual group's page.",'bp-group-hierarchy'); ?>
+						<?php _e("Use <code>%d</code> to include the number of child groups.",'bp-group-hierarchy'); ?>
 					</td>
 				</tr>
 				<tr valign="top">

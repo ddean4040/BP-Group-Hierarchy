@@ -227,6 +227,16 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		
 	}
 	
+	function get_total_subgroup_count( $group_id = null ) {
+		global $wpdb, $bp;
+
+		if(is_null($group_id) && isset($this->id)) {
+			$group_id = $this->id;
+		}
+
+		$group_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE parent_id = %d AND status != 'hidden'", $group_id ) );
+		return (is_null($group_count)) ? 0 : $group_count;
+	}
 	
 	function __isset($varName) {
 		return array_key_exists($varName,$this->vars);
