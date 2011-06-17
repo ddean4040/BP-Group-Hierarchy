@@ -3,7 +3,7 @@ Contributors: ddean
 Tags: buddypress, groups, subgroups, hierarchy
 Requires at least: 3.0
 Tested up to: 3.2
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 
 Allows BuddyPress groups to have subgroups.
 
@@ -35,7 +35,7 @@ No. The plugin creates a hierarchy of group URLs, but does not put restrictions 
 
 No. I don't know how you will want to use subgroups, so no assumptions have been made.
 
-= If I restrict new subgroups to member or admins, can a subgroup be made with more lenient restrictions? =
+= If I restrict new groups to member or admins, can a subgroup be made with more lenient restrictions? =
 
 Yes. Restrictions affect only the group to which they are applied.  Subgroups can themselves be more or less restrictive.
 
@@ -47,19 +47,20 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 
 == Changelog ==
 
-= 1.1.0 =
+= 1.1.1 =
+* Added: Browse the entire hierarchy on the Group Tree page
+* Added: Templates for listing groups and subgroups
 
+= 1.1.0 =
 * Added: top-level groups widget
 * Changed: groups admins can edit subgroup creation permissions
 * Changed: handling of parent group in group creation to avoid PHP errors
 * Fixed: wrong URL on Group Tree tab - still requires AJAX loading, but getting closer
 
 = 1.0.9 =
-
 * Added: Ability to show number of child groups on the 'Member Groups' tab
 
 = 1.0.8 =
-
 * Added: Group Tree to extension for viewing groups by hierarchy
 * Added: Admin options for Member Groups and Group Tree
 * Changed: Create a Member Group button to hopefully resolve empty group slug issues
@@ -99,8 +100,10 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 
 == Upgrade Notice ==
 
-= 1.1.0 =
+= 1.1.1 =
+Browse the entire hierarchy from the Group Tree.
 
+= 1.1.0 =
 Added options for group admins and a top groups widget.
 
 = 1.0.9 =
@@ -140,8 +143,7 @@ Fixed forum topic permalink bug
 
 Currently known issues:
 
+* Tabs on Groups page may revert to an "unselected" state when navigating the tree or hiding the normal group list
+* HTML title of Groups Directory page is just the site name when you hide the normal group list
 * PHP 5 only
-* No caching - yet
-* No translations file - yet
 * No administrative interface for viewing entire group tree - yet
-* Few sanity checks when moving groups (but only super admins can move groups)

@@ -204,49 +204,13 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
 }
 add_filter( 'bp_get_group_permalink', 'bp_group_hierarchy_fixup_permalink' );
 
-/**
- * Group-specific copy of avatar retrieval function
- * NO LONGER USED BY EXTENSION
- */
-function bp_group_hierarchy_get_avatar_by_group( $args = '', $group = false ) {
-	global $bp, $groups_template;
-	
-	$defaults = array(
-		'type' => 'full',
-		'width' => false,
-		'height' => false,
-		'class' => 'avatar',
-		'id' => false,
-		'alt' => __( 'Group avatar', 'buddypress' )
-	);
-	
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-	
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	
-	/* Fetch the avatar from the folder, if not provide backwards compat. */
-	if ( !$avatar = bp_core_fetch_avatar( array( 'item_id' => $group->id, 'object' => 'group', 'type' => $type, 'avatar_dir' => 'group-avatars', 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height ) ) )
-		$avatar = '<img src="' . esc_attr( $group->avatar_thumb ) . '" class="avatar" alt="' . esc_attr( $group->name ) . '" />';
-	
-	return apply_filters( 'bp_get_group_avatar', $avatar );
-}
+/** Template Tags */
 
-/**
- * Group-specific copy of member count retrieval function
- * NO LONGER USED BY EXTENSION
- */
-function bp_group_hierarchy_get_group_member_count_by_group( $group = false ) {
+function bp_group_hierarchy_has_subgroups() {
 	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;	
-
-	if ( 1 == (int) $group->total_member_count )
-		return apply_filters( 'bp_get_group_member_count', sprintf( __( '%s member', 'buddypress' ), bp_core_number_format( $group->total_member_count ) ) );
-	else
-		return apply_filters( 'bp_get_group_member_count', sprintf( __( '%s members', 'buddypress' ), bp_core_number_format( $group->total_member_count ) ) );
+	
+	$group =& $groups_template->group;
+	return BP_Groups_Hierarchy::has_children( $group->id );
 }
+
 ?>
