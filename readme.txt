@@ -19,6 +19,7 @@ Every group and subgroup is a normal BuddyPress group and can have members and a
 
 Basic testing has revealed no problems with group extensions.  As always, test plugins before deploying to production sites.
 
+
 == Installation ==
 
 1. Extract the plugin archive 
