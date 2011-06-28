@@ -1,9 +1,9 @@
 === BP Group Hierarchy ===
 Contributors: ddean
-Tags: buddypress, groups, subgroups, hierarchy
+Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
 Tested up to: 3.2
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 
 Allows BuddyPress groups to have subgroups.
 
@@ -47,8 +47,12 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 
 == Changelog ==
 
+= 1.1.3 =
+* Added: support for searching and sorting when using only the Group Tree
+* Fixed: Group Tree issue when there are more than per_page groups
+
 = 1.1.2 =
-* Fixed: Forum bug from the last update
+* Fixed: Forum bug from the last update that affected the main Forums screen
 
 = 1.1.1 =
 * Added: Browse the entire hierarchy on the Group Tree page
@@ -102,6 +106,9 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+Fixed a bug when site has a large number of groups. All users should upgrade.
 
 = 1.1.2 =
 Fixed a bug with main forum list. All users should upgrade.

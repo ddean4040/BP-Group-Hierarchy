@@ -171,12 +171,9 @@ function bp_group_hierarchy_get_by_hierarchy($args) {
 	
 	extract( $params, EXTR_SKIP );
 
-	switch ( $type ) {
-		case 'by_parent':
-			$groups = BP_Groups_Hierarchy::get_by_parent( $parent_id, $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
+	if(isset($parent_id)) {
+		$groups = BP_Groups_Hierarchy::get_by_parent( $parent_id, $type, $per_page, $page, $user_id, $search_terms, $populate_extras );
 	}
-	
 	return $groups;
 }
 

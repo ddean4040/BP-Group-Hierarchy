@@ -185,18 +185,40 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return false;
 	}
 	
-	function get_by_parent( $parent_id, $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
+	function get_by_parent( $parent_id, $type='active', $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( !is_super_admin() )
 			$hidden_sql = $wpdb->prepare( " AND status != 'hidden'");
-
+		
+		if( !is_null($search_terms)) {
+			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
+			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+		}
+		
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.parent_id = $parent_id {$hidden_sql} {$search_sql}" ) );
 		}
-
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.parent_id = $parent_id {$hidden_sql} {$search_sql} ORDER BY g.name ASC {$pag_sql}"  ) );
+		
+		switch($type) {
+			case 'newest':
+				$order_sql = 'ORDER BY g.date_created DESC';
+				break;
+			case 'popular':
+				$order_sql = 'ORDER BY CONVERT(gm1.meta_value, SIGNED) ASC';
+				break;
+			case 'alphabetical':
+				$order_sql = 'ORDER BY g.name ASC';
+				break;
+			case 'active':
+				$order_sql = 'ORDER BY last_activity DESC';
+				break;
+			default:
+				$order_sql = apply_filters('bp_group_hierarchy_directory_order_sort','',$type);
+		}
+		
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.parent_id = $parent_id {$hidden_sql} {$search_sql} {$order_sql} {$pag_sql}"  ) );
 
 		foreach ( (array)$paged_groups as $key => $group ) {
 			$paged_groups[$key] = new BP_Groups_Hierarchy( $group->id );
