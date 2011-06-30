@@ -3,7 +3,7 @@ Contributors: ddean
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
 Tested up to: 3.2
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 
 Allows BuddyPress groups to have subgroups.
 
@@ -39,6 +39,13 @@ No. I don't know how you will want to use subgroups, so no assumptions have been
 
 Yes. Restrictions affect only the group to which they are applied.  Subgroups can themselves be more or less restrictive.
 
+= Do activity stream messages propagate up (from child to parent) or down (from parent to child)?
+
+No. Unfortunately, there is no easy way to have a group subscribe to another group's activity.
+This will require either creating and managing duplicate activity items for each affected group, or creating a mapping of
+additional group IDs for a group to poll when building the activity stream.
+
+
 == Screenshots ==
 
 1. Group Tree tab on main Groups page
@@ -46,6 +53,12 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 3. Hierarchy options when creating new groups
 
 == Changelog ==
+
+= 1.1.4 =
+* Added: 'Nobody' permission - allows only site admins to create child groups (req'd by flynn)
+* Changed: ID of widget panel to avoid interference with normal Groups widget
+* Changed: Made default values for labels more consistent
+* Fixed: Made group tree more resilient to invalid bp->groups->current_group data
 
 = 1.1.3 =
 * Added: support for searching and sorting when using only the Group Tree
@@ -106,6 +119,9 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.4 =
+Increased compatibility with other group plugins, plus other minor changes
 
 = 1.1.3 =
 Fixed a bug when site has a large number of groups. All users should upgrade.

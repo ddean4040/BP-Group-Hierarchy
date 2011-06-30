@@ -27,7 +27,7 @@ class BP_Toplevel_Groups_Widget extends WP_Widget {
 
 		<?php if ( bp_has_groups_hierarchy( 'type=by_parent&per_page=' . $instance['max_groups'] . '&max=' . $instance['max_groups'] . '&parent_id=0' ) ) : ?>
 
-			<ul id="groups-list" class="item-list">
+			<ul id="toplevel-groups-list" class="item-list">
 				<?php while ( bp_groups() ) : bp_the_group(); ?>
 					<li>
 						<div class="item-avatar">
@@ -46,7 +46,7 @@ class BP_Toplevel_Groups_Widget extends WP_Widget {
 				<?php endwhile; ?>
 			</ul>
 			<?php wp_nonce_field( 'groups_widget_groups_list', '_wpnonce-groups' ); ?>
-			<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo esc_attr( $instance['max_groups'] ); ?>" />
+			<input type="hidden" name="toplevel_groups_widget_max" id="toplevel_groups_widget_max" value="<?php echo esc_attr( $instance['max_groups'] ); ?>" />
 
 		<?php else: ?>
 

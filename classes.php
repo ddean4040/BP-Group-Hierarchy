@@ -134,7 +134,6 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE slug = %s", $slug ) );
 		}
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE slug = %s AND parent_id = %d", $slug, $parent_id ) );
-		
 	}
 	
 	function check_slug_stem( $path ) {
@@ -149,7 +148,6 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		
 		$slug = esc_sql(like_escape(stripslashes($path)));
 		return $wpdb->get_col( "SELECT slug FROM {$bp->groups->table_name} WHERE slug LIKE '$slug%'" );
-		
 	}
 	
 	function group_exists( $path, $parent_id = 0 ) {
@@ -246,7 +244,6 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			return $paged_groups;
 
 		return parent::get_group_extras( $paged_groups, $group_ids, $type );
-		
 	}
 	
 	function get_total_subgroup_count( $group_id = null ) {
@@ -310,7 +307,7 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 	 */
 	function synchronize() {
 		global $bp;
-				
+		
 		if(isset($this->params) && array_key_exists('parent_id',$this->params)) {
 	
 			/**

@@ -39,7 +39,8 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		}
 				
 		$this->subgroup_permission_options = array(
-			'anyone'		=> __('Anyone','bp-group-hierarchy'),
+			'anyone'		=> __('Anybody','bp-group-hierarchy'),
+			'noone'			=> __('Nobody','bp-group-hierarchy'),
 			'group_members'	=> __('only Group Members','bp-group-hierarchy'),
 			'group_admins'	=> __('only Group Admins','bp-group-hierarchy')
 		);
@@ -414,6 +415,9 @@ function bp_group_hierarchy_can_create_subgroups( $user_id = null, $group_id = n
 		$subgroup_permission = BP_Groups_Hierarchy_Extension::get_default_permission_option();
 	}
 	switch($subgroup_permission) {
+		case 'noone':
+			return false;
+			break;
 		case 'anyone':
 			return (is_user_logged_in() || get_site_option( 'bpgh_extension_allow_anon_private_access', true) );
 			break;
@@ -546,7 +550,7 @@ function bp_group_hierarchy_has_groups_tree($groups, $params, $parent_id = 0) {
 		$parent_id = (int)$parent_id;
 	}
 	
-	if(!$bp->groups->current_group && !$params['search_terms']) {
+	if(!isset($bp->groups->current_group->id) && !$params['search_terms']) {
 	
 		$params = array_merge( $params, array('parent_id' => $parent_id) );
 		$toplevel_groups = bp_group_hierarchy_get_by_hierarchy( $params );
@@ -562,7 +566,6 @@ function bp_group_hierarchy_has_groups_tree($groups, $params, $parent_id = 0) {
  * Admin options
  * 
  */
-
 function bp_group_hierarchy_admin_page() {
 
 	global $bp, $wpdb;
@@ -653,7 +656,7 @@ function bp_group_hierarchy_extension_init() {
 	$bp->group_hierarchy->extension_settings = array(
 		'show_group_tree'	=> get_site_option( 'bpgh_extension_show_group_tree', false ),
 		'hide_group_list'	=> get_site_option( 'bpgh_extension_hide_group_list', false ),
-		'nav_item_name'		=> get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups','bp-group-hierarchy') ),
+		'nav_item_name'		=> get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups (%d)','bp-group-hierarchy') ),
 		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') ),
 	);
 
@@ -670,7 +673,7 @@ function bp_group_hierarchy_extension_init() {
 				load_template($template);
 				die;
 			}
-			die('failed');
+			die(__('Failed to load the requested template.','bp-group-hierarchy'));
 		}
 		
 	} else if($bp->group_hierarchy->extension_settings['show_group_tree']) {
