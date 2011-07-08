@@ -1,10 +1,10 @@
 <?php
 /**
  * 
- * This file contains a reference user interface for hierarchical groups
+ * This file contains a reference user interface for hierarchical groups.
  * One part is the Groups extension that adds the Member Groups tab to groups 
- * and allows creators to place new groups within the hierarchy
- * The other is an administrative and permissions interface
+ * and allows creators to place new groups within the hierarchy.
+ * The other is an administrative and permissions interface for that feature
  * 
  */
 class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
@@ -483,7 +483,7 @@ function bp_group_hierarchy_tab() {
 	global $bp;
 	?>
 	<li id="tree-all"><a href="<?php echo bp_get_root_domain() . '/' . BP_GROUPS_SLUG . '/tree-all' ?>"><?php echo $bp->group_hierarchy->extension_settings['group_tree_name'] ?></a></li>
-	<?
+	<?php
 }
 
 /**
@@ -660,7 +660,7 @@ function bp_group_hierarchy_extension_init() {
 		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') ),
 	);
 
-	wp_register_script('bp-group-hierarchy-tree-script', WP_PLUGIN_URL . '/bp-group-hierarchy/includes/hierarchy.js');
+	wp_register_script('bp-group-hierarchy-tree-script', WP_PLUGIN_URL . '/bp-group-hierarchy/includes/hierarchy.js', array('jquery'));
 	wp_register_style('bp-group-hierarchy-tree-style', WP_PLUGIN_URL . '/bp-group-hierarchy/includes/hierarchy.css');
 	
 	if($bp->current_component == 'groups' && $bp->group_hierarchy->extension_settings['hide_group_list']) {

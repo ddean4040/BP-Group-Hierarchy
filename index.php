@@ -3,10 +3,10 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.jerseyconnect.net/development/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.1.4
-Revision Date: 06/30/2011
+Version: 1.1.5
+Revision Date: 07/08/2011
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
-Tested up to: WP 3.2 , BuddyPress 1.2.8
+Tested up to: WP 3.2 , BuddyPress 1.2.9
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.jerseyconnect.net/development/
@@ -14,7 +14,7 @@ Site Wide Only: true
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
-define ( 'BP_GROUP_HIERARCHY_VERSION', '1.1.4' );
+define ( 'BP_GROUP_HIERARCHY_VERSION', '1.1.5' );
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', '1' );
 define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
 
@@ -22,8 +22,10 @@ define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
 if ( file_exists( dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' ) )
 	load_textdomain( 'bp-group-hierarchy', dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' );
 
-require ( dirname( __FILE__ ) . '/functions.php' );
-require ( dirname( __FILE__ ) . '/widgets.php' );
+require ( dirname( __FILE__ ) . '/bp-group-hierarchy-functions.php' );
+require ( dirname( __FILE__ ) . '/bp-group-hierarchy-filters.php' );
+require ( dirname( __FILE__ ) . '/bp-group-hierarchy-actions.php' );
+require ( dirname( __FILE__ ) . '/bp-group-hierarchy-widgets.php' );
 
 /*************************************************************************
 *********************SETUP AND INSTALLATION*******************************
@@ -93,7 +95,8 @@ add_action( 'bp_include', 'bp_group_hierarchy_init' );
 function bp_group_hierarchy_override_routing() {
 	global $current_component, $current_action, $action_variables, $bp;
 
-	require ( dirname( __FILE__ ) . '/classes.php' );
+	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
+	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
 	
 	do_action( 'bp_group_hierarchy_route_requests' );
 	

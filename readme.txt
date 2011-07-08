@@ -3,7 +3,7 @@ Contributors: ddean
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
 Tested up to: 3.2
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 
 Allows BuddyPress groups to have subgroups.
 
@@ -53,6 +53,11 @@ additional group IDs for a group to poll when building the activity stream.
 3. Hierarchy options when creating new groups
 
 == Changelog ==
+
+= 1.1.5 =
+* Added: function to move child groups when deleting a parent
+* Changed: file structure to match BuddyPress standard
+* Fixed: short open tag in extension.php
 
 = 1.1.4 =
 * Added: 'Nobody' permission - allows only site admins to create child groups (req'd by flynn)
@@ -119,6 +124,9 @@ additional group IDs for a group to poll when building the activity stream.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.5 =
+Mainly re-arranging files to prepare for the future. Also, prevent orphaned groups and fix a tag issue
 
 = 1.1.4 =
 Increased compatibility with other group plugins, plus other minor changes

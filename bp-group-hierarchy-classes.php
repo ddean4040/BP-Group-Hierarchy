@@ -96,6 +96,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	/**
 	 * Does the passed group or current group have children?
 	 * @param int GroupID optional ID of a group to check for children (will use current group object if omitted)
+	 * @return array of child groups
 	 */
 	function has_children( $id = null) {
 		global $bp, $wpdb;
@@ -103,7 +104,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			if(!isset($this->id) || $this->id == 0)	return false;
 			$id = $this->id;
 		}
-		return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g WHERE g.parent_id=%d",$id));
+		return $wpdb->get_col($wpdb->prepare("SELECT DISTINCT g.id FROM {$bp->groups->table_name} g WHERE g.parent_id=%d",$id));
 	}
 	
 	/**
@@ -270,97 +271,5 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 	
 	
-}
-
-/**
- * Hierarchy-aware extension for Groups template class
- */
-class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
-
-	var $vars = array();
-
-	function bp_groups_hierarchy_template( ) {
-		$args = func_get_args();
-		if(is_array($args) && count($args) > 1) {
-			list(
-				$params['user_id'],
-				$params['type'],
-				$params['page'],
-				$params['per_page'],
-				$params['max'],
-				$params['slug'],
-				$params['search_terms'],
-				$params['populate_extras'],
-				$params['parent_id']
-			) = $args;
-			$this->params = $params;
-			call_user_func_array(array(parent,'bp_groups_template'),$args);
-			$this->synchronize();
-		} else {
-			$this->params = array();
-		}
-	}
-
-	/**
-	 * Since we don't always have access to the params passed to BP_Groups_Template
-	 * we have to wait until after constructor has run to fill in details
-	 */
-	function synchronize() {
-		global $bp;
-		
-		if(isset($this->params) && array_key_exists('parent_id',$this->params)) {
-	
-			/**
-			 * Fill in requests by parent_id for tree traversal on admin side
-			 */
-			$this->groups = bp_group_hierarchy_get_by_hierarchy($this->params);
-			$this->groups = $this->groups['groups'];
-			$this->group_count = count($this->groups);
-			$this->total_group_count = count($this->groups);
-			
-		} else if($this->single_group && $bp->groups->current_group) {
-			/**
-			 * Groups with multi-level slugs are missed by the parent.
-			 * Fill them in from $bp->groups->current_group
-			 */
-			$this->groups = array(
-				(object)array(
-					'group_id'	=> $bp->groups->current_group->id
-				)
-			);
-			$this->group_count = 1;
-		}
-		
-	}
-
-	function the_group() {
-		global $group;
-
-		$this->in_the_loop = true;
-		$this->group = $this->next_group();
-
-		if ( $this->single_group )
-			$this->group = new BP_Groups_Hierarchy( $this->group->group_id );
-		else {
-			if ( $this->group )
-				wp_cache_set( 'groups_group_nouserdata_' . $group->group_id, $this->group, 'bp' );
-		}
-
-		if ( 0 == $this->current_group ) // loop has just started
-			do_action('loop_start');
-	}
-
-	function __isset($varName) {
-		return array_key_exists($varName,$this->vars);
-	}
-	
-	function __set($varName, $value) {
-		$this->vars[$varName] = $value;
-	}
-	
-	function __get($varName) {
-		return $this->vars[$varName];
-	}
-
 }
 ?>
