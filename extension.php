@@ -44,6 +44,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			'group_members'	=> __('only Group Members','bp-group-hierarchy'),
 			'group_admins'	=> __('only Group Admins','bp-group-hierarchy')
 		);
+		$bp->subgroup_permission_options = $this->subgroup_permission_options;
 		
 		if($bp->groups->current_group) {
 			$bp->groups->current_group->can_create_subitems = bp_group_hierarchy_can_create_subgroups();
@@ -103,7 +104,12 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		$groups = BP_Groups_Hierarchy::get_active();
 		$exclude_groups = array($bp->groups->new_group_id);
 		
-		$display_groups = array();
+		$site_root = new stdClass();
+		$site_root->id = 0;
+		$site_root->name = __( 'Site Root', 'bp-group-hierarchy' );
+		$display_groups = array(
+			$site_root
+		);
 		foreach($groups['groups'] as $group) {
 			if(!in_array($group->id,$exclude_groups)) {
 				$display_groups[] = $group;
@@ -114,11 +120,11 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		$display_groups = apply_filters( 'bp_group_hierarchy_display_groups', $display_groups );
 		
 		$display_groups = apply_filters( 'bp_group_hierarchy_available_parent_groups', $display_groups );
-		
+
 		?>
 		<label for="parent_id"><?php _e( 'Parent Group', 'bp-group-hierarchy' ); ?></label>
 		<select name="parent_id" id="parent_id">
-			<option value="0"><?php _e( 'Site Root', 'bp-group-hierarchy' ); ?></option>
+			<!--<option value="0"><?php _e( 'Site Root', 'bp-group-hierarchy' ); ?></option>-->
 			<?php foreach($display_groups as $group) { ?>
 				<option value="<?php echo $group->id ?>"<?php if($group->id == $this_group->parent_id) echo ' selected'; ?>><?php echo $group->name; ?></option>
 			<?php } ?>
@@ -410,7 +416,11 @@ function bp_group_hierarchy_can_create_subgroups( $user_id = null, $group_id = n
 		return true;
 	}
 
-	$subgroup_permission = groups_get_groupmeta( $group_id, 'bp_group_hierarchy_subgroup_creators');
+	if($group_id == 0) {
+		$subgroup_permission = get_site_option('bpgh_extension_toplevel_group_permission','anyone');
+	} else {
+		$subgroup_permission = groups_get_groupmeta( $group_id, 'bp_group_hierarchy_subgroup_creators');
+	}
 	if($subgroup_permission == '') {
 		$subgroup_permission = BP_Groups_Hierarchy_Extension::get_default_permission_option();
 	}
@@ -578,6 +588,7 @@ function bp_group_hierarchy_admin_page() {
 		
 		update_site_option( 'bpgh_extension_show_group_tree', isset($options['show_group_tree']));
 		update_site_option( 'bpgh_extension_hide_group_list', isset($options['hide_group_list']));
+		update_site_option( 'bpgh_extension_toplevel_group_permission', $options['toplevel_group_permission']);
 		update_site_option( 'bpgh_extension_group_tree_name', $options['group_tree_name']);
 		update_site_option( 'bpgh_extension_nav_item_name',   $options['nav_item_name']);
 		
@@ -585,10 +596,11 @@ function bp_group_hierarchy_admin_page() {
 	}
 	
 	$options = array(
-		'show_group_tree'	=> get_site_option( 'bpgh_extension_show_group_tree', false ),
-		'hide_group_list'	=> get_site_option( 'bpgh_extension_hide_group_list', false ),
-		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') ),
-		'nav_item_name'		=> get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups','bp-group-hierarchy') )
+		'show_group_tree'			=> get_site_option( 'bpgh_extension_show_group_tree', false ),
+		'hide_group_list'			=> get_site_option( 'bpgh_extension_hide_group_list', false ),
+		'toplevel_group_permission'	=> get_site_option( 'bpgh_extension_toplevel_group_permission', 'anyone'),
+		'group_tree_name'			=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') ),
+		'nav_item_name'				=> get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups','bp-group-hierarchy') )
 	);
 	?>
 	<div class="wrap">
@@ -612,6 +624,21 @@ function bp_group_hierarchy_admin_page() {
 						<label>
 							<input type="checkbox" id="hide_group_list" name="options[hide_group_list]"<?php if($options['hide_group_list']) echo 'checked'; ?> />
 							<?php _e('Hide the flat list of groups and show ONLY the Group Tree on the Groups page','bp-group-hierarchy'); ?> (EXPERIMENTAL)
+						</label>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="hide_group_list"><?php _e('Toplevel Groups','bp-group-hierarchy') ?></label></th>
+					<td>
+						<label>
+							<select id="toplevel_group_permission" name="options[toplevel_group_permission]">
+								<?php
+								$subgroup_permission_options = apply_filters( 'bp_group_hierarchy_toplevel_subgroup_permissions', $bp->subgroup_permission_options );
+								foreach($subgroup_permission_options as $option => $text) { if(strpos($option,'one') === false)	continue;?>
+									<option value="<?php echo $option ?>" <?php if($option == $options['toplevel_group_permission']) echo ' selected'; ?>><?php echo $text ?></option>
+								<?php }	?>
+							</select>
+							<?php _e('Select who is allowed to create toplevel groups. Super admins can always create toplevel groups.','bp-group-hierarchy'); ?>
 						</label>
 					</td>
 				</tr>
