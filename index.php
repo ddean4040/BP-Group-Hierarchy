@@ -3,7 +3,7 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.jerseyconnect.net/development/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.1.6
+Version: 1.1.7
 Revision Date: 07/14/2011
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
 Tested up to: WP 3.2.1 , BuddyPress 1.2.9

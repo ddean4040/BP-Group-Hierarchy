@@ -690,7 +690,7 @@ function bp_group_hierarchy_extension_init() {
 	wp_register_script('bp-group-hierarchy-tree-script', WP_PLUGIN_URL . '/bp-group-hierarchy/includes/hierarchy.js', array('jquery'));
 	wp_register_style('bp-group-hierarchy-tree-style', WP_PLUGIN_URL . '/bp-group-hierarchy/includes/hierarchy.css');
 	
-	if($bp->current_component == 'groups' && $bp->group_hierarchy->extension_settings['hide_group_list']) {
+	if($bp->current_component == 'groups' && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['hide_group_list']) {
 		add_filter( 'groups_get_groups', 'bp_group_hierarchy_has_groups_tree', 10, 2 );
 		
 		if($bp->current_action == '' && !isset($_POST['object'])) {
