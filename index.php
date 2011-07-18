@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: BP Group Hierarchy (1.3 compatible)
+Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.jerseyconnect.net/development/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.3-test1 (based on 1.1.4)
-Revision Date: 06/28/2011
+Version: 1.1.7 (1.3-compatible branch)
+Revision Date: 07/18/2011
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
-Tested up to: WP 3.2 , BuddyPress 1.3
+Tested up to: WP 3.2.1 , BuddyPress 1.3-bleeding
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.jerseyconnect.net/development/
@@ -14,7 +14,7 @@ Site Wide Only: true
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
-define ( 'BP_GROUP_HIERARCHY_VERSION', '1.1.4' );
+define ( 'BP_GROUP_HIERARCHY_VERSION', '1.1.7' );
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', '1' );
 define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
 
@@ -22,9 +22,10 @@ define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
 if ( file_exists( dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' ) )
 	load_textdomain( 'bp-group-hierarchy', dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' );
 
-require_once ( dirname( __FILE__ ) . '/functions.php' );
-require_once ( dirname( __FILE__ ) . '/widgets.php' );
-require_once ( dirname( __FILE__ ) . '/bp1-3.php' );
+require ( dirname( __FILE__ ) . '/bp-group-hierarchy-filters.php' );
+require ( dirname( __FILE__ ) . '/bp-group-hierarchy-actions.php' );
+require ( dirname( __FILE__ ) . '/bp-group-hierarchy-widgets.php' );
+require ( dirname( __FILE__ ) . '/bp1-3.php' );
 
 /*************************************************************************
 *********************SETUP AND INSTALLATION*******************************
@@ -79,7 +80,8 @@ add_action( 'admin_menu', 'bp_group_hierarchy_setup_globals', 2 );
  */
 function bp_group_hierarchy_init() {
 	
-	require_once ( dirname( __FILE__ ) . '/extension.php' );
+	require ( dirname( __FILE__ ) . '/extension.php' );
+	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-functions.php' );
 	
 }
 add_action( 'bp_include', 'bp_group_hierarchy_init' );
@@ -94,19 +96,20 @@ add_action( 'bp_include', 'bp_group_hierarchy_init' );
 function bp_group_hierarchy_override_routing() {
 	global $current_component, $current_action, $action_variables, $bp;
 
-	require_once ( dirname( __FILE__ ) . '/classes.php' );
+	require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
+	require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
 	
 	do_action( 'bp_group_hierarchy_route_requests' );
-	
+
 	// BP Groups not instantiated yet, and running groups_setup_globals() prevents proper routing, so just make a best-effort copy of the forbidden names list
-	if($current_component == BP_GROUPS_SLUG && !in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', BP_GROUPS_SLUG, '' ) ) ) ) {
+	if($current_component == bp_get_groups_root_slug() && !in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', bp_get_groups_root_slug(), '' ) ) ) ) {
 		
 		$action_vars = $action_variables;
 		
 		$group = new BP_Groups_Hierarchy( $current_action );
 		if(!$group->id) {
 			$current_action = '';
-			bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/');
+			bp_core_redirect( $bp->root_domain . '/' . bp_get_groups_root_slug() . '/');
 		}
 		if($group->has_children()) {
 			$parent = $group;
@@ -239,4 +242,5 @@ function bp_group_hierarchy_setup_nav() {
 
 	do_action( 'groups_setup_nav', $bp->groups->current_group->user_has_access );
 }
+
 ?>

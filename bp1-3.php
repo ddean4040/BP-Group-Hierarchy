@@ -3,10 +3,16 @@
  * Functions for BuddyPress 1.3 compatibility
  */
 
+
 function group_hierarchy_override_current_action( $current_action ) {
 	global $bp;
 
+	do_action( 'bp_group_hierarchy_route_requests' );
+
 	if($current_action == '')	return $current_action;
+	if($bp->current_component != $bp->groups->slug || in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', bp_get_groups_root_slug(), '' ) ) ) ) {
+		return $current_action;
+	}
 
 	$action_vars = $bp->action_variables;
 
@@ -14,7 +20,7 @@ function group_hierarchy_override_current_action( $current_action ) {
 
 	if(!$group->id && (!isset($bp->current_item) || !$bp->current_item)) {
 		$current_action = '';
-		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/');
+		bp_core_redirect( $bp->root_domain . '/' . bp_get_groups_root_slug() . '/');
 	}
 	if($group->has_children()) {
 		$parent = $group;
@@ -44,7 +50,7 @@ function bp_group_hierarchy_override_component_routing() {
 
 	global $bp;
 
-	require_once dirname(__FILE__) . '/bp-groups-hierarchy-loader.php';
+	require_once dirname(__FILE__) . '/bp-groups-hierarchy-component.php';
 	$bp->groups = new BP_Groups_Hierarchy_Component();
 	$bp->groups->_setup_globals();
 }
