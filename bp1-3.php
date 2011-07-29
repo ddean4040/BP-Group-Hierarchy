@@ -3,6 +3,19 @@
  * Functions for BuddyPress 1.3 compatibility
  */
 
+/**
+ * Catch requests for the groups component and find the requested group
+ */
+if(!function_exists('bp_group_hierarchy_override_routing')) {
+	function bp_group_hierarchy_override_routing() {
+		global $current_component, $current_action, $action_variables, $bp;
+	
+		require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
+		require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
+		
+	}
+	add_action( 'bp_loaded', 'bp_group_hierarchy_override_routing', 5 );
+}
 
 function group_hierarchy_override_current_action( $current_action ) {
 	global $bp;
@@ -47,9 +60,7 @@ function group_hierarchy_override_current_action( $current_action ) {
 add_filter( 'bp_current_action', 'group_hierarchy_override_current_action' );
 
 function bp_group_hierarchy_override_component_routing() {
-
 	global $bp;
-
 	require_once dirname(__FILE__) . '/bp-groups-hierarchy-component.php';
 	$bp->groups = new BP_Groups_Hierarchy_Component();
 	$bp->groups->_setup_globals();

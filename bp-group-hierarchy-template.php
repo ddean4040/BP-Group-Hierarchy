@@ -107,16 +107,19 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
  * Get the fully-qualified name of the group (including all parents)
  */
 function bp_group_hierarchy_full_name() {
-	echo bp_get_group_hierarchy_full_name();
+	echo bp_group_hierarchy_get_full_name();
 }
 function bp_get_group_hierarchy_full_name( $separator = '|', $group = false ) {
+	_deprecated_function( __FUNCTION__, '1.1.8', 'bp_group_hierarchy_get_full_name()' );
+	return bp_group_hierarchy_get_full_name( $separator, $group );
+}
+function bp_group_hierarchy_get_full_name( $separator = '|', $group = false ) {
 	global $groups_template;
 	
 	if ( !$group ) {
-		/** need a copy as we're going to walk up the tree */
+		/** need a copy since we're going to walk up the tree */
 		$group = $groups_template->group;
 	}
-	
 	$group_name = $group->name;
 	
 	while($group->parent_id != 0) {
@@ -127,6 +130,9 @@ function bp_get_group_hierarchy_full_name( $separator = '|', $group = false ) {
 	return $group_name;
 }
 
+/**
+ * Get the number of subgroups
+ */
 function bp_group_hierarchy_has_subgroups( $group = null ) {
 	global $groups_template;
 	
@@ -137,5 +143,36 @@ function bp_group_hierarchy_has_subgroups( $group = null ) {
 	return count(BP_Groups_Hierarchy::has_children( $group->id ));
 }
 
+function bp_group_hierarchy_has_parent( $group = null ) {
+	global $groups_template;
+	if ( !$group ) {
+		$group =& $groups_template->group;
+	}
+	
+	return $group->parent_id != 0;
+}
+
+/**
+ * Return an array of the selected group's ancestors
+ * For top-level groups, this array is empty
+ * You can count the elements in the array to find the depth
+ */
+function bp_group_hierarchy_get_parents( $group = null ) {
+	global $groups_template;
+	
+	if ( !$group ) {
+		/** need a copy since we're going to walk up the tree */
+		$group = $groups_template->group;
+	}
+	
+	$parents = array();
+	
+	while($group->parent_id != 0) {
+		$parents[] = $group->parent_id;
+		$group = new BP_Groups_Hierarchy($group->parent_id);
+	}
+	
+	return $parents;
+}
 
 ?>

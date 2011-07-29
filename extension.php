@@ -519,11 +519,14 @@ function bp_group_hierarchy_display( $query_string, $object, $parent_id = 0 ) {
 			$parent_id = (int)$parent_id;
 		}
 		$query_string .= '&parent_id=' . $parent_id;
-		add_filter( 'groups_get_groups', 'bp_group_hierarchy_has_groups_tree', 10, 2 );
+		if($parent_id != 0) {
+			$query_string .= '&per_page=100';
+		}
+		add_filter( 'groups_get_groups', 'bp_group_hierarchy_get_groups_tree', 10, 2 );
 	}
 	return $query_string;
 }
-add_filter( 'bp_ajax_querystring', 'bp_group_hierarchy_display', 10, 2 );
+add_filter( 'bp_ajax_querystring', 'bp_group_hierarchy_display', 20, 2 );
 
 /** Load the tree loop instead of the group loop when requested as part of the tree */
 function bp_group_hierarchy_object_template_loader() {
@@ -559,11 +562,10 @@ function bp_group_hierarchy_load_template_filter( $found_template, $templates ) 
 }
 add_filter( 'bp_located_template', 'bp_group_hierarchy_load_template_filter', 10, 2 );
 
-
 /**
  * Restrict group listing to top-level groups
  */
-function bp_group_hierarchy_has_groups_tree($groups, $params, $parent_id = 0) {
+function bp_group_hierarchy_get_groups_tree($groups, $params, $parent_id = 0) {
 	global $bp, $groups_template;
 	
 	if($_POST['object'] == 'tree' && $_POST['scope'] != 'all') {
@@ -578,7 +580,6 @@ function bp_group_hierarchy_has_groups_tree($groups, $params, $parent_id = 0) {
 		$groups = $toplevel_groups;
 		
 	}
-	
 	return $groups;
 }
 
@@ -698,11 +699,11 @@ function bp_group_hierarchy_extension_init() {
 		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') ),
 	);
 
-	wp_register_script('bp-group-hierarchy-tree-script', WP_PLUGIN_URL . '/bp-group-hierarchy/includes/hierarchy.js', array('jquery'));
+	wp_register_script('bp-group-hierarchy-tree-script', WP_PLUGIN_URL .'/bp-group-hierarchy/includes/hierarchy.js', array('jquery'));
 	wp_register_style('bp-group-hierarchy-tree-style', WP_PLUGIN_URL . '/bp-group-hierarchy/includes/hierarchy.css');
 	
 	if($bp->current_component == 'groups' && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['hide_group_list']) {
-		add_filter( 'groups_get_groups', 'bp_group_hierarchy_has_groups_tree', 10, 2 );
+		add_filter( 'groups_get_groups', 'bp_group_hierarchy_get_groups_tree', 10, 2 );
 		
 		if($bp->current_action == '' && !isset($_POST['object'])) {
 			wp_enqueue_script('bp-group-hierarchy-tree-script');
