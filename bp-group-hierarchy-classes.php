@@ -184,6 +184,17 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return false;
 	}
 	
+	/**
+	 * Compatibility function for BP 1.2 - 1.3 bridge
+	 */
+	function get_active() {
+		if(method_exists(parent,'get_active')) {
+			return parent::get_active();
+		} else {
+			return self::get('active');
+		}
+	}
+	
 	function get_by_parent( $parent_id, $type='active', $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
