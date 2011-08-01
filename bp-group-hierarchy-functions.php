@@ -99,14 +99,4 @@ function bp_group_hierarchy_get_by_hierarchy($args) {
 	return $groups;
 }
 
-/**
- * For backwards compatibility with BP 1.2.x
- */
-if(!function_exists('bp_get_groups_root_slug')) {
-	function bp_get_groups_root_slug() {
-		return apply_filters( 'bp_get_groups_root_slug', BP_GROUPS_SLUG );
-	}
-	
-}
-
 ?>
