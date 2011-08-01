@@ -3,12 +3,6 @@
  * Functions for BuddyPress 1.2 compatibility
  */
 
-function bp_get_groups_hierarchy_root_slug() {
-	if(defined('BP_GROUPS_SLUG')) {
-		return apply_filters( 'bp_get_groups_root_slug', BP_GROUPS_SLUG );
-	}
-}
-
 /*************************************************************************
 ***********************PAGE ROUTING AND NAVIGATION************************
 *************************************************************************/

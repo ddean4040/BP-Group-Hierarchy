@@ -235,6 +235,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			$paged_groups[$key] = new BP_Groups_Hierarchy( $group->id );
 		}
 
+		$group_ids = array();
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );

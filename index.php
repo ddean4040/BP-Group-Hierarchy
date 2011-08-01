@@ -88,4 +88,13 @@ function bp_group_hierarchy_init() {
 }
 add_action( 'bp_include', 'bp_group_hierarchy_init' );
 
+/** Cover both BP 1.2 and BP 1.3/5 group slug formats */
+function bp_get_groups_hierarchy_root_slug() {
+	if(defined('BP_GROUPS_SLUG')) {
+		return apply_filters( 'bp_get_groups_root_slug', BP_GROUPS_SLUG );
+	} else if(function_exists('bp_get_groups_root_slug')) {
+		return bp_get_groups_root_slug();
+	}
+}
+
 ?>

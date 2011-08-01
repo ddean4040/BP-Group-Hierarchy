@@ -373,7 +373,7 @@ bp_register_group_extension( 'BP_Groups_Hierarchy_Extension' );
 function bp_group_hierarchy_set_parent_id_cookie() {
 	global $current_component, $current_action, $action_variables, $bp;
 	
-	$groups_slug = bp_get_groups_root_slug();
+	$groups_slug = bp_get_groups_hierarchy_root_slug();
 
 	/** BP 1.3 compatibility */
 	if(!isset($current_component)) {
