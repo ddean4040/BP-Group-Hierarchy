@@ -78,8 +78,6 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			return false;
 		}
 		
-//		die(print_r($bp));
-		
 		$parent_group = new BP_Groups_Hierarchy( $bp->group_hierarchy->new_group_parent_id );
 		
 		?>
@@ -121,7 +119,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		/* deprecated */
 		$display_groups = apply_filters( 'bp_group_hierarchy_display_groups', $display_groups );
 		
-		$display_groups = apply_filters( 'bp_group_hierarchy_available_parent_groups', $display_groups );
+		$display_groups = apply_filters( 'bp_group_hierarchy_available_parent_groups', $display_groups, $this_group );
 
 		?>
 		<label for="parent_id"><?php _e( 'Parent Group', 'bp-group-hierarchy' ); ?></label>
@@ -133,7 +131,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		</select>
 		<?php
 
-		$subgroup_permission_options = apply_filters( 'bp_group_hierarchy_subgroup_permissions', $this->subgroup_permission_options );
+		$subgroup_permission_options = apply_filters( 'bp_group_hierarchy_subgroup_permissions', $this->subgroup_permission_options, $this_group );
 		
 		$current_subgroup_permission = groups_get_groupmeta( $bp->groups->current_group->id, 'bp_group_hierarchy_subgroup_creators' );
 		if($current_subgroup_permission == '')
