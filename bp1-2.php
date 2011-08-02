@@ -3,13 +3,6 @@
  * Functions for BuddyPress 1.2 compatibility
  */
 
-if(!function_exists('bp_get_groups_root_slug')) {
-	function bp_get_groups_root_slug() {
-		return apply_filters( 'bp_get_groups_root_slug', BP_GROUPS_SLUG );
-	}
-	
-}
-
 /*************************************************************************
 ***********************PAGE ROUTING AND NAVIGATION************************
 *************************************************************************/
@@ -24,16 +17,23 @@ function bp_group_hierarchy_override_routing() {
 	require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
 	
 	do_action( 'bp_group_hierarchy_route_requests' );
-
+	
+	if($current_component) {
+		bp_group_hierarchy_debug('Routing requests for BP 1.2');
+		bp_group_hierarchy_debug('Current component: ' . $current_component);
+		bp_group_hierarchy_debug('Current action: ' . $current_action);
+		bp_group_hierarchy_debug('Group slug: ' . bp_get_groups_hierarchy_root_slug());
+	}
+	
 	// BP Groups not instantiated yet, and running groups_setup_globals() prevents proper routing, so just make a best-effort copy of the forbidden names list
-	if($current_component == bp_get_groups_root_slug() && !in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', bp_get_groups_root_slug(), '' ) ) ) ) {
+	if($current_component == bp_get_groups_hierarchy_root_slug() && !in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', bp_get_groups_hierarchy_root_slug(), '' ) ) ) ) {
 		
 		$action_vars = $action_variables;
 		
 		$group = new BP_Groups_Hierarchy( $current_action );
 		if(!$group->id) {
 			$current_action = '';
-			bp_core_redirect( $bp->root_domain . '/' . bp_get_groups_root_slug() . '/');
+			bp_core_redirect( $bp->root_domain . '/' . bp_get_groups_hierarchy_root_slug() . '/');
 		}
 		if($group->has_children()) {
 			$parent = $group;
@@ -50,10 +50,14 @@ function bp_group_hierarchy_override_routing() {
 				}
 			}
 		}
-
+		
+		bp_group_hierarchy_debug('Action changed to: ' . $current_action);
+		
 		$action_variables = $action_vars;
 		add_action( 'bp_setup_nav', 'bp_group_hierarchy_setup_nav' );
 		remove_action( 'bp_setup_nav', 'groups_setup_nav' );
+	} else {
+		bp_group_hierarchy_debug('Not rewriting current action.');
 	}
 }
 add_action( 'bp_loaded', 'bp_group_hierarchy_override_routing', 5 );

@@ -3,14 +3,15 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.jerseyconnect.net/development/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.1.9
-Revision Date: 08/01/2011
+Version: 1.2.0-testing
+Revision Date: 08/02/2011
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
 Tested up to: WP 3.2.1 , BuddyPress 1.3-bleeding
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.jerseyconnect.net/development/
 Site Wide Only: true
+Network: true
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
@@ -82,10 +83,31 @@ add_action( 'admin_menu', 'bp_group_hierarchy_setup_globals', 2 );
  */
 function bp_group_hierarchy_init() {
 	
+	/** Enable logging with WP Debug Logger */
+	$GLOBALS['wp_log_plugins'][] = 'bp_group_hierarchy';
+	
 	require ( dirname( __FILE__ ) . '/extension.php' );
 	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-functions.php' );
 	
 }
 add_action( 'bp_include', 'bp_group_hierarchy_init' );
+
+/** Cover both BP 1.2 and BP 1.3/5 group slug formats */
+function bp_get_groups_hierarchy_root_slug() {
+	if(defined('BP_GROUPS_SLUG')) {
+		return apply_filters( 'bp_get_groups_root_slug', BP_GROUPS_SLUG );
+	} else if(function_exists('bp_get_groups_root_slug')) {
+		return bp_get_groups_root_slug();
+	}
+}
+
+function bp_group_hierarchy_debug( $message ) {
+	if(defined( 'WP_DEBUG_LOG') ) {
+		$GLOBALS['wp_log']['bp_group_hierarchy'][] = 'BP Group Hierarchy - ' .  $message;
+	}
+	if(defined( 'WP_DEBUG' ) && WP_DEBUG) {
+		echo '<div class="log">BP Group Hierarchy - ' . $message . "</div>\n";
+	}
+}
 
 ?>

@@ -20,10 +20,16 @@ if(!function_exists('bp_group_hierarchy_override_routing')) {
 function group_hierarchy_override_current_action( $current_action ) {
 	global $bp;
 
+	bp_group_hierarchy_debug('Routing requests for BP 1.3');
+	bp_group_hierarchy_debug('Current component: ' . $bp->current_component);
+	bp_group_hierarchy_debug('Current action: ' . $current_action);
+	bp_group_hierarchy_debug('Group slug: ' . bp_get_groups_root_slug());
+
 	do_action( 'bp_group_hierarchy_route_requests' );
 
 	if($current_action == '')	return $current_action;
-	if($bp->current_component != $bp->groups->slug || in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', bp_get_groups_root_slug(), '' ) ) ) ) {
+	if($bp->current_component != bp_get_groups_root_slug() || in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', bp_get_groups_root_slug(), '' ) ) ) ) {
+		bp_group_hierarchy_debug('Not rewriting current action.');
 		return $current_action;
 	}
 
@@ -33,6 +39,7 @@ function group_hierarchy_override_current_action( $current_action ) {
 
 	if(!$group->id && (!isset($bp->current_item) || !$bp->current_item)) {
 		$current_action = '';
+		bp_group_hierarchy_debug('Redirecting to groups root.');
 		bp_core_redirect( $bp->root_domain . '/' . bp_get_groups_root_slug() . '/');
 	}
 	if($group->has_children()) {
@@ -50,7 +57,9 @@ function group_hierarchy_override_current_action( $current_action ) {
 			}
 		}
 	}
-	
+
+	bp_group_hierarchy_debug('Action changed to: ' . $current_action);
+
 	$bp->action_variables = $action_vars;
 	$bp->current_action = $current_action;
 
