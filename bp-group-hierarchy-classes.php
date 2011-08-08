@@ -21,7 +21,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		}
 		
 		if(!is_numeric($id)) {
-			$id = $this->check_slug( $id, $parent_id );
+			$id = $this->group_exists( $id, $parent_id );
 		}
 		
 		if ( $id ) {
@@ -188,16 +188,17 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	 * Compatibility function for BP 1.2 - 1.3 bridge
 	 */
 	function get_active() {
-		if(method_exists(parent,'get_active')) {
-			return parent::get_active();
-		} else {
+		if(method_exists('BP_Groups_Group','get')) {
 			return self::get('active');
+		} else {
+			return parent::get_active();
 		}
 	}
 	
 	function get_by_parent( $parent_id, $type='active', $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
+		$hidden_sql = '';
 		if ( !is_super_admin() )
 			$hidden_sql = $wpdb->prepare( " AND status != 'hidden'");
 		
@@ -234,6 +235,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			$paged_groups[$key] = new BP_Groups_Hierarchy( $group->id );
 		}
 
+		$group_ids = array();
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
@@ -278,7 +280,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 	
 	function __get($varName) {
-		return $this->vars[$varName];
+		if(array_key_exists($varName,$this->vars))
+			return $this->vars[$varName];
+		return false;
 	}
 	
 	

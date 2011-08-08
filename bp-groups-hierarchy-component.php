@@ -29,7 +29,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			'global_tables'         => $global_tables
 		);
 
-		call_user_func(array(get_parent_class(get_parent_class($this)),'_setup_globals'), $globals );
+		call_user_func(array(get_parent_class(get_parent_class($this)),'setup_globals'), $globals );
 //		$this->_base_setup_globals( $globals );
 
 		/** Single Group Globals **********************************************/
