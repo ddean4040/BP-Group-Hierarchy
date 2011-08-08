@@ -21,7 +21,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		}
 		
 		if(!is_numeric($id)) {
-			$id = $this->check_slug( $id, $parent_id );
+			$id = $this->group_exists( $id, $parent_id );
 		}
 		
 		if ( $id ) {
