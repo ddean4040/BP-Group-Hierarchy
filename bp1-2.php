@@ -10,49 +10,61 @@
 /**
  * Catch requests for the groups component and find the requested group
  */
-function bp_group_hierarchy_override_routing() {
+function bp_group_hierarchy_do_routing() {
 	global $current_component, $current_action, $action_variables, $bp;
 
-	require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
-	require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
-	
-	do_action( 'bp_group_hierarchy_route_requests' );
+	if(defined('BP_VERSION') && floatval(BP_VERSION) < 1.3) {
 
-	// BP Groups not instantiated yet, and running groups_setup_globals() prevents proper routing, so just make a best-effort copy of the forbidden names list
-	if($current_component == bp_get_groups_hierarchy_root_slug() && !in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', bp_get_groups_hierarchy_root_slug(), '' ) ) ) ) {
+		$groups_slug = bp_get_groups_hierarchy_root_slug();
+
+		bp_group_hierarchy_debug('Routing requests for BP 1.2');
+		bp_group_hierarchy_debug('Current component: ' . $current_component);
+		bp_group_hierarchy_debug('Current action: ' . $current_action);
+		bp_group_hierarchy_debug('Group slug: ' . $groups_slug);
+
 		
-		$action_vars = $action_variables;
-		
-		$group = new BP_Groups_Hierarchy( $current_action );
-		if(!$group->id) {
-			$current_action = '';
-			bp_core_redirect( $bp->root_domain . '/' . bp_get_groups_hierarchy_root_slug() . '/');
-		}
-		if($group->has_children()) {
-			$parent = $group;
-			foreach($action_variables as $action_var) {
-				$subgroup_id = $parent->check_slug($action_var, $parent->id);
-				if($subgroup_id) {
-					$action_var = array_shift($action_vars);
-					$subgroup = new BP_Groups_Hierarchy( $subgroup_id );
-					$current_action = $subgroup->slug;
-					$parent = $subgroup;
-				} else {
-					// once we find something that isn't a group, we're done
-					break;
+		// BP Groups not instantiated yet, and running groups_setup_globals() prevents proper routing, so just make a best-effort copy of the forbidden names list
+		if($current_component == $groups_slug && !in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', $groups_slug, '' ) ) ) ) {
+			
+			$action_vars = $action_variables;
+			
+			$group = new BP_Groups_Hierarchy( $current_action );
+			if(!$group->id) {
+				$current_action = '';
+				bp_core_redirect( $bp->root_domain . '/' . $groups_slug . '/');
+			}
+			if($group->has_children()) {
+				$parent = $group;
+				if(is_array($action_variables)) {
+					foreach($action_variables as $action_var) {
+						$subgroup_id = $parent->check_slug($action_var, $parent->id);
+						if($subgroup_id) {
+							$action_var = array_shift($action_vars);
+							$subgroup = new BP_Groups_Hierarchy( $subgroup_id );
+							$current_action = $subgroup->slug;
+							$parent = $subgroup;
+						} else {
+							// once we find something that isn't a group, we're done
+							break;
+						}
+					}
 				}
 			}
+			
+			bp_group_hierarchy_debug('Action changed to: ' . $current_action);
+			
+			$action_variables = $action_vars;
+			add_action( 'bp_setup_nav', 'bp_group_hierarchy_setup_nav', 5 );
+			remove_action( 'bp_setup_nav', 'groups_setup_nav' );
+		} else {
+			bp_group_hierarchy_debug('Not rewriting current action.');
 		}
-
-		$action_variables = $action_vars;
-		add_action( 'bp_setup_nav', 'bp_group_hierarchy_setup_nav' );
-		remove_action( 'bp_setup_nav', 'groups_setup_nav' );
 	}
 }
-add_action( 'bp_loaded', 'bp_group_hierarchy_override_routing', 5 );
+add_action( 'bp_group_hierarchy_route_requests', 'bp_group_hierarchy_do_routing' );
 
 /**
- * Copy of the stock groups_setup_nav function fetching BP_Groups_Hierarchy objects
+ * Copy of the BP 1.2.x stock groups_setup_nav function fetching BP_Groups_Hierarchy objects
  */
 function bp_group_hierarchy_setup_nav() {
 	global $bp;

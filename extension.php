@@ -296,7 +296,6 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		}
 		
 		bp_core_redirect( bp_get_group_admin_permalink( $bp->groups->current_group ) );
-		
 	}
 	
 	function display() {
@@ -315,40 +314,44 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			<a title="<?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?>" href="<?php echo $bp->root_domain . '/' . bp_get_groups_hierarchy_root_slug() . '/' . 'create' .'/?parent_id=' . $bp->groups->current_group->id ?>"><?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?></a>
 		</div><br />
 		<?php } ?>
+
 		<ul id="groups-list" class="item-list">
 		<?php if($groups_template) : ?>
 			<?php while ( bp_groups() ) : bp_the_group(); ?>
 			<?php $subgroup = $groups_template->group; ?>
 			<?php if($subgroup->status == 'hidden' && !( groups_is_user_member( $bp->loggedin_user->id, $subgroup->id ) || groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) ) continue; ?>
-			<li>
-				<div class="item-avatar">
-					<a href="<?php bp_group_permalink() ?>"><?php bp_group_avatar_thumb() ?></a>
+		<li id="tree-childof_<?php bp_group_id() ?>">
+			<div class="item-avatar">
+				<a href="<?php bp_group_permalink() ?>"><?php bp_group_avatar( 'type=thumb&width=50&height=50' ) ?></a>
+			</div>
+
+			<div class="item">
+				<div class="item-title"><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></div>
+				<?php if(floatval(BP_VERSION) < 1.3 ) : ?>
+				<div class="item-meta"><span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span></div>
+				<?php else: ?>
+				<div class="item-meta"><span class="activity"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span></div>
+				<?php endif; ?>
+				<div class="item-desc"><?php bp_group_description_excerpt() ?></div>
+
+				<?php do_action( 'bp_directory_groups_item' ) ?>
+
+			</div>
+
+			<div class="action">
+
+				<?php do_action( 'bp_directory_groups_actions' ) ?>
+
+				<div class="meta">
+
+					<?php bp_group_type() ?> / <?php bp_group_member_count() ?>
+
 				</div>
-	
-				<div class="item">
-					<div class="item-title"><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></div>
-					<div class="item-meta"><span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span></div>
-	
-					<div class="item-desc"><?php bp_group_description_excerpt() ?></div>
-	
-					<?php do_action( 'bp_directory_groups_item' ) ?>
-	
-				</div>
-	
-				<div class="action">
-	
-					<?php do_action( 'bp_directory_groups_actions' ) ?>
-	
-					<div class="meta">
-	
-						<?php bp_group_type() ?> / <?php bp_group_member_count() ?>
-	
-					</div>
-	
-				</div>
-	
-				<div class="clear"></div>
-			</li>
+
+			</div>
+
+			<div class="clear"></div>
+		</li>
 	
 			<?php endwhile; ?>
 		<?php endif; ?>
@@ -387,23 +390,6 @@ function bp_group_hierarchy_set_parent_id_cookie() {
 	}
 }
 add_action( 'bp_group_hierarchy_route_requests', 'bp_group_hierarchy_set_parent_id_cookie' );
-
-/**
- * Save the parent id passed from the group creation screen
- */
-//function bp_group_hierarchy_create_group($group_id, $member, $group ) {
-//	
-//	global $bp;
-//	if(isset($_POST['group-parent_id'])) {
-//		
-//		$my_group = new BP_Groups_Hierarchy( $group_id );
-//		$my_group->parent_id = (int)$_POST['group-parent_id'];
-//		$my_group->save();
-//		
-//	}
-//	
-//}
-//add_action( 'groups_create_group', 'bp_group_hierarchy_create_group', 10, 3 );
 
 /**
  * Check whether the user is allowed to create subgroups of the selected group
@@ -708,7 +694,7 @@ function bp_group_hierarchy_extension_init() {
 	wp_register_script('bp-group-hierarchy-tree-script', WP_PLUGIN_URL .'/bp-group-hierarchy/includes/hierarchy.js', array('jquery'));
 	wp_register_style('bp-group-hierarchy-tree-style', WP_PLUGIN_URL . '/bp-group-hierarchy/includes/hierarchy.css');
 	
-	if($bp->current_component == bp_get_groups_hierarchy_root_slug() && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['hide_group_list']) {
+	if(bp_is_groups_component() && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['hide_group_list']) {
 		add_filter( 'groups_get_groups', 'bp_group_hierarchy_get_groups_tree', 10, 2 );
 		
 		/** 'bp_page_title' disappears after 1.2 */
