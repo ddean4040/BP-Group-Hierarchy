@@ -23,8 +23,8 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			) = $args;
 			$this->params = $params;
 			
-			/** add extra args that BP 1.3 expects */
-			if(strpos(BP_VERSION,'1.3') !== false) {
+			/** add extra args that BP 1.5 expects */
+			if(floatval(BP_VERSION) > 1.3) {
 				array_push($args, '');
 				array_push($args, '');
 			}
@@ -129,6 +129,32 @@ function bp_group_hierarchy_get_full_name( $separator = '|', $group = false ) {
 	
 	return $group_name;
 }
+
+/**
+ * Get breadcrumbs for a theme
+ */
+ function bp_group_hierarchy_breadcrumbs() {
+ 	echo bp_group_hierarchy_get_breadcrumbs();
+ }
+function bp_group_hierarchy_get_breadcrumbs( $separator = '|', $group = false ) {
+	global $groups_template;
+	
+	$groups_slug = bp_get_groups_hierarchy_root_slug();
+	
+	if ( !$group ) {
+		/** need a copy since we're going to walk up the tree */
+		$group = $groups_template->group;
+	}
+	$group_name = '<a href="/' . $groups_slug . '/' . $group->slug . '" title="' . $group->name . '">' . $group->name . '</a>';
+	
+	while($group->parent_id != 0) {
+		$group = new BP_Groups_Hierarchy($group->parent_id);
+		$group_name = '<a href="/' . $groups_slug . '/' . $group->slug . '" title="' . $group->name . '">' . $group->name . '</a> ' . $separator . ' ' . $group_name;
+	}
+	
+	return $group_name;
+}
+ 
 
 /**
  * Get the number of subgroups
