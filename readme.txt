@@ -3,7 +3,7 @@ Contributors: ddean
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.1.9
+Stable tag: 1.2.0
 
 Allows BuddyPress groups to have subgroups.
 
@@ -53,6 +53,12 @@ additional group IDs for a group to poll when building the activity stream.
 3. Hierarchy options when creating new groups
 
 == Changelog ==
+
+= 1.2.0 =
+* Added: BuddyPress 1.5 compatibility (beta 2)
+* Changed: made some filters more consistent
+* Changed: workaround for issue with Doc in Nav (and other plugins that run on bp_setup_nav with priority 10) - thanks, johnny2011
+* Fixed: extension only loaded Group Tree if groups slug was 'groups' - thanks, mutualdesigns
 
 = 1.1.9 =
 * Fixed: issues with the admin page and routing
@@ -139,6 +145,9 @@ additional group IDs for a group to poll when building the activity stream.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Updated for compatibility with BP 1.5, and fixed issues retrieving groups slug in some situations
 
 = 1.1.9 =
 Fixed issues with admin page and group routing. All users should upgrade.

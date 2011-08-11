@@ -131,7 +131,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		</select>
 		<?php
 
-		$subgroup_permission_options = apply_filters( 'bp_group_hierarchy_subgroup_permissions', $this->subgroup_permission_options, $this_group );
+		$subgroup_permission_options = apply_filters( 'bp_group_hierarchy_subgroup_permission_options', $this->subgroup_permission_options, $this_group );
 		
 		$current_subgroup_permission = groups_get_groupmeta( $bp->groups->current_group->id, 'bp_group_hierarchy_subgroup_creators' );
 		if($current_subgroup_permission == '')

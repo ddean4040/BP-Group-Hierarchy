@@ -3,9 +3,9 @@
 class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	
 	/**
-	 * A hierarchy-aware copy of the _setup_globals function from BP_Groups_Component
+	 * A hierarchy-aware copy of the setup_globals function from BP_Groups_Component
 	 */
-	function _setup_globals() {
+	function setup_globals() {
 		global $bp;
 
 		// Define a slug, if necessary
@@ -22,15 +22,16 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(
+			'path'                  => BP_PLUGIN_DIR,
 			'slug'                  => BP_GROUPS_SLUG,
 			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : BP_GROUPS_SLUG,
+			'has_directory'         => true,
 			'notification_callback' => 'groups_format_notifications',
 			'search_string'         => __( 'Search Groups...', 'buddypress' ),
 			'global_tables'         => $global_tables
 		);
-
+		
 		call_user_func(array(get_parent_class(get_parent_class($this)),'setup_globals'), $globals );
-//		$this->_base_setup_globals( $globals );
 
 		/** Single Group Globals **********************************************/
 
@@ -156,46 +157,6 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 
 		// Auto join group when non group member performs group activity
 		$this->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' );
-	}
-	
-	function _base_setup_globals( $args = '' ) {
-		global $bp;
-
-		/** Slugs *************************************************************/
-
-		$defaults = array(
-			'slug'                  => '',
-			'root_slug'             => '',
-			'notification_callback' => '',
-			'search_string'         => '',
-			'global_tables'         => ''
-		);
-		$r = wp_parse_args( $args, $defaults );
-
-		// Slug used for permalinks
-		$this->slug          = apply_filters( 'bp_' . $this->id . '_slug',          $r['slug']          );
-
-		// Slug used for root directory
-		$this->root_slug     = apply_filters( 'bp_' . $this->id . '_root_slug',     $r['root_slug']     );
-
-		// Search string
-		$this->search_string = apply_filters( 'bp_' . $this->id . '_search_string', $r['search_string'] );
-
-		// Notifications callback
-		$this->notification_callback = apply_filters( 'bp_' . $this->id . '_notification_callback', $r['notification_callback'] );
-
-		// Setup global table names
-		if ( !empty( $r['global_tables'] ) )
-			foreach ( $r['global_tables'] as $global_name => $table_name )
-				$this->$global_name = $table_name;
-		
-		/** BuddyPress ********************************************************/
-		
-		// Register this component in the active components array
-		$bp->loaded_components[$this->slug] = $this->id;
-
-		// Call action
-		do_action( 'bp_' . $this->id . '_setup_globals' );
 	}
 
 }

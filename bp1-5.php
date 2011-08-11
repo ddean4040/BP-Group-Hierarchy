@@ -63,7 +63,7 @@ function bp_group_hierarchy_override_component_routing() {
 	global $bp;
 	require_once dirname(__FILE__) . '/bp-groups-hierarchy-component.php';
 	$bp->groups = new BP_Groups_Hierarchy_Component();
-	$bp->groups->_setup_globals();
+	$bp->groups->setup_globals();
 }
 
 function bp_group_hierarchy_remove_default_globals_setup() {
