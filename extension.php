@@ -315,6 +315,16 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		</div><br />
 		<?php } ?>
 
+		<div id="pag-top" class="pagination">
+			<div class="pag-count" id="group-dir-count-top">
+				<?php bp_groups_pagination_count() ?>
+			</div>
+	
+			<div class="pagination-links" id="group-dir-pag-top">
+				<?php bp_groups_pagination_links() ?>
+			</div>
+		</div>
+
 		<ul id="groups-list" class="item-list">
 		<?php if($groups_template) : ?>
 			<?php while ( bp_groups() ) : bp_the_group(); ?>
@@ -356,6 +366,17 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			<?php endwhile; ?>
 		<?php endif; ?>
 		</ul>
+		<div id="pag-bottom" class="pagination">
+	
+			<div class="pag-count" id="group-dir-count-bottom">
+				<?php bp_groups_pagination_count() ?>
+			</div>
+	
+			<div class="pagination-links" id="group-dir-pag-bottom">
+				<?php bp_groups_pagination_links() ?>
+			</div>
+	
+		</div>
 		<?php
 		// reset the $groups_template global and continue with the page
 		$groups_template = $parent_template;
