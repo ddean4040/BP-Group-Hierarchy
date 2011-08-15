@@ -49,9 +49,10 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			 * Fill in requests by parent_id for tree traversal on admin side
 			 */
 			$this->groups = bp_group_hierarchy_get_by_hierarchy($this->params);
+			
+			$this->total_group_count = $this->groups['total'];
 			$this->groups = $this->groups['groups'];
 			$this->group_count = count($this->groups);
-			$this->total_group_count = count($this->groups);
 			
 		} else if($this->single_group && $bp->groups->current_group) {
 			/**
