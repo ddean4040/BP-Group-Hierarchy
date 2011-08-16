@@ -271,6 +271,13 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return (is_null($group_count)) ? 0 : $group_count;
 	}
 	
+	function get_tree() {
+		global $wpdb, $bp;
+		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g ORDER BY g.parent_id"  ) );
+		return $groups;
+		
+	}
+	
 	function __isset($varName) {
 		return array_key_exists($varName,$this->vars);
 	}

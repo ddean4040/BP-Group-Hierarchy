@@ -733,10 +733,15 @@ function bp_group_hierarchy_extension_init() {
 			die(__('Failed to load the requested template.','bp-group-hierarchy'));
 		}
 		
-	} else if($bp->group_hierarchy->extension_settings['show_group_tree']) {
-		add_action( 'bp_groups_directory_group_types', 'bp_group_hierarchy_tab' );
+	} else if(bp_is_groups_component() && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['show_group_tree']) {
 		wp_enqueue_script('bp-group-hierarchy-tree-script');
 		wp_enqueue_style('bp-group-hierarchy-tree-style');
+
+		if(floatval(BP_VERSION) > 1.3) {
+			add_action( 'bp_groups_directory_group_filter', 'bp_group_hierarchy_tab' );
+		} else {
+			add_action( 'bp_groups_directory_group_types', 'bp_group_hierarchy_tab' );
+		}
 	}
 	
 }
