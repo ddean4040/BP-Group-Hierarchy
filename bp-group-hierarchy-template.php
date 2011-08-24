@@ -166,7 +166,7 @@ function bp_group_hierarchy_has_subgroups( $group = null ) {
 	if ( !$group ) {
 		$group =& $groups_template->group;
 	}
-
+	
 	return count(BP_Groups_Hierarchy::has_children( $group->id ));
 }
 
