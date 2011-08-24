@@ -302,10 +302,11 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		global $bp, $groups_template;
 		
 		$parent_template = $groups_template;
-		
 		$hide_button = false;
 		
-		if(!is_numeric($page)) {
+		if(isset($_REQUEST['grpage'])) {
+			$page = (int)$_REQUEST['grpage'];
+		} else if(!is_numeric($page)) {
 			$page = 1;
 		} else {
 			$page = (int)$page;
@@ -523,7 +524,7 @@ add_filter( 'bp_group_hierarchy_available_parent_groups', 'bp_group_hierarchy_en
 function bp_group_hierarchy_tab() {
 	global $bp;
 	?>
-	<li id="tree-all"><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_hierarchy_root_slug() . '/tree-all' ?>"><?php echo $bp->group_hierarchy->extension_settings['group_tree_name'] ?></a></li>
+	<li id="tree-all"><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_hierarchy_root_slug() . '/?tree' ?>"><?php echo $bp->group_hierarchy->extension_settings['group_tree_name'] ?></a></li>
 	<?php
 }
 

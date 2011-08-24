@@ -53,6 +53,20 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			$this->total_group_count = $this->groups['total'];
 			$this->groups = $this->groups['groups'];
 			$this->group_count = count($this->groups);
+
+			// Build pagination links
+			if ( (int)$this->total_group_count && (int)$this->pag_num ) {
+				$this->pag_links = paginate_links( array(
+					'base'      => add_query_arg( array( 'grpage' => '%#%', 'num' => $this->pag_num, 'sortby' => $this->sort_by, 'order' => $this->order ) ),
+					'format'    => '',
+					'total'     => ceil( (int)$this->total_group_count / (int)$this->pag_num ),
+					'current'   => $this->pag_page,
+					'prev_text' => '&larr;',
+					'next_text' => '&rarr;',
+					'mid_size'  => 1
+				) );
+			}
+
 			
 		} else if($this->single_group && $bp->groups->current_group) {
 			/**
