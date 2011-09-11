@@ -617,13 +617,74 @@ function bp_group_hierarchy_group_tree_title( $full_title, $title, $sep_location
 	return $full_title . $bp->group_hierarchy->extension_settings['group_tree_name'];
 }
 
+/************************************************************
+ * Enforce toplevel group creation restrictions on the UI
+ */
+
+/**
+ * If the user doesn't have any place to create a new group, don't let him create a group
+ */
+function bp_group_hierarchy_assert_parent_available( $return = false ) {
+	global $bp;
+	
+	if( $cache_result = wp_cache_get( $bp->loggedin_user->id, 'bpgh_has_available_parent_group' ) ) {
+		if($cache_result == 'true') {
+			return true;
+		}
+		if($return) {
+			return false;
+		} else {
+			wp_die( __('You are not authorized to create any groups.','bp-group-hierarchy'), __('Not authorized to create any groups','bp-group-hierarchy') );
+		}
+	}
+	
+	$group_permission = get_site_option('bpgh_extension_toplevel_group_permission');
+	if(
+		$group_permission == 'anyone' || 
+		(has_filter('bp_group_hierarchy_enforce_subgroup_permission_' . $group_permission ) && 
+		apply_filters( 'bp_group_hierarchy_enforce_subgroup_permission_' . $group_permission, false, $bp->loggedin_user->id, 0 ))
+	) {
+		/** If the user can create top-level groups, we're done looking */
+		wp_cache_set( $bp->loggedin_user->id, 'true', 'bpgh_has_available_parent_group' );
+		return true;
+	}
+	
+	$user_groups = groups_get_groups(array('user_id'=>$bp->loggedin_user->id));
+	
+	foreach($user_groups['groups'] as $group) {
+
+		if( bp_group_hierarchy_can_create_subgroups( $bp->loggedin_user->id, $group->id ) ) {
+			/** If the user can create subgroups here, we're done looking */
+			wp_cache_set( $bp->loggedin_user->id, 'true', 'bpgh_has_available_parent_group' );
+			return true;
+		}
+	}
+
+	wp_cache_set( $bp->loggedin_user->id, 'false', 'bpgh_has_available_parent_group' );
+	if($return) {
+		return false;
+	} else {
+		wp_die( __('You are not authorized to create any groups.','bp-group-hierarchy'), __('Not authorized to create any groups','bp-group-hierarchy') );
+	}
+
+}
+add_action( 'bp_before_create_group', 'bp_group_hierarchy_assert_parent_available' );
+
+/**
+ * (BP 1.5.x) Hide the Create a New Group buton if the user doesn't have a place to create new groups
+ */
+function bp_group_hierarchy_can_create_any_group( $permitted, $global_setting ) {
+	global $bp;
+	return $permitted && bp_group_hierarchy_assert_parent_available(true);
+}
+add_filter( 'bp_user_can_create_groups', 'bp_group_hierarchy_can_create_any_group', 10, 2 );
+
 /**
  * 
  * Admin options
  * 
  */
 function bp_group_hierarchy_admin_page() {
-
 	global $bp, $wpdb;
 	
 	$updated = false;

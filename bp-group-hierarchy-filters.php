@@ -99,5 +99,4 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
 }
 add_filter( 'bp_get_group_permalink', 'bp_group_hierarchy_fixup_permalink' );
 
-
 ?>

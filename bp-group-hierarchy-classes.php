@@ -279,7 +279,10 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 	
 	function __isset($varName) {
-		return array_key_exists($varName,$this->vars);
+		if(isset($this->vars)) {
+			return array_key_exists($varName,$this->vars);
+		}
+		return false;
 	}
 	
 	function __set($varName, $value) {
@@ -287,7 +290,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 	
 	function __get($varName) {
-		if(array_key_exists($varName,$this->vars))
+		if(isset($this->vars) && array_key_exists($varName,$this->vars))
 			return $this->vars[$varName];
 		return false;
 	}
