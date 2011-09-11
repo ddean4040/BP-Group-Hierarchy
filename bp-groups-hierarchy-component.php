@@ -39,12 +39,13 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 		if ( bp_is_groups_component() && $group_id = BP_Groups_Hierarchy::group_exists( bp_current_action() ) ) {
 			
 			$bp->is_single_item  = true;
-			$this->current_group = new BP_Groups_Hierarchy( $group_id );
+			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Hierarchy' );
+			$this->current_group = apply_filters( 'bp_groups_current_group_object', new $current_group_class( $group_id ) );
 
 			// When in a single group, the first action is bumped down one because of the
 			// group name, so we need to adjust this and set the group name to current_item.
-			$bp->current_item   = isset( $bp->current_action )      ? $bp->current_action      : false;
-			$bp->current_action = isset( $bp->action_variables[0] ) ? $bp->action_variables[0] : false;
+			$bp->current_item   = isset( $bp->current_action ) ? $bp->current_action : false;
+			$bp->current_action = bp_action_variable( 0 );
 			array_shift( $bp->action_variables );
 
 			// Using "item" not "group" for generic support in other components.
@@ -107,17 +108,16 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			bp_do_404();
 			return;
 		}
-		
-		
+
 		// Group access control
 		if ( bp_is_groups_component() && !empty( $this->current_group ) && !empty( $bp->current_action ) && !$this->current_group->user_has_access ) {
 			if ( is_user_logged_in() ) {
 				// Off-limits to this user. Throw an error and redirect to the
 				// group's home page
 				bp_core_no_access( array(
-					'message'	=> __( 'You do not have access to this group.', 'buddypress' ),
-					'root'		=> bp_get_group_permalink( $bp->groups->current_group ),
-					'redirect'	=> false
+					'message'  => __( 'You do not have access to this group.', 'buddypress' ),
+					'root'     => bp_get_group_permalink( $bp->groups->current_group ),
+					'redirect' => false
 				) );
 			} else {
 				// Allow the user to log in
@@ -134,11 +134,16 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			'group-settings' => array(
 				'name'       => __( 'Settings', 'buddypress' ),
 				'position'   => 10
-			),
-			'group-avatar'   => array(
-				'name'       => __( 'Avatar',   'buddypress' ),
-				'position'   => 20 ),
+			)
 		) );
+
+		// If avatar uploads are not disabled, add avatar option
+		if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) {
+			$this->group_creation_steps['group-avatar'] = array(
+				'name'     => __( 'Avatar',   'buddypress' ),
+				'position' => 20
+			);
+		}
 
 		// If friends component is active, add invitations
 		if ( bp_is_active( 'friends' ) ) {

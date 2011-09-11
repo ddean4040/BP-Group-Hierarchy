@@ -326,6 +326,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		</div><br /><br />
 		<?php } ?>
 
+		<?php if($groups_template && count($groups_template->groups) > 0) : ?>
 		<div class="group">
 
 			<div id="pag-top" class="pagination">
@@ -339,45 +340,37 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			</div>
 	
 			<ul id="groups-list" class="item-list">
-			<?php if($groups_template) : ?>
 				<?php while ( bp_groups() ) : bp_the_group(); ?>
 				<?php $subgroup = $groups_template->group; ?>
 				<?php if($subgroup->status == 'hidden' && !( groups_is_user_member( $bp->loggedin_user->id, $subgroup->id ) || groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) ) continue; ?>
-			<li id="tree-childof_<?php bp_group_id() ?>">
-				<div class="item-avatar">
-					<a href="<?php bp_group_permalink() ?>"><?php bp_group_avatar( 'type=thumb&width=50&height=50' ) ?></a>
-				</div>
-	
-				<div class="item">
-					<div class="item-title"><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></div>
-					<?php if(floatval(BP_VERSION) < 1.3 ) : ?>
-					<div class="item-meta"><span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span></div>
-					<?php else: ?>
-					<div class="item-meta"><span class="activity"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span></div>
-					<?php endif; ?>
-					<div class="item-desc"><?php bp_group_description_excerpt() ?></div>
-	
-					<?php do_action( 'bp_directory_groups_item' ) ?>
-	
-				</div>
-	
-				<div class="action">
-	
-					<?php do_action( 'bp_directory_groups_actions' ) ?>
-	
-					<div class="meta">
-	
-						<?php bp_group_type() ?> / <?php bp_group_member_count() ?>
-	
+				<li id="tree-childof_<?php bp_group_id() ?>">
+					<div class="item-avatar">
+						<a href="<?php bp_group_permalink() ?>"><?php bp_group_avatar( 'type=thumb&width=50&height=50' ) ?></a>
 					</div>
-	
-				</div>
-	
-				<div class="clear"></div>
-			</li>
+		
+					<div class="item">
+						<div class="item-title"><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></div>
+						<?php if(floatval(BP_VERSION) < 1.3 ) : ?>
+						<div class="item-meta"><span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span></div>
+						<?php else: ?>
+						<div class="item-meta"><span class="activity"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span></div>
+						<?php endif; ?>
+						<div class="item-desc"><?php bp_group_description_excerpt() ?></div>
+		
+						<?php do_action( 'bp_directory_groups_item' ) ?>
+		
+					</div>
+		
+					<div class="action">
+						<?php do_action( 'bp_directory_groups_actions' ) ?>
+						<div class="meta">
+							<?php bp_group_type() ?> / <?php bp_group_member_count() ?>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</li>
 		
 				<?php endwhile; ?>
-			<?php endif; ?>
 			</ul>
 			<div id="pag-bottom" class="pagination">
 		
@@ -395,6 +388,11 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			</script>
 			
 		</div>
+		<?php else: ?>
+		<div class="group">
+		<p><?php _e('No member groups were found.','bp-group-hierarchy'); ?></p>
+		</div>
+		<?php endif; ?>
 		<?php
 		// reset the $groups_template global and continue with the page
 		$groups_template = $parent_template;

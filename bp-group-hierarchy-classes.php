@@ -282,6 +282,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		if(isset($this->vars)) {
 			return array_key_exists($varName,$this->vars);
 		}
+		bp_group_hierarchy_debug( 'Magic method: __isset called for "' . $varName . '", but class is not ready.');
 		return false;
 	}
 	
@@ -290,11 +291,13 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 	
 	function __get($varName) {
-		if(isset($this->vars) && array_key_exists($varName,$this->vars))
-			return $this->vars[$varName];
+		if(isset($this->vars)) {
+			if(array_key_exists($varName,$this->vars))
+				return $this->vars[$varName];
+		}
+		bp_group_hierarchy_debug( 'Magic method: __get called for "' . $varName . '", but class is not ready.');
 		return false;
 	}
-	
 	
 }
 ?>
