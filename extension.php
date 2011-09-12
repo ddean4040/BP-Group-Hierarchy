@@ -625,6 +625,8 @@ function bp_group_hierarchy_group_tree_title( $full_title, $title, $sep_location
 function bp_group_hierarchy_assert_parent_available( $return = false ) {
 	global $bp;
 	
+	if(is_super_admin())	return true;
+	
 	if( $cache_result = wp_cache_get( $bp->loggedin_user->id, 'bpgh_has_available_parent_group' ) ) {
 		if($cache_result == 'true') {
 			return true;
@@ -632,7 +634,7 @@ function bp_group_hierarchy_assert_parent_available( $return = false ) {
 		if($return) {
 			return false;
 		} else {
-			wp_die( __('You are not authorized to create any groups.','bp-group-hierarchy'), __('Not authorized to create any groups','bp-group-hierarchy') );
+			wp_die( __( 'Sorry, you are not allowed to create groups.', 'buddypress' ), __( 'Sorry, you are not allowed to create groups.', 'buddypress' ) );
 		}
 	}
 	
@@ -662,7 +664,7 @@ function bp_group_hierarchy_assert_parent_available( $return = false ) {
 	if($return) {
 		return false;
 	} else {
-		wp_die( __('You are not authorized to create any groups.','bp-group-hierarchy'), __('Not authorized to create any groups','bp-group-hierarchy') );
+		wp_die( __( 'Sorry, you are not allowed to create groups.', 'buddypress' ), __( 'Sorry, you are not allowed to create groups.', 'buddypress' ) );
 	}
 
 }
