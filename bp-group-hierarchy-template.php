@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Hierarchy-aware extension for Groups template class
+ * Hierarchy-aware extension of BP 1.2 Groups template class
  */
 class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 
@@ -54,7 +54,7 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			$this->groups = $this->groups['groups'];
 			$this->group_count = count($this->groups);
 
-			// Build pagination links
+			// Re-build pagination links with new group counts
 			if ( (int)$this->total_group_count && (int)$this->pag_num ) {
 				$this->pag_links = paginate_links( array(
 					'base'      => add_query_arg( array( 'grpage' => '%#%', 'num' => $this->pag_num, 'sortby' => $this->sort_by, 'order' => $this->order ) ),

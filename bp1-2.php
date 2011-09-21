@@ -54,7 +54,7 @@ function bp_group_hierarchy_do_routing() {
 			bp_group_hierarchy_debug('Action changed to: ' . $current_action);
 			
 			$action_variables = $action_vars;
-			add_action( 'bp_setup_nav', 'bp_group_hierarchy_setup_nav', 5 );
+			add_action( 'bp_setup_nav', 'bp_group_hierarchy_setup_nav', 9 );
 			remove_action( 'bp_setup_nav', 'groups_setup_nav' );
 		} else {
 			bp_group_hierarchy_debug('Not rewriting current action.');

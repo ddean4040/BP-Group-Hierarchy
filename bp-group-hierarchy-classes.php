@@ -185,7 +185,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 	
 	/**
-	 * Compatibility function for BP 1.2 - 1.3 bridge
+	 * Compatibility function for BP 1.2 - 1.5
 	 */
 	function get_active() {
 		if(method_exists('BP_Groups_Group','get')) {
@@ -282,7 +282,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		if(isset($this->vars)) {
 			return array_key_exists($varName,$this->vars);
 		}
-		bp_group_hierarchy_debug( 'Magic method: __isset called for "' . $varName . '", but class is not ready.');
+		bp_group_hierarchy_debug( 'Magic method: __isset called for "' . $varName . '", but class is not ready.' );
 		return false;
 	}
 	
@@ -295,7 +295,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			if(array_key_exists($varName,$this->vars))
 				return $this->vars[$varName];
 		}
-		bp_group_hierarchy_debug( 'Magic method: __get called for "' . $varName . '", but class is not ready.');
+		bp_group_hierarchy_debug( 'Magic method: __get called for "' . $varName . '", but class is not ready.' );
 		return false;
 	}
 	

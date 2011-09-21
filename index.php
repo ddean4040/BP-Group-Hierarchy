@@ -3,8 +3,8 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.2.3
-Revision Date: 09/12/2011
+Version: 1.2.4
+Revision Date: 09/20/2011
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
 Tested up to: WP 3.2.1 , BuddyPress 1.5-RC-1
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
@@ -18,6 +18,11 @@ define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
 define ( 'BP_GROUP_HIERARCHY_VERSION', '1.2.3' );
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', '1' );
 define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
+
+/**
+ * Change this to enable group activity to propagate upward
+ */
+define ( 'BP_GROUP_HIERARCHY_ENABLE_ACTIVITY_PROPAGATION', false );
 
 //load localization files if present
 if ( file_exists( dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' ) )
@@ -75,8 +80,9 @@ function bp_group_hierarchy_setup_globals() {
 	
 	do_action('bp_group_hierarchy_globals_loaded');
 }
-add_action( 'plugins_loaded', 'bp_group_hierarchy_setup_globals', 10 );
-add_action( 'admin_menu', 'bp_group_hierarchy_setup_globals', 2 );
+add_action( 'bp_setup_globals', 'bp_group_hierarchy_setup_globals' );
+//add_action( 'plugins_loaded', 'bp_group_hierarchy_setup_globals', 10 );
+//add_action( 'admin_menu', 'bp_group_hierarchy_setup_globals', 2 );
 
 /**
  * Activate group extension
@@ -92,6 +98,9 @@ function bp_group_hierarchy_init() {
 }
 add_action( 'bp_include', 'bp_group_hierarchy_init' );
 
+/**
+ * Add hook for intercepting requests before they're routed by normal BP processes
+ */
 function bp_group_hierarchy_override_routing() {
 
 	require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );

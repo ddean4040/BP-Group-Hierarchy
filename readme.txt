@@ -1,10 +1,10 @@
 === BP Group Hierarchy ===
 Contributors: ddean
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDCMJRYPKNN&lc=US&item_name=BP%20Group%20Hierarchy&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDCMJRYPKNN&lc=US&item_name=BP%20Group%20Hierarchy&currency_code=USD
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 
 Allows BuddyPress groups to have subgroups.
 
@@ -19,6 +19,10 @@ Every group and subgroup is a normal BuddyPress group and can have members and a
 = Notes =
 
 Basic testing has revealed no problems with group extensions.  As always, test plugins before deploying to production sites.
+
+= Translation =
+
+* Spanish translation generously provided by <a href="http://dorsvenabili.com">_DorsVenabili</a>
 
 == Installation ==
 
@@ -42,10 +46,11 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 
 = Do activity stream messages propagate up (from child to parent) or down (from parent to child)? =
 
-No. Unfortunately, there is no easy way to have a group subscribe to another group's activity.
-This will require either creating and managing duplicate activity items for each affected group, or creating a mapping of
-additional group IDs for a group to poll when building the activity stream.
+Upward activity stream propagation is disabled by default, but can be enabled by changing the 
+constant `BP_GROUP_HIERARCHY_ENABLE_ACTIVITY_PROPAGATION` in the `index.php` file. 
 
+You should only do this if you really need that function, as each parent group will create a duplicate
+activity entry in the sitewide activity stream.
 
 == Screenshots ==
 
