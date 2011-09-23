@@ -563,25 +563,32 @@ function bp_group_hierarchy_member_group_test() {
 }
 add_action( 'wp_ajax_group_filter', 'bp_group_hierarchy_member_group_test');
 
-/** Enable loading template files from the plugin directory */
+/** 
+ * Enable loading template files from the plugin directory 
+ */
 function bp_group_hierarchy_load_template_filter( $found_template, $templates ) {
-	global $bp;
 	
-	if ( $bp->current_component != 'groups' )
+	if ( !bp_is_groups_component() )
 		return $found_template;
 	
+	$filtered_templates = array();
 	foreach ( (array) $templates as $template ) {
 		if ( file_exists( STYLESHEETPATH . '/' . $template ) ) {
 			$filtered_templates[] = STYLESHEETPATH . '/' . $template;
 		} else if ( file_exists( TEMPLATEPATH . '/' . $template ) ) {
 			$filtered_templates[] = TEMPLATEPATH . '/' . $template;
-		} else {
+		} else if ( file_exists( dirname( __FILE__ ) . '/templates/' . $template ) ) {
 			$filtered_templates[] = dirname( __FILE__ ) . '/templates/' . $template;
+		} else {
+			bp_group_hierarchy_debug( 'Could not locate the requested template file: ' . $template );
 		}
 	}
 	
-	$found_template = $filtered_templates[0];
+	if(count($filtered_templates) == 0 ) {
+		return $found_template;
+	}
 	
+	$found_template = $filtered_templates[0];
 	return $found_template;
 }
 add_filter( 'bp_located_template', 'bp_group_hierarchy_load_template_filter', 10, 2 );
