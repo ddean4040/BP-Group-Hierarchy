@@ -64,6 +64,7 @@ activity entry in the sitewide activity stream.
 * Added: save the parent ID of a new group when group is first saved (only when using the "Create a Member Group" button)
 * Added: respect BuddyPress 1.5 "Restrict group creation to Site Admins" setting
 * Changed: name of some extension functions for more consistent naming
+* Fixed: Member Groups pagination in BuddyPress 1.5
 * Fixed: don't try to load a template file from the plugin folder as a last resort unless it exists
 * Fixed: handling of search placeholder text in BuddyPress 1.5 that caused empty group tree after using the sorting dropdown
 

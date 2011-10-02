@@ -311,7 +311,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			$page = 1;
 		} else {
 			$page = (int)$page;
-			$hide_button = true;
+//			$hide_button = true;
 		}
 		
 		/** Respect BuddyPress group creation restriction */
@@ -326,14 +326,15 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		));
 		
 		?>
-		<?php if(($bp->is_item_admin || $bp->groups->current_group->can_create_subitems) && !$hide_button) { ?>
-		<div class="generic-button group-button">
-			<a title="<?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?>" href="<?php echo $bp->root_domain . '/' . bp_get_groups_hierarchy_root_slug() . '/' . 'create' .'/?parent_id=' . $bp->groups->current_group->id ?>"><?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?></a>
-		</div><br /><br />
-		<?php } ?>
+		<div class="group">
+
+			<?php if(($bp->is_item_admin || $bp->groups->current_group->can_create_subitems) && !$hide_button) { ?>
+			<div class="generic-button group-button">
+				<a title="<?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?>" href="<?php echo $bp->root_domain . '/' . bp_get_groups_hierarchy_root_slug() . '/' . 'create' .'/?parent_id=' . $bp->groups->current_group->id ?>"><?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?></a>
+			</div><br /><br />
+			<?php } ?>
 
 		<?php if($groups_template && count($groups_template->groups) > 0) : ?>
-		<div class="group">
 
 			<div id="pag-top" class="pagination">
 				<div class="pag-count" id="group-dir-count-top">
@@ -391,14 +392,13 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			</div>
 			<script type="text/javascript">
 			jQuery('#nav-hierarchy-personal-li').attr('id','group-hierarchy-personal-li');
+			jQuery('#nav-hierarchy-groups-li').attr('id','group-hierarchy-group-li');
 			</script>
 			
-		</div>
 		<?php else: ?>
-		<div class="group">
 		<p><?php _e('No member groups were found.','bp-group-hierarchy'); ?></p>
-		</div>
 		<?php endif; ?>
+		</div>
 		<?php
 		// reset the $groups_template global and continue with the page
 		$groups_template = $parent_template;
@@ -806,9 +806,6 @@ add_action( 'admin_menu', 'bp_group_hierarchy_extension_admin' );
 
 function bp_group_hierarchy_extension_init() {
 	global $bp;
-	
-	$bp->tree = new stdClass();
-	$bp->tree->search_string = bp_get_search_default_text( 'groups' );
 	
 	add_action( 'wp_ajax_groups_tree_filter', 'bp_dtheme_object_template_loader' );
 	
