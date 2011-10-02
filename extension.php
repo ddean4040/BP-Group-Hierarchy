@@ -99,6 +99,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 
 		if(isset($_COOKIE['bp_new_group_parent_id'])) {
 			$this_group->parent_id = $_COOKIE['bp_new_group_parent_id'];
+			$this_group->save();
 		}
 
 		$groups = BP_Groups_Hierarchy::get_active();
@@ -291,7 +292,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			if( !$success ) {
 				bp_core_add_message( __( 'There was an error saving; please try again.', 'bp-group-hierarchy' ), 'error' );
 			} else {
-				bp_core_add_message( __( 'Group hierarchy settings successfully.', 'bp-group-hierarchy' ) );
+				bp_core_add_message( __( 'Group hierarchy settings saved successfully.', 'bp-group-hierarchy' ) );
 			}
 		}
 		
@@ -311,6 +312,11 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		} else {
 			$page = (int)$page;
 			$hide_button = true;
+		}
+		
+		/** Respect BuddyPress group creation restriction */
+		if(function_exists('bp_user_can_create_groups')) {
+			$hide_button = !bp_user_can_create_groups();
 		}
 		
 		bp_has_groups_hierarchy(array(
@@ -553,15 +559,17 @@ function bp_group_hierarchy_object_template_loader() {
 	if($object == 'tree') {
 		if($template = apply_filters('bp_located_template',locate_template( array( "$object/$object-loop.php" ), false ), "$object/$object-loop.php" )) {
 			load_template($template);
+		} else {
+			bp_group_hierarchy_debug('Failed to find loop template for object: ' . $object);
 		}
 	}
 }
 add_action( 'wp_ajax_tree_filter', 'bp_group_hierarchy_object_template_loader' );
 
-function bp_group_hierarchy_member_group_test() {
+function bp_group_hierarchy_display_member_group_pages() {
 	die(BP_Groups_Hierarchy_Extension::display($_POST['page']));
 }
-add_action( 'wp_ajax_group_filter', 'bp_group_hierarchy_member_group_test');
+add_action( 'wp_ajax_group_filter', 'bp_group_hierarchy_display_member_group_pages');
 
 /** 
  * Enable loading template files from the plugin directory 
@@ -604,11 +612,18 @@ function bp_group_hierarchy_get_groups_tree($groups, $params, $parent_id = 0) {
 		$parent_id = (int)$parent_id;
 	}
 	
-	if(!isset($bp->groups->current_group->id) && !$params['search_terms']) {
-	
-		$params = array_merge( $params, array('parent_id' => $parent_id) );
-		$toplevel_groups = bp_group_hierarchy_get_by_hierarchy( $params );
-		$groups = $toplevel_groups;
+	/** group list processing */
+	if(!isset($bp->groups->current_group->id)) {
+
+		/** remove search placeholder text for BP 1.5 */
+		if(function_exists('bp_get_search_default_text') && trim($params['search_terms']) == bp_get_search_default_text( 'groups' ))	$params['search_terms'] = '';
+		
+		if($params['search_terms'] == '') {
+			$params = array_merge( $params, array('parent_id' => $parent_id) );
+			
+			$toplevel_groups = bp_group_hierarchy_get_by_hierarchy( $params );
+			$groups = $toplevel_groups;
+		}
 		
 	}
 	return $groups;
@@ -791,7 +806,10 @@ add_action( 'admin_menu', 'bp_group_hierarchy_extension_admin' );
 
 function bp_group_hierarchy_extension_init() {
 	global $bp;
-
+	
+	$bp->tree = new stdClass();
+	$bp->tree->search_string = bp_get_search_default_text( 'groups' );
+	
 	add_action( 'wp_ajax_groups_tree_filter', 'bp_dtheme_object_template_loader' );
 	
 	$bp->group_hierarchy->extension_settings = array(
