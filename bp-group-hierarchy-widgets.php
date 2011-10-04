@@ -134,9 +134,13 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 		$parent_id = isset($bp->groups->current_group->id) ? $bp->groups->current_group->id : 0;
 		
 		echo $before_widget;
-		echo $before_title
-		   . $instance['title']
-		   . $after_title; ?>
+		echo $before_title;
+		if($parent_id == 0) {
+			echo $instance['title'];
+		} else {
+			echo $instance['sub_title'];
+		}
+		echo $after_title; ?>
 
 		<?php if ( bp_has_groups_hierarchy( 'type=' . $instance['sort_type'] . '&per_page=' . $instance['max_groups'] . '&max=' . $instance['max_groups'] . '&parent_id=' . $parent_id ) ) : ?>
 
@@ -197,14 +201,16 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 	}
 	
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_groups' => 5, 'title'	=> __('Groups'), 'sort_type' => 'active' ) );
+		$instance = wp_parse_args( (array) $instance, array( 'max_groups' => 5, 'title'	=> __('Groups'), 'sub_title' => __('Member Groups', 'bp-group-hierarchy'), 'sort_type' => 'active' ) );
 		$max_groups = strip_tags( $instance['max_groups'] );
 		$title = strip_tags( $instance['title'] );
+		$sub_title = strip_tags( $instance['sub_title'] );
 		$sort_type = strip_tags( $instance['sort_type'] );
 		$show_desc = $instance['show_desc'] ? true : false;
 		?>
 
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id( 'sub_title' ); ?>"><?php _e('Title when on a group page:', 'bp-group-hierarchy'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'sub_title' ); ?>" name="<?php echo $this->get_field_name( 'sub_title' ); ?>" type="text" value="<?php echo esc_attr( $sub_title ); ?>" /></label></p>
 		<p><label for="<?php echo $this->get_field_id( 'max_groups' ); ?>"><?php _e('Max groups to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_groups' ); ?>" name="<?php echo $this->get_field_name( 'max_groups' ); ?>" type="text" value="<?php echo esc_attr( $max_groups ); ?>" style="width: 30%" /></label></p>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'sort_type' ); ?>">
@@ -226,6 +232,7 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['max_groups'] = strip_tags( $new_instance['max_groups'] );
 		$instance['title'] = strip_tags( $new_instance['title'] );
+		$instance['sub_title'] = strip_tags( $new_instance['sub_title'] );
 		$instance['sort_type'] = strip_tags( $new_instance['sort_type'] );
 		$instance['show_desc'] = isset($new_instance['show_desc']) ? true : false;
 
