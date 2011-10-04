@@ -181,7 +181,12 @@ function bp_group_hierarchy_has_subgroups( $group = null ) {
 		$group =& $groups_template->group;
 	}
 	
-	return count(BP_Groups_Hierarchy::has_children( $group->id ));
+	if(isset($group->child_group_count))	return $group->child_group_count;
+	
+	$child_count = count(BP_Groups_Hierarchy::has_children( $group->id ));
+	$group->child_group_count = $child_count;
+	
+	return $child_count;
 }
 
 function bp_group_hierarchy_has_parent( $group = null ) {

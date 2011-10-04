@@ -60,6 +60,29 @@ activity entry in the sitewide activity stream.
 
 == Changelog ==
 
+= 1.2.5 =
+* Added: save the parent ID of a new group when group is first saved (only when using the "Create a Member Group" button)
+* Added: respect BuddyPress 1.5 "Restrict group creation to Site Admins" setting
+* Changed: name of some extension functions for more consistent naming
+* Fixed: Member Groups pagination in BuddyPress 1.5
+* Fixed: don't try to load a template file from the plugin folder as a last resort unless it exists
+* Fixed: handling of search placeholder text in BuddyPress 1.5 that caused empty group tree after using the sorting dropdown
+
+= 1.2.4 =
+* Added: Spanish translation generously provided by <a href="http://profiles.wordpress.org/users/_DorsVenabili/">@_DorsVenabili</a>
+* Added: can enable activity propagation (but see FAQ for important info)
+* Changed: string in the Top Level Groups widget to be more consistent with BP 1.5
+
+= 1.2.3 =
+* Changed: Group creation wizard error message to BuddyPress standard
+* Changed: use groups->root_slug when available instead of groups->id
+* Fixed: bug that would prevent site admins from creating a first group under certain circumstances
+
+= 1.2.2 =
+* Added: Block users from the group creation wizard when they aren't allowed to create groups anywhere
+* Added: New debugging hooks for magic method errors
+* Changed: improved Member Groups page display
+
 = 1.2.1 =
 * Added: pagination for Member Groups page
 * Changed: improved compatibility with BuddyPress 1.5 

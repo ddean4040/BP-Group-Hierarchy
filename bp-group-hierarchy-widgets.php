@@ -25,7 +25,7 @@ class BP_Toplevel_Groups_Widget extends WP_Widget {
 		   . $instance['title']
 		   . $after_title; ?>
 
-		<?php if ( bp_has_groups_hierarchy( 'type=by_parent&per_page=' . $instance['max_groups'] . '&max=' . $instance['max_groups'] . '&parent_id=0' ) ) : ?>
+		<?php if ( bp_has_groups_hierarchy( 'type=' . $instance['sort_type'] . '&per_page=' . $instance['max_groups'] . '&max=' . $instance['max_groups'] . '&parent_id=0' ) ) : ?>
 
 			<ul id="toplevel-groups-list" class="item-list">
 				<?php while ( bp_groups() ) : bp_the_group(); ?>
@@ -36,11 +36,30 @@ class BP_Toplevel_Groups_Widget extends WP_Widget {
 
 						<div class="item">
 							<div class="item-title"><a href="<?php bp_group_permalink() ?>" title="<?php echo strip_tags(bp_get_group_description_excerpt()) ?>"><?php bp_group_name() ?></a></div>
-							<?php if(floatval(BP_VERSION) > 1.3) { ?>
-							<div class="item-meta"><span class="activity"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span></div>
-							<?php } else { ?>
-							<div class="item-meta"><span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span></div>
-							<?php } ?>
+							<div class="item-meta"><span class="activity">
+								<?php switch($instance['sort_type']) {
+										case 'newest':
+											if(floatval(BP_VERSION) > 1.3)
+												printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
+											else
+												printf( __( 'created %s ago', 'buddypress' ), bp_get_group_date_created() );
+											break;
+										case 'alphabetical':
+										case 'active':
+											if(floatval(BP_VERSION) > 1.3)
+												printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
+											else
+												printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() );
+											break;
+										case 'popular':
+											bp_group_member_count();
+											break;
+										case 'prolific':
+											printf( _n( '%d member group', '%d member groups', bp_group_hierarchy_has_subgroups(), 'bp-group-hierarchy'), bp_group_hierarchy_has_subgroups() );
+									}
+										
+								?>
+							</span></div>
 							<?php if($instance['show_desc']) { ?>
 							<div class="item-desc"><?php bp_group_description_excerpt() ?></div>
 							<?php } ?>
