@@ -18,7 +18,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			'table_name_members'   => $bp->table_prefix . 'bp_groups_members',
 			'table_name_groupmeta' => $bp->table_prefix . 'bp_groups_groupmeta'
 		);
-
+		
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(

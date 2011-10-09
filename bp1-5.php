@@ -10,7 +10,7 @@ function group_hierarchy_override_current_action( $current_action ) {
 	global $bp;
 
 	if(defined('BP_VERSION') && floatval(BP_VERSION) > 1.3) {
-
+		
 		$groups_slug = bp_get_groups_hierarchy_root_slug();
 
 		bp_group_hierarchy_debug('Routing requests for BP 1.5');
@@ -19,11 +19,11 @@ function group_hierarchy_override_current_action( $current_action ) {
 		bp_group_hierarchy_debug('Groups slug: ' . $groups_slug);
 	
 		if($current_action == '')	return $current_action;
-		if($bp->current_component != $groups_slug || in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', $groups_slug, '' ) ) ) ) {
+		if(!bp_is_groups_component() || in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', $groups_slug, '' ) ) ) ) {
 			bp_group_hierarchy_debug('Not rewriting current action.');
 			return $current_action;
 		}
-	
+		
 		$action_vars = $bp->action_variables;
 	
 		$group = new BP_Groups_Hierarchy( $current_action );
@@ -62,13 +62,14 @@ add_filter( 'bp_current_action', 'group_hierarchy_override_current_action' );
 function bp_group_hierarchy_override_component_routing() {
 	global $bp;
 	require_once dirname(__FILE__) . '/bp-groups-hierarchy-component.php';
+	
 	$bp->groups = new BP_Groups_Hierarchy_Component();
 	$bp->groups->setup_globals();
 }
 
 function bp_group_hierarchy_remove_default_globals_setup() {
 	global $bp, $wp_filter;
-
+	
 	/** Can't get the right instance of BP_Groups_Component to remove the action; have to do it the hard way */
 	foreach($wp_filter['bp_setup_globals'][10] as $filter => $properties) {
 		if(is_a($properties['function'][0],'BP_Groups_Component')) {

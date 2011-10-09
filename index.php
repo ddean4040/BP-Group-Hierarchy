@@ -3,8 +3,8 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.2.6-testing
-Revision Date: 10/03/2011
+Version: 1.2.6
+Revision Date: 10/08/2011
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
 Tested up to: WP 3.2.1 , BuddyPress 1.5
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
@@ -15,7 +15,7 @@ Network: true
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
-define ( 'BP_GROUP_HIERARCHY_VERSION', '1.2.5' );
+define ( 'BP_GROUP_HIERARCHY_VERSION', '1.2.6' );
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', '1' );
 define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
 
@@ -81,8 +81,6 @@ function bp_group_hierarchy_setup_globals() {
 	do_action('bp_group_hierarchy_globals_loaded');
 }
 add_action( 'bp_setup_globals', 'bp_group_hierarchy_setup_globals' );
-//add_action( 'plugins_loaded', 'bp_group_hierarchy_setup_globals', 10 );
-//add_action( 'admin_menu', 'bp_group_hierarchy_setup_globals', 2 );
 
 /**
  * Activate group extension
@@ -108,17 +106,26 @@ function bp_group_hierarchy_override_routing() {
 	
 	do_action( 'bp_group_hierarchy_route_requests' );
 }
-add_action( 'bp_loaded', 'bp_group_hierarchy_override_routing', 5 );
+// must be lower than 8 to fire before bp_setup_nav() in BP 1.2
+add_action( 'bp_loaded', 'bp_group_hierarchy_override_routing', 7 );	
 
 
 /** Get the groups slug - covers both BP 1.2 and BP 1.5 group slugs */
 function bp_get_groups_hierarchy_root_slug() {
-	if(defined('BP_GROUPS_SLUG')) {
-		return apply_filters( 'bp_get_groups_slug', BP_GROUPS_SLUG );
-	} else if(class_exists('BP_Groups_Component')) {
+
+	if(class_exists('BP_Groups_Component')) {
+		
 		global $bp;
 		if(isset($bp->groups->root_slug)) return $bp->groups->root_slug;
+		bp_group_hierarchy_debug('Groups root_slug was not set.  Falling back to group ID.');
 		return $bp->groups->id;
+		
+	} else if(defined('BP_GROUPS_SLUG')) {
+		
+		if(defined('BP_VERSION') && floatval(BP_VERSION) > 1.3) {
+			bp_group_hierarchy_debug('Groups Component was not loaded. Is it enabled?');
+		}
+		return apply_filters( 'bp_get_groups_slug', BP_GROUPS_SLUG );
 	}
 }
 
@@ -126,7 +133,7 @@ function bp_group_hierarchy_debug( $message ) {
 	if(defined( 'WP_DEBUG_LOG') ) {
 		$GLOBALS['wp_log']['bp_group_hierarchy'][] = 'BP Group Hierarchy - ' .  $message;
 	}
-	if(defined( 'WP_DEBUG' ) && WP_DEBUG) {
+	if((defined( 'WP_DEBUG' ) && WP_DEBUG)) {
 		echo '<div class="log">BP Group Hierarchy - ' . $message . "</div>\n";
 	}
 }

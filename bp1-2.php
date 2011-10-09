@@ -24,7 +24,7 @@ function bp_group_hierarchy_do_routing() {
 
 		
 		// BP Groups not instantiated yet, and running groups_setup_globals() prevents proper routing, so just make a best-effort copy of the forbidden names list
-		if($current_component == $groups_slug && !in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', $groups_slug, '' ) ) ) ) {
+		if( bp_is_groups_component() && !in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', $groups_slug, '' ) ) ) ) {
 			
 			$action_vars = $action_variables;
 			
@@ -52,9 +52,14 @@ function bp_group_hierarchy_do_routing() {
 			}
 			
 			bp_group_hierarchy_debug('Action changed to: ' . $current_action);
+			bp_group_hierarchy_debug('Action variables set to: ' . print_r($action_vars, true));
 			
 			$action_variables = $action_vars;
-			add_action( 'bp_setup_nav', 'bp_group_hierarchy_setup_nav', 9 );
+			$bp->action_variables = $action_variables;
+			$bp->current_action = $current_action;
+			
+			
+			add_action( 'bp_setup_nav', 'bp_group_hierarchy_setup_nav' );
 			remove_action( 'bp_setup_nav', 'groups_setup_nav' );
 		} else {
 			bp_group_hierarchy_debug('Not rewriting current action.');
@@ -69,12 +74,12 @@ add_action( 'bp_group_hierarchy_route_requests', 'bp_group_hierarchy_do_routing'
 function bp_group_hierarchy_setup_nav() {
 	global $bp;
 
-	if ( $bp->current_component == $bp->groups->slug && $group_id = BP_Groups_Hierarchy::group_exists($bp->current_action) ) {
+	if ( bp_is_groups_component() && $group_id = BP_Groups_Hierarchy::group_exists($bp->current_action) ) {
 
 		/* This is a single group page. */
 		$bp->is_single_item = true;
 		$bp->groups->current_group = new BP_Groups_Hierarchy( $group_id );
-
+		
 		/* Using "item" not "group" for generic support in other components. */
 		if ( is_super_admin() )
 			$bp->is_item_admin = 1;
@@ -101,8 +106,8 @@ function bp_group_hierarchy_setup_nav() {
 	bp_core_new_subnav_item( array( 'name' => __( 'My Groups', 'buddypress' ), 'slug' => 'my-groups', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_my_groups', 'position' => 10, 'item_css_id' => 'groups-my-groups' ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Invites', 'buddypress' ), 'slug' => 'invites', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_invites', 'position' => 30, 'user_has_access' => bp_is_my_profile() ) );
 
-	if ( $bp->current_component == $bp->groups->slug ) {
-
+	if ( bp_is_groups_component() ) {
+		
 		if ( bp_is_my_profile() && !$bp->is_single_item ) {
 
 			$bp->bp_options_title = __( 'My Groups', 'buddypress' );
@@ -129,7 +134,7 @@ function bp_group_hierarchy_setup_nav() {
 				$bp->bp_options_avatar = '<img src="' . esc_attr( $group->avatar_full ) . '" class="avatar" alt="' . esc_attr( $group->name ) . '" />';
 
 			$group_link = $bp->root_domain . '/' . $bp->groups->slug . '/' . $bp->groups->current_group->slug . '/';
-
+			
 			// If this is a private or hidden group, does the user have access?
 			if ( 'private' == $bp->groups->current_group->status || 'hidden' == $bp->groups->current_group->status ) {
 				if ( $bp->groups->current_group->is_user_member && is_user_logged_in() || is_super_admin() )
@@ -168,7 +173,7 @@ function bp_group_hierarchy_setup_nav() {
 			}
 		}
 	}
-
+	
 	do_action( 'groups_setup_nav', $bp->groups->current_group->user_has_access );
 }
 

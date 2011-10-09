@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDC
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 
 Allows BuddyPress groups to have subgroups.
 
@@ -18,7 +18,7 @@ Every group and subgroup is a normal BuddyPress group and can have members and a
 
 = Notes =
 
-Basic testing has revealed no problems with group extensions.  As always, test plugins before deploying to production sites.
+Testing has revealed no problems with group extensions.  As always, test plugins before deploying to production sites.
 
 = Translation =
 
@@ -49,7 +49,7 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 Upward activity stream propagation is disabled by default, but can be enabled by changing the 
 constant `BP_GROUP_HIERARCHY_ENABLE_ACTIVITY_PROPAGATION` in the `index.php` file. 
 
-You should only do this if you really need that function, as each parent group will create a duplicate
+You should only do this if you REALLY need that function, as each parent group level will create a duplicate
 activity entry in the sitewide activity stream.
 
 == Screenshots ==

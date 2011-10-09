@@ -418,16 +418,14 @@ bp_register_group_extension( 'BP_Groups_Hierarchy_Extension' );
 function bp_group_hierarchy_set_parent_id_cookie() {
 	global $current_component, $current_action, $action_variables, $bp;
 	
-	$groups_slug = bp_get_groups_hierarchy_root_slug();
-
-	/** BP 1.3 compatibility */
+	/** BP 1.5 compatibility */
 	if(!isset($current_component)) {
 		bp_core_set_uri_globals();
 		$current_component = $bp->current_component;
 		$current_action = $bp->current_action;
 	}
 
-	if($current_component == $groups_slug && $current_action == 'create' && isset($_REQUEST['parent_id']) && $_REQUEST['parent_id'] != 0) {
+	if(bp_is_groups_component() && $current_action == 'create' && isset($_REQUEST['parent_id']) && $_REQUEST['parent_id'] != 0) {
 		setcookie( 'bp_new_group_parent_id', (int)$_REQUEST['parent_id'], time() + 1000, COOKIEPATH );
 	}
 }
