@@ -3,10 +3,10 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.2.6
-Revision Date: 10/08/2011
+Version: 1.2.7-testing
+Revision Date: 10/19/2011
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
-Tested up to: WP 3.2.1 , BuddyPress 1.5
+Tested up to: WP 3.3-beta1 , BuddyPress 1.5.1
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.generalthreat.com/
@@ -24,8 +24,10 @@ define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
  */
 define ( 'BP_GROUP_HIERARCHY_ENABLE_ACTIVITY_PROPAGATION', false );
 
-//load localization files if present
-if ( file_exists( dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' ) )
+/** load localization files if present */
+if( file_exists( dirname( __FILE__ ) . '/languages/bp-group-hierarchy' . get_locale() . '.mo' ) )
+	load_plugin_textdomain( 'bp-group-hierarchy', false, dirname(plugin_basename(__FILE__)) . '/languages' );
+else if ( file_exists( dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' ) ) {
 	load_textdomain( 'bp-group-hierarchy', dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' );
 
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-filters.php' );
