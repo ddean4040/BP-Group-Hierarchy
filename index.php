@@ -28,7 +28,9 @@ define ( 'BP_GROUP_HIERARCHY_ENABLE_ACTIVITY_PROPAGATION', false );
 if( file_exists( dirname( __FILE__ ) . '/languages/bp-group-hierarchy' . get_locale() . '.mo' ) )
 	load_plugin_textdomain( 'bp-group-hierarchy', false, dirname(plugin_basename(__FILE__)) . '/languages' );
 else if ( file_exists( dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' ) ) {
+	// TODO: deprecate this method and warn
 	load_textdomain( 'bp-group-hierarchy', dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' );
+}
 
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-filters.php' );
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-actions.php' );
