@@ -60,6 +60,11 @@ activity entry in the sitewide activity stream.
 
 == Changelog ==
 
+= 1.2.6 =
+* Added: new Group Navigator widget that shows member groups of the displayed group
+* Added: sorting options for both widgets, including "Most Member Groups"
+* Fixed: support for second level groups root_slug in "Create a Member Group" links - thanks to cyberhobo for catching this
+
 = 1.2.5 =
 * Added: save the parent ID of a new group when group is first saved (only when using the "Create a Member Group" button)
 * Added: respect BuddyPress 1.5 "Restrict group creation to Site Admins" setting
