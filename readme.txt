@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDC
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.2.6
+Stable tag: 1.2.7
 
 Allows BuddyPress groups to have subgroups.
 
@@ -183,6 +183,24 @@ activity entry in the sitewide activity stream.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.2.7 =
+Updated Group Tree template structure and localization support
+
+= 1.2.6 =
+Fixed composite group root slugs - thanks, cyberhobo
+
+= 1.2.5 =
+Fixed dropdown sorting bug on the Group Tree page in BuddyPress 1.5
+
+= 1.2.4 =
+Added Spanish translation, activity propagation, changed widget text to be more consistent
+
+= 1.2.3 =
+Fixed a bug preventing site admins from creating a first group under certain circumstances
+
+= 1.2.2 =
+Bar users from the create group wizard when they have nowhere to put a group
 
 = 1.2.1 =
 Added pagination for Member Groups page and misc. fixes

@@ -119,7 +119,7 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
  ****************************************/
 
 /**
- * Get the fully-qualified name of the group (including all parents)
+ * Echo the fully-qualified name of the group (including all parents)
  */
 function bp_group_hierarchy_full_name() {
 	echo bp_group_hierarchy_get_full_name();
@@ -128,6 +128,10 @@ function bp_get_group_hierarchy_full_name( $separator = '|', $group = false ) {
 	_deprecated_function( __FUNCTION__, '1.1.8', 'bp_group_hierarchy_get_full_name()' );
 	return bp_group_hierarchy_get_full_name( $separator, $group );
 }
+
+/**
+ * Return the fully-qualified name of the group (including all parents)
+ */
 function bp_group_hierarchy_get_full_name( $separator = '|', $group = false ) {
 	global $groups_template;
 	
@@ -143,6 +147,21 @@ function bp_group_hierarchy_get_full_name( $separator = '|', $group = false ) {
 	}
 	
 	return $group_name;
+}
+
+/**
+ * Echo the name selected for the Group Tree
+ */
+function bp_group_hierarchy_group_tree_name() {
+	echo bp_group_hierarchy_get_group_tree_name();
+}
+
+/**
+ * Return the name selected for the Group Tree
+ */
+function bp_group_hierarchy_get_group_tree_name() {
+	global $bp;
+	return $bp->group_hierarchy->extension_settings['group_tree_name'];
 }
 
 /**
