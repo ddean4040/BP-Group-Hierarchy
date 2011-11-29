@@ -84,7 +84,7 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
 	
 	global $bp;
 	
-	$group_slug = substr( $permalink, strlen( $bp->root_domain . '/' . $bp->groups->slug . '/' ), -1 );
+	$group_slug = substr( $permalink, strlen( $bp->root_domain . '/' . bp_get_groups_hierarchy_root_slug() . '/' ), -1 );
 	
 	if(strpos($group_slug,'/'))	return $permalink;
 	
@@ -92,7 +92,7 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
 	
 	if( !is_null($group_id) ) {
 		$group_path = BP_Groups_Hierarchy::get_path( $group_id );
-		return str_replace($group_slug,$group_path,$permalink);
+		return str_replace( '/' . $group_slug . '/', '/' . $group_path . '/', $permalink );
 	}
 	return $permalink;
 	

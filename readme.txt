@@ -3,8 +3,8 @@ Contributors: ddean
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDCMJRYPKNN&lc=US&item_name=BP%20Group%20Hierarchy&currency_code=USD
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
-Tested up to: 3.2.1
-Stable tag: 1.2.7
+Tested up to: 3.3-beta4
+Stable tag: 1.2.8
 
 Allows BuddyPress groups to have subgroups.
 
@@ -60,6 +60,18 @@ activity entry in the sitewide activity stream.
 
 == Changelog ==
 
+= 1.2.8 =
+* Changed: updated Group Component to BuddyPress trunk
+* Changed: switched Member Group sorting to alphabetical
+* Fixed: a bug affecting Request Membership link - thanks, cyberhobo
+* Fixed: a bug affecting permalinks for second level groups root_slug installs
+* Fixed: a rare permalink bug that could create invalid URLs
+
+= 1.2.7 =
+* Added: `bp_group_hierarchy_group_tree_name()` function for template editors
+* Changed: deprecated old translation scheme in favor of support for `load_plugin_textdomain()`
+* Changed: updated `templates/tree/index.php` page to match the structure of BP 1.5.1 pages
+
 = 1.2.6 =
 * Added: new Group Navigator widget that shows member groups of the displayed group
 * Added: sorting options for both widgets, including "Most Member Groups"
@@ -95,8 +107,8 @@ activity entry in the sitewide activity stream.
 = 1.2.0 =
 * Added: BuddyPress 1.5 compatibility (beta 2)
 * Changed: made some filters more consistent
-* Changed: workaround for issue with Doc in Nav (and other plugins that run on bp_setup_nav with priority 10) - thanks, johnny2011
-* Fixed: extension only loaded Group Tree if groups slug was 'groups' - thanks, mutualdesigns
+* Changed: workaround for issue with Doc in Nav (and other plugins that run on bp_setup_nav with priority 10) - thanks, @johnny2011
+* Fixed: extension only loaded Group Tree if groups slug was 'groups' - thanks, @mutualdesigns
 
 = 1.1.9 =
 * Fixed: issues with the admin page and routing
@@ -108,7 +120,7 @@ activity entry in the sitewide activity stream.
 * Changed: disabled paging for subgroups on the Group Tree page
 
 = 1.1.7 =
-* Fixed: bug with my-group display reported by pnerger
+* Fixed: bug with my-group display reported by @pnerger
 
 = 1.1.6 =
 * Added: ability to restrict toplevel group creation to admins only
@@ -119,7 +131,7 @@ activity entry in the sitewide activity stream.
 * Fixed: short open tag in extension.php
 
 = 1.1.4 =
-* Added: 'Nobody' permission - allows only site admins to create child groups (req'd by flynn)
+* Added: 'Nobody' permission - allows only site admins to create child groups (req'd by @flynn)
 * Changed: ID of widget panel to avoid interference with normal Groups widget
 * Changed: Made default values for labels more consistent
 * Fixed: Made group tree more resilient to invalid bp->groups->current_group data

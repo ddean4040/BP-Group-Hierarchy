@@ -1,5 +1,8 @@
 <?php
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	
 	/**
@@ -108,20 +111,35 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			bp_do_404();
 			return;
 		}
+		
+		if ( ! bp_current_action() && !empty( $this->current_group ) ) {
+			$bp->current_action = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
+		}
 
 		// Group access control
-		if ( bp_is_groups_component() && !empty( $this->current_group ) && !empty( $bp->current_action ) && !$this->current_group->user_has_access ) {
-			if ( is_user_logged_in() ) {
-				// Off-limits to this user. Throw an error and redirect to the
-				// group's home page
-				bp_core_no_access( array(
-					'message'  => __( 'You do not have access to this group.', 'buddypress' ),
-					'root'     => bp_get_group_permalink( $bp->groups->current_group ),
-					'redirect' => false
-				) );
-			} else {
-				// Allow the user to log in
-				bp_core_no_access();
+		if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
+			if ( !$this->current_group->user_has_access ) {
+				if ( 'hidden' == $this->current_group->status ) {
+					// Hidden groups should return a 404 for non-members.
+					// Unset the current group so that you're not redirected
+					// to the default group tab
+					$this->current_group = 0;
+					$bp->is_single_item  = false;
+					bp_do_404();
+					return;
+				} elseif ( ! bp_is_current_action( 'home' ) && ! bp_is_current_action( 'request-membership' ) ) {
+					if ( is_user_logged_in() ) {
+						// Off-limits to this user. Throw an error and redirect to the group's home page
+						bp_core_no_access( array(
+							'message'  => __( 'You do not have access to this group.', 'buddypress' ),
+							'root'     => bp_get_group_permalink( $bp->groups->current_group ),
+							'redirect' => false
+						) );
+					} else {
+						// Allow the user to log in
+						bp_core_no_access();
+					}
+				}
 			}
 		}
 
@@ -161,7 +179,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 		) );
 
 		// Auto join group when non group member performs group activity
-		$this->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' );
+		$this->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) && BP_DISABLE_AUTO_GROUP_JOIN ? false : true;
 	}
 
 }

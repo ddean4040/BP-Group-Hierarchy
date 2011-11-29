@@ -251,7 +251,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 				<?php printf( __( 'Allow %1$s to create %2$s', 'bp-group-hierarchy' ), $permission_select, __( 'Member Groups', 'bp-group-hierarchy' ) ); ?>
 			</p>
 			<p>
-				<input type="submit" class="button" id="save" name="save" value="<?php _e( 'Save Changes', 'bp-group-hierarchy' ); ?>" />
+				<input type="submit" class="button primary" id="save" name="save" value="<?php _e( 'Save Changes', 'bp-group-hierarchy' ); ?>" />
 			</p>
 			<?php
 			wp_nonce_field( 'groups_edit_save_' . $this->slug );
@@ -319,7 +319,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		}
 		
 		bp_has_groups_hierarchy(array(
-			'type'		=> 'by_parent',
+			'type'		=> 'alphabetical',
 			'parent_id'	=> $bp->groups->current_group->id,
 			'page'		=> $page
 		));
