@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-group-hierarchy\n"
-"POT-Creation-Date: 2011-10-21 00:52:53+00:00\n"
+"POT-Creation-Date: 2011-11-29 04:03:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,63 +12,44 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: bp-groups-hierarchy-component.php:30
-msgid "Search Groups..."
+#: bp1-2.php:101
+msgid "Groups <span>(%d)</span>"
 msgstr ""
 
-#: bp-groups-hierarchy-component.php:118
-msgid "You do not have access to this group."
+#: bp1-2.php:106 bp1-2.php:113
+msgid "My Groups"
 msgstr ""
 
-#: bp-groups-hierarchy-component.php:131
-msgid "Details"
-msgstr ""
-
-#: bp-groups-hierarchy-component.php:135
-msgid "Settings"
-msgstr ""
-
-#: bp-groups-hierarchy-component.php:143
-msgid "Avatar"
-msgstr ""
-
-#: bp-groups-hierarchy-component.php:151 bp1-2.php:107
+#: bp1-2.php:107 bp-groups-hierarchy-component.php:169
 msgid "Invites"
 msgstr ""
 
-#: templates/tree/index.php:7
-msgid "Groups Directory"
+#: bp1-2.php:133
+msgid "Group Avatar"
 msgstr ""
 
-#: templates/tree/index.php:7
-msgid "Create a Group"
+#: bp1-2.php:155
+msgid "Home"
 msgstr ""
 
-#: templates/tree/index.php:20
-msgid "My Groups (%s)"
+#: bp1-2.php:159
+msgid "Admin"
 msgstr ""
 
-#: templates/tree/index.php:27
-msgid "Order By:"
+#: bp1-2.php:163
+msgid "Request Membership"
 msgstr ""
 
-#: templates/tree/index.php:29 bp-group-hierarchy-widgets.php:112
-#: bp-group-hierarchy-widgets.php:221
-msgid "Last Active"
+#: bp1-2.php:166
+msgid "Forum"
 msgstr ""
 
-#: templates/tree/index.php:30
-msgid "Most Members"
+#: bp1-2.php:168
+msgid "Members (%s)"
 msgstr ""
 
-#: templates/tree/index.php:31 bp-group-hierarchy-widgets.php:111
-#: bp-group-hierarchy-widgets.php:220
-msgid "Newly Created"
-msgstr ""
-
-#: templates/tree/index.php:32 bp-group-hierarchy-widgets.php:110
-#: bp-group-hierarchy-widgets.php:219
-msgid "Alphabetical"
+#: bp1-2.php:172
+msgid "Send Invites"
 msgstr ""
 
 #: templates/tree/tree-loop.php:39 extension.php:360
@@ -83,6 +64,37 @@ msgstr ""
 
 #: templates/tree/tree-loop.php:84
 msgid "There were no groups found."
+msgstr ""
+
+#: templates/tree/index.php:21
+msgid "Create a Group"
+msgstr ""
+
+#: templates/tree/index.php:39
+msgid "My Groups <span>%s</span>"
+msgstr ""
+
+#: templates/tree/index.php:55
+msgid "Order By:"
+msgstr ""
+
+#: templates/tree/index.php:57 bp-group-hierarchy-widgets.php:112
+#: bp-group-hierarchy-widgets.php:221
+msgid "Last Active"
+msgstr ""
+
+#: templates/tree/index.php:58
+msgid "Most Members"
+msgstr ""
+
+#: templates/tree/index.php:59 bp-group-hierarchy-widgets.php:111
+#: bp-group-hierarchy-widgets.php:220
+msgid "Newly Created"
+msgstr ""
+
+#: templates/tree/index.php:60 bp-group-hierarchy-widgets.php:110
+#: bp-group-hierarchy-widgets.php:219
+msgid "Alphabetical"
 msgstr ""
 
 #: extension.php:18 extension.php:812
@@ -283,38 +295,22 @@ msgstr ""
 msgid "Title when on a group page:"
 msgstr ""
 
-#: bp1-2.php:101
-msgid "Groups <span>(%d)</span>"
+#: bp-groups-hierarchy-component.php:33
+msgid "Search Groups..."
 msgstr ""
 
-#: bp1-2.php:106 bp1-2.php:113
-msgid "My Groups"
+#: bp-groups-hierarchy-component.php:134
+msgid "You do not have access to this group."
 msgstr ""
 
-#: bp1-2.php:133
-msgid "Group Avatar"
+#: bp-groups-hierarchy-component.php:149
+msgid "Details"
 msgstr ""
 
-#: bp1-2.php:155
-msgid "Home"
+#: bp-groups-hierarchy-component.php:153
+msgid "Settings"
 msgstr ""
 
-#: bp1-2.php:159
-msgid "Admin"
-msgstr ""
-
-#: bp1-2.php:163
-msgid "Request Membership"
-msgstr ""
-
-#: bp1-2.php:166
-msgid "Forum"
-msgstr ""
-
-#: bp1-2.php:168
-msgid "Members (%s)"
-msgstr ""
-
-#: bp1-2.php:172
-msgid "Send Invites"
+#: bp-groups-hierarchy-component.php:161
+msgid "Avatar"
 msgstr ""
