@@ -2,6 +2,11 @@
 
 define( 'BP_GROUPS_HIERARCHY_ANY_PARENT', -1 );
 
+if( ! class_exists( 'BP_Groups_Group') ) {
+	// Groups component is not enabled; don't initialize this class
+	return;
+}
+
 /**
  * Hierarchy-aware extension for Groups class
  */

@@ -1,5 +1,10 @@
 <?php
 
+if( ! class_exists( 'BP_Groups_Template') ) {
+	// Groups component is not enabled; don't initialize this template class
+	return;
+}
+
 /**
  * Hierarchy-aware extension of BP 1.2 Groups template class
  */

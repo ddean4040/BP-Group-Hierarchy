@@ -7,6 +7,12 @@
  * The other is an administrative and permissions interface for that feature
  * 
  */
+
+if( ! class_exists( 'BP_Group_Extension') ) {
+	// Groups component is not enabled; don't initialize the extension
+	return;
+}
+
 class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	
 	var $visibility = 'public';
@@ -24,7 +30,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			$this->nav_item_name = sprintf($this->nav_item_name, BP_Groups_Hierarchy::get_total_subgroup_count( $bp->groups->current_group->id ) );
 		}
 		
-		$this->slug = 'hierarchy';
+		$this->slug = BP_GROUP_HIERARCHY_SLUG;
 		
 		if(isset($_COOKIE['bp_new_group_parent_id'])) {
 			$bp->group_hierarchy->new_group_parent_id = $_COOKIE['bp_new_group_parent_id'];

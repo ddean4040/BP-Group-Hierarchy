@@ -7,7 +7,6 @@ function bp_group_hierarchy_init_widgets() {
 	register_widget('BP_Toplevel_Groups_Widget');
 	register_widget('BP_Group_Navigator_Widget');
 }
-add_action( 'bp_register_widgets', 'groups_register_widgets' );
 
 /*** TOPLEVEL GROUPS WIDGET *****************/
 class BP_Toplevel_Groups_Widget extends WP_Widget {
@@ -24,7 +23,10 @@ class BP_Toplevel_Groups_Widget extends WP_Widget {
 		echo $before_title
 		   . $instance['title']
 		   . $after_title; ?>
-
+		<?php if( ! class_exists('BP_Groups_Group') ) {
+			 _e( 'You must enable Groups component to use this widget.', 'bp-group-hierarchy' );
+			 return; 
+		} ?>
 		<?php if ( bp_has_groups_hierarchy( 'type=' . $instance['sort_type'] . '&per_page=' . $instance['max_groups'] . '&max=' . $instance['max_groups'] . '&parent_id=0' ) ) : ?>
 
 			<ul id="toplevel-groups-list" class="item-list">
@@ -141,7 +143,10 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 			echo $instance['sub_title'];
 		}
 		echo $after_title; ?>
-
+		<?php if( ! class_exists('BP_Groups_Group') ) {
+			 _e( 'You must enable Groups component to use this widget.', 'bp-group-hierarchy' );
+			 return; 
+		} ?>
 		<?php if ( bp_has_groups_hierarchy( 'type=' . $instance['sort_type'] . '&per_page=' . $instance['max_groups'] . '&max=' . $instance['max_groups'] . '&parent_id=' . $parent_id ) ) : ?>
 
 			<ul id="toplevel-groups-list" class="item-list">

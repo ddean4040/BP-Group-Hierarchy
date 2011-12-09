@@ -3,7 +3,7 @@ Contributors: ddean
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDCMJRYPKNN&lc=US&item_name=BP%20Group%20Hierarchy&currency_code=USD
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
-Tested up to: 3.3-beta4
+Tested up to: 3.3-RC2
 Stable tag: 1.2.8
 
 Allows BuddyPress groups to have subgroups.
@@ -164,7 +164,7 @@ activity entry in the sitewide activity stream.
 = 1.0.7 =
 * Changed: extension brings the Member Groups tab into the BuddyPress loop
 * Changed: behavior of check_slug method for self-sufficiency
-* Fixed: Join and Leave Group buttons on Member Groups tab refer to parent group - thanks, Deadpan110
+* Fixed: Join and Leave Group buttons on Member Groups tab refer to parent group - thanks, @Deadpan110
 
 = 1.0.6 =
 * Fixed: bug that caused forum topics to not display reported by cezar
@@ -174,20 +174,20 @@ activity entry in the sitewide activity stream.
 * Added: Create a Member Group button on Member Groups tab for more streamlined use
 * Changed: Reveal Member Groups tab to those allowed to create subgroups
 * Changed: Default permissions now allow only group members to create subgroups
-* Fixed: Private member groups were not being shown on that tab - thanks, Deadpan110
+* Fixed: Private member groups were not being shown on that tab - thanks, @Deadpan110
 
 = 1.0.4 =
 * Added get_group_extras fixup for Group Forum Extras and others
-* Fixed notification bug reported by cezar
+* Fixed notification bug reported by @cezar
 
 = 1.0.3 =
-* Fixed bug when using custom group slug reported by avahaf
+* Fixed bug when using custom group slug reported by @avahaf
 
 = 1.0.2 =
-* Fixed group invite bug reported by cezar
+* Fixed group invite bug reported by @cezar
 
 = 1.0.1 =
-* Fixed forum permalink bug reported by mtblewis
+* Fixed forum permalink bug reported by @mtblewis
 * Added check_slug_stem function for wildcard searches
 * More documentation
 
@@ -195,6 +195,9 @@ activity entry in the sitewide activity stream.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.2.8 =
+Fixed permalink bugs, membership request bug, and changed Member Groups sort to alphabetical
 
 = 1.2.7 =
 Updated Group Tree template structure and localization support
