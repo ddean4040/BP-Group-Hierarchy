@@ -17,9 +17,10 @@ function group_hierarchy_override_current_action( $current_action ) {
 		bp_group_hierarchy_debug('Current component: ' . $bp->current_component);
 		bp_group_hierarchy_debug('Current action: ' . $current_action);
 		bp_group_hierarchy_debug('Groups slug: ' . $groups_slug);
+		bp_group_hierarchy_debug('Are we on a user profile page?: ' . ( empty($bp->displayed_user->id) ? 'N' : 'Y' ));
 	
 		if($current_action == '')	return $current_action;
-		if(!bp_is_groups_component() || in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', $groups_slug, '' ) ) ) ) {
+		if(!bp_is_groups_component() || ! empty($bp->displayed_user->id) || in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', $groups_slug, '' ) ) ) ) {
 			bp_group_hierarchy_debug('Not rewriting current action.');
 			return $current_action;
 		}
@@ -76,7 +77,6 @@ function bp_group_hierarchy_remove_default_globals_setup() {
 			unset($wp_filter['bp_setup_globals'][10][$filter]);
 		}
 	}
-	remove_action('bp_setup_globals',array($bp->groups,'setup_globals'));
 	add_action('bp_setup_globals','bp_group_hierarchy_override_component_routing');
 }
 add_action('bp_groups_setup_actions','bp_group_hierarchy_remove_default_globals_setup');
