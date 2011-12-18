@@ -3,8 +3,8 @@ Contributors: ddean
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDCMJRYPKNN&lc=US&item_name=BP%20Group%20Hierarchy&currency_code=USD
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
-Tested up to: 3.3-RC2
-Stable tag: 1.2.8
+Tested up to: 3.3
+Stable tag: 1.2.9
 
 Allows BuddyPress groups to have subgroups.
 
@@ -195,6 +195,9 @@ activity entry in the sitewide activity stream.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.2.9 =
+Fixed bug affecting some profile plugins
 
 = 1.2.8 =
 Fixed permalink bugs, membership request bug, and changed Member Groups sort to alphabetical

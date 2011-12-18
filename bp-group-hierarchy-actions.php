@@ -28,6 +28,8 @@ add_action( 'bp_groups_delete_group', 'bp_group_hierarchy_rescue_child_groups' )
 
 function bp_group_hierarchy_propagate_activity($params) {
 	
+	_deprecated_function( __FUNCTION__, '1.2.9');
+	
 	global $bp;
 	
 	if($params['component'] == $bp->groups->id) {

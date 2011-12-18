@@ -136,6 +136,8 @@ function bp_get_group_hierarchy_full_name( $separator = '|', $group = false ) {
 
 /**
  * Return the fully-qualified name of the group (including all parents)
+ * @param string $separator a string to display in between path components
+ * @param BP_Groups_Hierarchy_Template $group optional group object (only needed if not in the loop)
  */
 function bp_group_hierarchy_get_full_name( $separator = '|', $group = false ) {
 	global $groups_template;
@@ -170,11 +172,17 @@ function bp_group_hierarchy_get_group_tree_name() {
 }
 
 /**
- * Get breadcrumbs for a theme
+ * Echo breadcrumbs for the current group
  */
- function bp_group_hierarchy_breadcrumbs() {
- 	echo bp_group_hierarchy_get_breadcrumbs();
- }
+function bp_group_hierarchy_breadcrumbs() {
+	echo bp_group_hierarchy_get_breadcrumbs();
+}
+
+/**
+ * Build breadcrumbs for a group
+ * @param string $separator a string to display in between path components
+ * @param BP_Groups_Hierarchy_Template $group optional group object (only needed if not in the loop)
+ */
 function bp_group_hierarchy_get_breadcrumbs( $separator = '|', $group = false ) {
 	global $groups_template;
 	
@@ -197,6 +205,7 @@ function bp_group_hierarchy_get_breadcrumbs( $separator = '|', $group = false ) 
 
 /**
  * Get the number of subgroups
+ * @param BP_Groups_Hierarchy_Template $group optional group object (only needed if not in the loop)
  */
 function bp_group_hierarchy_has_subgroups( $group = null ) {
 	global $groups_template;
@@ -213,6 +222,29 @@ function bp_group_hierarchy_has_subgroups( $group = null ) {
 	return $child_count;
 }
 
+/**
+ * Get an array of a group's children (direct descendants)
+ * NOTE: please do not use this to create a pseudo-loop for child groups.
+ *       Just use bp_has_groups_hierarchy and life will be better
+ * @param BP_Groups_Hierarchy_Template $group optional group object (only needed if not in the loop)
+ */
+function bp_group_hierarchy_get_subgroups( $group = null ) {
+	global $groups_template;
+	
+	if ( !$group ) {
+		$group =& $groups_template->group;
+	}
+	
+	$children = BP_Groups_Hierarchy::has_children( $group->id );
+	
+	return $children;
+}
+
+/**
+ * Return whether the selected group is top-level
+ * @param BP_Groups_Hierarchy_Template $group optional group object (only needed if not in the loop)
+ * @return boolean TRUE if group has a parent, false if top-level
+ */
 function bp_group_hierarchy_has_parent( $group = null ) {
 	global $groups_template;
 	if ( !$group ) {
@@ -226,6 +258,7 @@ function bp_group_hierarchy_has_parent( $group = null ) {
  * Return an array of the selected group's ancestors
  * For top-level groups, this array is empty
  * You can count the elements in the array to find the depth
+ * @param BP_Groups_Hierarchy_Template $group optional group object (only needed if not in the loop)
  */
 function bp_group_hierarchy_get_parents( $group = null ) {
 	global $groups_template;

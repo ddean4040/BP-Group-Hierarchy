@@ -25,7 +25,7 @@ function bp_group_hierarchy_do_routing() {
 
 		
 		// BP Groups not instantiated yet, and running groups_setup_globals() prevents proper routing, so just make a best-effort copy of the forbidden names list
-		if( bp_is_groups_component() && ! empty($bp->displayed_user->id) && ! in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', $groups_slug, '' ) ) ) ) {
+		if( bp_is_groups_component() && empty($bp->displayed_user->id) && ! in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', $groups_slug, '' ) ) ) ) {
 			
 			$action_vars = $action_variables;
 			
