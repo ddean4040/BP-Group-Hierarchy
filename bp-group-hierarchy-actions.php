@@ -26,6 +26,83 @@ function bp_group_hierarchy_rescue_child_groups( &$parent_group ) {
 
 add_action( 'bp_groups_delete_group', 'bp_group_hierarchy_rescue_child_groups' );
 
+/**
+ * Trigger actions for integrators based on parent / child activity
+ */
+add_action( 'groups_join_group', 'bp_group_hierarchy_notify_relatives_of_join' );
+add_action( 'groups_leave_group', 'bp_group_hierarchy_notify_relatives_of_leave' );
+add_action( 'bp_activity_add', 'bp_group_hierarchy_notify_relatives_of_activity' );
+
+/**
+ * Notify parent and children when a user joins a group
+ */
+function bp_group_hierarchy_notify_relatives_of_join( $group_id, $user_id ) {
+	
+	$group = array('id'	=> $group_id);
+	
+	/** Notify children */
+	if($children = bp_group_hierarchy_get_subgroups((object)$group)) {
+		foreach($children as $subgroup) {
+			do_action('groups_hierarchy_join_parent_group', $subgroup, $user_id );
+		}
+	}
+	
+	/** Notify parent */
+	if($parents = bp_group_hierarchy_get_parents((object)$group) && count($parents) > 0) {
+		do_action('groups_hierarchy_join_child_group', (int)$parents[0], $group_id, $user_id );
+	}
+}
+
+/**
+ * Notify parent and children when a user leaves a group
+ */
+function bp_group_hierarchy_notify_relatives_of_leave( $group_id, $user_id ) {
+	
+	$group = array('id'	=> $group_id);
+	
+	/** Notify children */
+	if($children = bp_group_hierarchy_get_subgroups((object)$group)) {
+		foreach($children as $subgroup) {
+			do_action('groups_hierarchy_leave_parent_group', $subgroup, $user_id );
+		}
+	}
+	
+	/** Notify parent */
+	if($parents = bp_group_hierarchy_get_parents((object)$group) && count($parents) > 0) {
+		do_action('groups_hierarchy_leave_child_group', (int)$parents[0], $group_id, $user_id );
+	}
+}
+
+/**
+ * Notify parent and children of activity in a group
+ */
+function bp_group_hierarchy_notify_relatives_of_activity( $params) {
+	
+	global $bp;
+	
+	if($params['component'] == $bp->groups->id) {
+	
+		$group_id = $params['item_id'];
+		$group = new BP_Groups_Hierarchy( $group_id );
+		
+		/** Notify children */
+		if($children = bp_group_hierarchy_get_subgroups((object)$group)) {
+			foreach($children as $subgroup) {
+				do_action('groups_hierarchy_parent_group_activity_add', $subgroup, $params );
+			}
+		}
+		
+		/** Notify parent */
+		if($parents = bp_group_hierarchy_get_parents((object)$group) && count($parents) > 0) {
+			do_action('groups_hierarchy_child_group_activity_add', (int)$parents[0], $group_id, $params );
+		}
+	}
+}
+
+
+/**
+ * This is deprecated and will be removed SOON
+ */
 function bp_group_hierarchy_propagate_activity($params) {
 	
 	_deprecated_function( __FUNCTION__, '1.2.9');
