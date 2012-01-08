@@ -60,6 +60,15 @@ activity entry in the sitewide activity stream.
 
 == Changelog ==
 
+= 1.2.9 =
+* Added: template function for getting a list of child groups
+* Added: documentation to template functions
+* Changed: made tree-loop template file more close conform to latest groups-loop for theme editors
+* Changed: bail when BuddyPress Groups component is disabled to avoid triggering fatal errors - thanks, 3dperuna
+* Changed: extension uses `BP_GROUP_HIERARCHY_SLUG` constant instead of a separate value
+* Fixed: cleaned up some older code that was triggering warnings
+* Fixed: bug affecting profile plugins under the groups component - thanks, gg565
+
 = 1.2.8 =
 * Changed: updated Group Component to BuddyPress trunk
 * Changed: switched Member Group sorting to alphabetical

@@ -134,11 +134,17 @@ function bp_get_groups_hierarchy_root_slug() {
 }
 
 function bp_group_hierarchy_debug( $message ) {
-	if(defined( 'WP_DEBUG_LOG') ) {
-		$GLOBALS['wp_log']['bp_group_hierarchy'][] = 'BP Group Hierarchy - ' .  $message;
-	}
-	if((defined( 'WP_DEBUG' ) && WP_DEBUG)) {
-		echo '<div class="log">BP Group Hierarchy - ' . $message . "</div>\n";
+	if( defined( 'WP_DEBUG') && WP_DEBUG ) {
+
+		if(defined( 'WP_DEBUG_LOG') && WP_DEBUG_LOG ) {
+			$GLOBALS['wp_log']['bp_group_hierarchy'][] = 'BP Group Hierarchy - ' .  $message;
+			error_log('BP Group Hierarchy - ' .  $message);
+		}
+
+		if( defined('WP_DEBUG_DISPLAY') && false !== WP_DEBUG_DISPLAY) {
+			echo '<div class="log">BP Group Hierarchy - ' . $message . "</div>\n";
+		}
+		
 	}
 }
 
