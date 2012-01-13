@@ -66,7 +66,7 @@ function bp_has_groups_hierarchy($args = '') {
 
 	$groups_template = new BP_Groups_Hierarchy_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, (bool)$populate_extras, (int)$parent_id );
 
-	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), &$groups_template );
+	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), $groups_template );
 
 }
 
