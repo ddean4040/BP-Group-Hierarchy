@@ -1,7 +1,8 @@
 <?php
 
 /**
- *	Override group retrieval for groups template
+ *	Override group retrieval for groups_template,
+ *	replacing every BP_Groups_Group with a BP_Groups_Hierarchy object
  *  @return int|bool number of matching groups or FALSE if none
  */
 function bp_group_hierarchy_override_template($has_groups) {

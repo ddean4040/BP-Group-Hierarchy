@@ -82,6 +82,7 @@ function bp_group_hierarchy_get_by_hierarchy($args) {
 
 		'per_page' => 20, // The number of results to return per page
 		'page' => 1, // The page to return if limiting per page
+		'parent_id' => 0, //
 		'populate_extras' => true, // Fetch meta such as is_banned and is_member
 	);
 

@@ -21,12 +21,13 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 		global $bp;
 		
-		$nav_item_name = get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups (%d)','bp-group-hierarchy') );
+		$nav_item_name = get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups %d','bp-group-hierarchy') );
 		
 		$this->name = __( 'Group Hierarchy', 'bp-group-hierarchy' );
 		$this->nav_item_name = $nav_item_name;
 		
 		if(isset($bp->groups->current_group) && $bp->groups->current_group) {
+			$this->nav_item_name = str_replace( '%d', '<span>%d</span>', $this->nav_item_name );
 			$this->nav_item_name = sprintf($this->nav_item_name, BP_Groups_Hierarchy::get_total_subgroup_count( $bp->groups->current_group->id ) );
 		}
 		
@@ -66,6 +67,8 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	
 	function enable_nav_item() {
 		global $bp;
+		
+		if(is_admin())	return false;
 		
 		/** Only display the nav item for admins, those who can create subgroups, or everyone if the group has subgroups */
 		if (
@@ -610,8 +613,8 @@ add_filter( 'bp_located_template', 'bp_group_hierarchy_load_template_filter', 10
 function bp_group_hierarchy_get_groups_tree($groups, $params, $parent_id = 0) {
 	global $bp, $groups_template;
 	
-	if(isset($_POST['scope']) && $_POST['object'] == 'tree' && $_POST['scope'] != 'all') {
-		$parent_id = substr($_POST['scope'],8);
+	if( isset($_POST['scope']) && $_POST['object'] == 'tree' && $_POST['scope'] != 'all' ) {
+		$parent_id = substr( $_POST['scope'], 8 );
 		$parent_id = (int)$parent_id;
 	}
 	
@@ -619,7 +622,7 @@ function bp_group_hierarchy_get_groups_tree($groups, $params, $parent_id = 0) {
 	if(!isset($bp->groups->current_group->id)) {
 
 		/** remove search placeholder text for BP 1.5 */
-		if(function_exists('bp_get_search_default_text') && trim($params['search_terms']) == bp_get_search_default_text( 'groups' ))	$params['search_terms'] = '';
+		if( function_exists( 'bp_get_search_default_text' ) && trim( $params['search_terms'] ) == bp_get_search_default_text( 'groups' ) )	$params['search_terms'] = '';
 		
 		if($params['search_terms'] == '') {
 			$params = array_merge( $params, array('parent_id' => $parent_id) );

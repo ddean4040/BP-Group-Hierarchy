@@ -3,10 +3,10 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.2.9
-Revision Date: 12/17/2011
+Version: 1.3.0
+Revision Date: 01/22/2012
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
-Tested up to: WP 3.3 , BuddyPress 1.5.2
+Tested up to: WP 3.3.1 , BuddyPress 1.5.3.1
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.generalthreat.com/
@@ -15,14 +15,10 @@ Network: true
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
-define ( 'BP_GROUP_HIERARCHY_VERSION', '1.2.9' );
+define ( 'BP_GROUP_HIERARCHY_VERSION', '1.3.0' );
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', '1' );
-define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
-
-/**
- * Change this to enable group activity to propagate upward
- */
-define ( 'BP_GROUP_HIERARCHY_ENABLE_ACTIVITY_PROPAGATION', false );
+if( ! defined( 'BP_GROUP_HIERARCHY_SLUG' ) )
+	define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
 
 /** load localization files if present */
 if( file_exists( dirname( __FILE__ ) . '/languages/' . dirname(plugin_basename(__FILE__)) . '-' . get_locale() . '.mo' ) ) {
@@ -59,7 +55,7 @@ function bp_group_hierarchy_install() {
 			) {$charset_collate};
 	 	   ";
 
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	dbDelta($sql);
 	
 	update_site_option( 'bp-group-hierarchy-db-version', BP_GROUP_HIERARCHY_DB_VERSION );

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDC
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.2.9
+Stable tag: 1.3.0
 
 Allows BuddyPress groups to have subgroups.
 
@@ -46,11 +46,9 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 
 = Do activity stream messages propagate up (from child to parent) or down (from parent to child)? =
 
-Upward activity stream propagation is disabled by default, but can be enabled by changing the 
-constant `BP_GROUP_HIERARCHY_ENABLE_ACTIVITY_PROPAGATION` in the `index.php` file. 
+No. There is no way to have activity propagate up without creating duplicate entries in the sitewide activity stream.
+This feature will re-appear once I can make a decent interface for it, but probably in an Extras plugin.
 
-You should only do this if you REALLY need that function, as each parent group level will create a duplicate
-activity entry in the sitewide activity stream.
 
 == Screenshots ==
 
@@ -60,10 +58,20 @@ activity entry in the sitewide activity stream.
 
 == Changelog ==
 
+= 1.3.0 =
+* Added: respect for setting BP_GROUPS_HIERARCHY_SLUG constant outside the plugin, for changing Member Groups URL
+* Added: pagination self-sufficiency to BP_Group_Hierarchy_Template class
+* Changed: default Member Groups text to reflect BP 1.5+ tab style
+* Changed: wrap a subgroup count in "Member Groups" tab name in a span tag for proper display in BP 1.5+
+* Changed: switched from deprecated upgrade file to the right one for plugin activation
+* Fixed: bugs that triggered some warnings
+* Fixed: debug functions respect WP_DEBUG_DISPLAY settings - thanks, rolandinsh
+* Removed: ability to enable activity propagation - it will be fixed up and re-released, probably in an extras package
+
 = 1.2.9 =
 * Added: template function for getting a list of child groups
 * Added: documentation to template functions
-* Changed: made tree-loop template file more close conform to latest groups-loop for theme editors
+* Changed: made tree-loop template file more closely conform to latest groups-loop for theme editors
 * Changed: bail when BuddyPress Groups component is disabled to avoid triggering fatal errors - thanks, 3dperuna
 * Changed: extension uses `BP_GROUP_HIERARCHY_SLUG` constant instead of a separate value
 * Fixed: cleaned up some older code that was triggering warnings

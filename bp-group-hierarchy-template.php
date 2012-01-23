@@ -11,8 +11,9 @@ if( ! class_exists( 'BP_Groups_Template') ) {
 class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 
 	var $vars = array();
-
+	
 	function bp_groups_hierarchy_template( ) {
+		
 		$args = func_get_args();
 		if(is_array($args) && count($args) > 1) {
 			list(
@@ -26,6 +27,10 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 				$params['populate_extras'],
 				$params['parent_id']
 			) = $args;
+
+			$params['page'] = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $params['page'];
+			$params['per_page']  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $params['per_page'];
+
 			$this->params = $params;
 			
 			/** add extra args that BP 1.5 expects */
@@ -33,7 +38,7 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 				array_push($args, '');
 				array_push($args, '');
 			}
-						
+			
 			call_user_func_array(array('parent','bp_groups_template'),$args);
 			$this->synchronize();
 		} else {
