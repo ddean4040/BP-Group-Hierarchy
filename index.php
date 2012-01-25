@@ -3,8 +3,8 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.3.0
-Revision Date: 01/22/2012
+Version: 1.3.1-testing
+Revision Date: 01/24/2012
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
 Tested up to: WP 3.3.1 , BuddyPress 1.5.3.1
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
@@ -51,7 +51,7 @@ function bp_group_hierarchy_install() {
 	$sql[] = "CREATE TABLE {$bp->groups->table_name} (
 				`id` bigint(20) NOT NULL AUTO_INCREMENT,
 				`parent_id` bigint(20) NOT NULL DEFAULT 0,
-				KEY `parent_id` (`parent_id`),
+				KEY `bp_group_parent_id` (`parent_id`),
 			) {$charset_collate};
 	 	   ";
 
