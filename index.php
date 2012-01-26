@@ -49,14 +49,15 @@ function bp_group_hierarchy_install() {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
 	$sql[] = "CREATE TABLE {$bp->groups->table_name} (
-				`id` bigint(20) NOT NULL AUTO_INCREMENT,
-				`parent_id` bigint(20) NOT NULL DEFAULT 0,
-				KEY `bp_group_parent_id` (`parent_id`),
+				parent_id BIGINT(20) NOT NULL DEFAULT 0,
+				KEY parent_id (parent_id),
 			) {$charset_collate};
 	 	   ";
 
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-	dbDelta($sql);
+	if( ! get_site_option( 'bp-group-hierarchy-db-version' ) || get_site_option( 'bp-group-hierarchy-db-version' ) < BP_GROUP_HIERARCHY_DB_VERSION ) {
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta($sql);
+	}
 	
 	update_site_option( 'bp-group-hierarchy-db-version', BP_GROUP_HIERARCHY_DB_VERSION );
 }

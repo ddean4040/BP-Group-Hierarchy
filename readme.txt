@@ -213,6 +213,9 @@ This feature will re-appear once I can make a decent interface for it, but proba
 
 == Upgrade Notice ==
 
+= 1.3.0 =
+Cleanup and bug fixes
+
 = 1.2.9 =
 Fixed bug affecting some profile plugins
 

@@ -8,7 +8,9 @@
  */
 function group_hierarchy_override_current_action( $current_action ) {
 	global $bp;
-
+	
+	if( is_admin() ) return $current_action;
+	
 	if(defined('BP_VERSION') && floatval(BP_VERSION) > 1.3) {
 		
 		$groups_slug = bp_get_groups_hierarchy_root_slug();
