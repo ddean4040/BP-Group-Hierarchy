@@ -54,15 +54,54 @@ function bp_group_hierarchy_install() {
 			) {$charset_collate};
 	 	   ";
 
-	if( ! get_site_option( 'bp-group-hierarchy-db-version' ) || get_site_option( 'bp-group-hierarchy-db-version' ) < BP_GROUP_HIERARCHY_DB_VERSION ) {
+	if( ! get_site_option( 'bp-group-hierarchy-db-version' ) || get_site_option( 'bp-group-hierarchy-db-version' ) < BP_GROUP_HIERARCHY_DB_VERSION || ! bp_group_hierarchy_verify_install() ) {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta($sql);
 	}
 	
-	update_site_option( 'bp-group-hierarchy-db-version', BP_GROUP_HIERARCHY_DB_VERSION );
+	if( bp_group_hierarchy_verify_install( true ) ) {
+		update_site_option( 'bp-group-hierarchy-db-version', BP_GROUP_HIERARCHY_DB_VERSION );
+	} else {
+		die('Could not create the required column.  Please enable debugging for more details.');
+	}
 }
 
 register_activation_hook( __FILE__, 'bp_group_hierarchy_install' );
+
+/**
+ * Try to DESCRIBE the groups table to see whether the column exists / was added
+ * @param bool $debug_column Whether to report that the required column wasn't found - this is normal pre-install
+ */
+function bp_group_hierarchy_verify_install( $debug_column = false ) {
+
+	global $wpdb, $bp;
+
+	/** Manually confirm that parent_id column exists */
+	$parent_id_exists = true;
+	$columns = $wpdb->get_results( 'DESCRIBE ' . $bp->groups->table_name );
+	
+	if( $columns ) {
+		$parent_id_exists = false;
+		foreach( $columns as $column ) {
+			if( $column->Field == 'parent_id') {
+				$parent_id_exists = true;
+				break;
+			}
+		}
+		
+		if( ! $parent_id_exists && $debug_column ) {
+			bp_group_hierarchy_debug( 'Required column was not found - last MySQL error was: ' . $wpdb->last_error );
+			return $parent_id_exists;
+		}
+		
+	} else {
+		bp_group_hierarchy_debug( 'Could not DESCRIBE table - last MySQL error was: ' . $wpdb->last_error );
+		return false;
+	}
+	
+	return $parent_id_exists;
+	
+}
 
 /**
  * Set up global variables
@@ -104,6 +143,8 @@ function bp_group_hierarchy_override_routing() {
 
 	require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
 	require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
+
+	if( is_admin() )	return;
 	
 	do_action( 'bp_group_hierarchy_route_requests' );
 }

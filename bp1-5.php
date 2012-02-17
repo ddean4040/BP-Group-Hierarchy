@@ -9,6 +9,9 @@
 function group_hierarchy_override_current_action( $current_action ) {
 	global $bp;
 	
+	/** Only process once - hopefully this won't have any side effects */
+	remove_action( 'bp_current_action', 'group_hierarchy_override_current_action' );
+	
 	if( is_admin() ) return $current_action;
 	
 	if(defined('BP_VERSION') && floatval(BP_VERSION) > 1.3) {

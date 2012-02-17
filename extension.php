@@ -70,6 +70,8 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 		if(is_admin())	return false;
 		
+		if( ! is_object($bp->groups->current_group) )	return false;
+		
 		/** Only display the nav item for admins, those who can create subgroups, or everyone if the group has subgroups */
 		if (
 				$bp->is_item_admin || 

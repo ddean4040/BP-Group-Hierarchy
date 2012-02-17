@@ -2,7 +2,7 @@
 
 define( 'BP_GROUPS_HIERARCHY_ANY_PARENT', -1 );
 
-if( ! class_exists( 'BP_Groups_Group') ) {
+if( ! class_exists( 'BP_Groups_Group' ) ) {
 	// Groups component is not enabled; don't initialize this class
 	return;
 }
@@ -40,7 +40,12 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 
 		parent::populate();
 		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {
-			$this->parent_id = $group->parent_id;
+			if( isset( $group->parent_id ) ) {
+				$this->parent_id = $group->parent_id;
+			} else {
+				bp_group_hierarchy_debug( 'Could not load parent_id column from database.  Hierarchical processing is disabled.' );
+				$this->parent_id = 0;
+			}
 			$this->true_slug = $this->slug;
 			$this->path = $this->buildPath();
 			$this->slug = $this->path;
@@ -125,10 +130,47 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return $wpdb->get_var($wpdb->prepare("SELECT COUNT(g.id) FROM {$bp->groups->table_name} g WHERE g.parent_id=%d AND g.id = %d",$parent_id, $group_id));
 	}
 	
+	function get_total_subgroup_count( $group_id = null ) {
+		global $wpdb, $bp;
+
+		if(is_null($group_id) && isset($this->id)) {
+			$group_id = $this->id;
+		}
+
+		$group_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE parent_id = %d AND status != 'hidden'", $group_id ) );
+		return (is_null($group_count)) ? 0 : $group_count;
+	}
+	
+	function __isset($varName) {
+		if(isset($this->vars)) {
+			return array_key_exists($varName,$this->vars);
+		}
+		bp_group_hierarchy_debug( 'Magic method: __isset called for "' . $varName . '", but class is not ready.' );
+		return false;
+	}
+	
+	function __set($varName, $value) {
+		$this->vars[$varName] = $value;
+	}
+	
+	function __get($varName) {
+		if(isset($this->vars)) {
+			if(array_key_exists($varName,$this->vars))
+				return $this->vars[$varName];
+		}
+		bp_group_hierarchy_debug( 'Magic method: __get called for "' . $varName . '", but class is not ready.' );
+		return false;
+	}
+	
+	/**
+	 * Static functions - I believe these functions to be called exclusively in a static context
+	 */
+	
 	/**
 	 * Check whether slug is valid for a subgroup of passed parent group ID
 	 * @param string Slug group slug to check
 	 * @param int ParentID optional ID of parent group to search (ANY group if omitted)
+	 * Not declared as static in parent, but called statically
 	 */
 	function check_slug( $slug, $parent_id = BP_GROUPS_HIERARCHY_ANY_PARENT ) {
 		global $wpdb, $bp;
@@ -156,6 +198,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return $wpdb->get_col( "SELECT slug FROM {$bp->groups->table_name} WHERE slug LIKE '$slug%'" );
 	}
 	
+	/**
+	 * Not declared as static in parent, but called statically
+	 */
 	function group_exists( $path, $parent_id = 0 ) {
 		
 		if(strpos( $path, '/' )) {
@@ -174,6 +219,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		}
 	}
 	
+	/**
+	 * Not declared as static in parent, but called statically
+	 */
 	function get_id_from_slug( $slug, $parent_id = 0 ) {
 		return self::group_exists( $slug, $parent_id );
 	}
@@ -259,6 +307,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	/**
+	 * Not declared as static in parent, but called statically
+	 */
 	function get_group_extras( $paged_groups, $group_ids, $type = false ) {
 
 		foreach($paged_groups as $key => $group) {
@@ -273,45 +324,13 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 
 		return parent::get_group_extras( $paged_groups, $group_ids, $type );
 	}
-	
-	function get_total_subgroup_count( $group_id = null ) {
-		global $wpdb, $bp;
 
-		if(is_null($group_id) && isset($this->id)) {
-			$group_id = $this->id;
-		}
-
-		$group_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE parent_id = %d AND status != 'hidden'", $group_id ) );
-		return (is_null($group_count)) ? 0 : $group_count;
-	}
-	
 	function get_tree() {
 		global $wpdb, $bp;
 		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g ORDER BY g.parent_id"  ) );
 		return $groups;
 		
 	}
-	
-	function __isset($varName) {
-		if(isset($this->vars)) {
-			return array_key_exists($varName,$this->vars);
-		}
-		bp_group_hierarchy_debug( 'Magic method: __isset called for "' . $varName . '", but class is not ready.' );
-		return false;
-	}
-	
-	function __set($varName, $value) {
-		$this->vars[$varName] = $value;
-	}
-	
-	function __get($varName) {
-		if(isset($this->vars)) {
-			if(array_key_exists($varName,$this->vars))
-				return $this->vars[$varName];
-		}
-		bp_group_hierarchy_debug( 'Magic method: __get called for "' . $varName . '", but class is not ready.' );
-		return false;
-	}
-	
+		
 }
 ?>
