@@ -220,6 +220,9 @@ This feature will re-appear once I can make a decent interface for it, but proba
 
 == Upgrade Notice ==
 
+= 1.3.1 =
+Cleanup and bug fixes - LAST BP 1.2-COMPATIBLE RELEASE
+
 = 1.3.0 =
 Cleanup and bug fixes
 
