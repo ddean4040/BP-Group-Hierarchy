@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDC
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 
 Allows BuddyPress groups to have subgroups.
 
@@ -16,9 +16,9 @@ This plugin allows group creators to place a new group under an existing group. 
 
 Every group and subgroup is a normal BuddyPress group and can have members and a forum, use group extensions, etc.
 
-= Notes =
-
-Testing has revealed no problems with group extensions.  As always, test plugins before deploying to production sites.
+NOTE: THIS WILL BE THE LAST RELEASE TO SUPPORT BuddyPress 1.2! 
+BuddyPress 1.5 has been through several major updates since release, and BuddyPress 1.2 is dead.
+Dropping support for BP 1.2 will free up development and testing time to make things better.
 
 = Translation =
 
@@ -57,6 +57,13 @@ This feature will re-appear once I can make a decent interface for it, but proba
 3. Hierarchy options when creating new groups
 
 == Changelog ==
+
+= 1.3.1 =
+* Added: new safeguards to alert admin when DB changes can't be made, and prevent fatal errors in some cases
+* Added: strip HTML from page titles when displaying member group count in BP 1.2
+* Changed: faster processing in BuddyPress 1.5 by only processing the current_action once
+* Changed: column and key name syntax to reduce errors - thanks, nicosFR and imacg
+* Changed: detection of deprecated BP title hook to avoid potential issue - thanks, tomraff
 
 = 1.3.0 =
 * Added: respect for setting BP_GROUPS_HIERARCHY_SLUG constant outside the plugin, for changing Member Groups URL

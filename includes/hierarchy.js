@@ -16,17 +16,20 @@ jQuery(document).ready( function() {
 		if ( jQuery(this).hasClass('no-ajax') )
 			return;
 
+		/** Find the parent list item of the selected link - this has the scope name in its ID */
 		var target = jQuery(event.target).parents('li');
 		target = target[0];
 		
 		if ( jq(target).is('li') ) {
 			var css_id = jq(target).attr('id').split( '-' );
 			
+			/** This is "tree" - we create an AJAX hook for this and use it to build the list we want */
 			var object = css_id[0];
 
 			if ( 'activity' == object )
 				return false;
 
+			/** This is "childof_{ID}" */
 			var scope = css_id[1];
 			var filter = jq("#" + object + "-order-select select").val();
 			var search_terms = jq("#" + object + "_search").val();

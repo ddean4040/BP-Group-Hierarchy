@@ -55,6 +55,11 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 		if(isset($bp->groups->current_group) && $bp->groups->current_group) {
 			$bp->groups->current_group->can_create_subitems = bp_group_hierarchy_can_create_subgroups();
+			
+			/** strip HTML from page title - only needed for BP 1.2 */
+			if($bp->current_action == $this->slug) {
+				add_filter( 'bp_page_title', 'bp_group_hierarchy_clean_title', 10, 2);
+			}
 		}
 		
 		$this->enable_nav_item = $this->enable_nav_item();
@@ -637,12 +642,23 @@ function bp_group_hierarchy_get_groups_tree($groups, $params, $parent_id = 0) {
 	return $groups;
 }
 
-function bp_group_hierarchy_group_tree_title( $full_title, $title, $sep_location = null) {
+/**
+ * Strip the SPAN tags from the HTML title
+ */
+function bp_group_hierarchy_clean_title( $full_title ) {
+	return strip_tags( html_entity_decode( $full_title ) );
+}
+
+/**
+ * Change the HTML title to reflect custom Group Tree name
+ * Works with either the BP 1.2 bp_page_title hook or the standard wp_title hook used in BP 1.5+
+ */
+function bp_group_hierarchy_group_tree_title( $full_title, $title, $sep_location = null ) {
 	global $bp;
 	if($sep_location != null) {
-		return $bp->group_hierarchy->extension_settings['group_tree_name'] . $full_title;
+		return bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] ) . $full_title;
 	}
-	return $full_title . $bp->group_hierarchy->extension_settings['group_tree_name'];
+	return $full_title . bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] );
 }
 
 /************************************************************
@@ -831,13 +847,13 @@ function bp_group_hierarchy_extension_init() {
 		add_filter( 'groups_get_groups', 'bp_group_hierarchy_get_groups_tree', 10, 2 );
 		
 		/** 'bp_page_title' disappears after 1.2 */
-		if(has_filter( 'bp_page_title' )) {
-			add_filter( 'bp_page_title', 'bp_group_hierarchy_group_tree_title', 10, 2 );
-		} else {
+		if( defined('BP_VERSION') && floatval(BP_VERSION) > 1.3 ) {
 			add_filter( 'wp_title', 'bp_group_hierarchy_group_tree_title', 10, 3 );
+		} else {
+			add_filter( 'bp_page_title', 'bp_group_hierarchy_group_tree_title', 10, 2 );
 		}
 		
-		if($bp->current_action == '' && !isset($_POST['object'])) {
+		if( $bp->current_action == '' && ! isset( $_POST['object'] ) ) {
 			wp_enqueue_script('bp-group-hierarchy-tree-script');
 			wp_enqueue_style('bp-group-hierarchy-tree-style');
 			if($template = apply_filters('bp_located_template',locate_template( array( "tree/index.php" ), false ), "tree/index.php" )) {
@@ -851,7 +867,7 @@ function bp_group_hierarchy_extension_init() {
 		wp_enqueue_script('bp-group-hierarchy-tree-script');
 		wp_enqueue_style('bp-group-hierarchy-tree-style');
 
-		if(floatval(BP_VERSION) > 1.3) {
+		if( defined('BP_VERSION') && floatval(BP_VERSION) > 1.3 ) {
 			add_action( 'bp_groups_directory_group_filter', 'bp_group_hierarchy_tab' );
 		} else {
 			add_action( 'bp_groups_directory_group_types', 'bp_group_hierarchy_tab' );
