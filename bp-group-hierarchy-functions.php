@@ -96,4 +96,11 @@ function bp_group_hierarchy_get_by_hierarchy($args) {
 	return $groups;
 }
 
+/** Alias for bp_get_groups_root_slug originally for BP 1.2 compat */
+function bp_get_groups_hierarchy_root_slug() {
+	_deprecated_function( __FUNCTION__, '1.3.2', 'bp_get_groups_root_slug' );
+	return bp_get_groups_root_slug();
+
+}
+
 ?>

@@ -3,8 +3,8 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.3.1
-Revision Date: 02/21/2012
+Version: 1.3.2-testing
+Revision Date: 03/06/2012
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
 Tested up to: WP 3.3.1 , BuddyPress 1.5.4
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
@@ -32,7 +32,6 @@ require ( dirname( __FILE__ ) . '/bp-group-hierarchy-filters.php' );
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-actions.php' );
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-widgets.php' );
 
-require ( dirname( __FILE__ ) . '/bp1-2.php' );
 require ( dirname( __FILE__ ) . '/bp1-5.php' );
 
 /*************************************************************************
@@ -151,25 +150,6 @@ function bp_group_hierarchy_override_routing() {
 // must be lower than 8 to fire before bp_setup_nav() in BP 1.2
 add_action( 'bp_loaded', 'bp_group_hierarchy_override_routing', 7 );	
 
-
-/** Get the groups slug - covers both BP 1.2 and BP 1.5 group slugs */
-function bp_get_groups_hierarchy_root_slug() {
-
-	if(class_exists('BP_Groups_Component')) {
-		
-		global $bp;
-		if(isset($bp->groups->root_slug)) return $bp->groups->root_slug;
-		bp_group_hierarchy_debug('Groups root_slug was not set.  Falling back to group ID.');
-		return $bp->groups->id;
-		
-	} else if(defined('BP_GROUPS_SLUG')) {
-		
-		if(defined('BP_VERSION') && floatval(BP_VERSION) > 1.3) {
-			bp_group_hierarchy_debug('Groups Component was not loaded. Is it enabled?');
-		}
-		return apply_filters( 'bp_get_groups_slug', BP_GROUPS_SLUG );
-	}
-}
 
 function bp_group_hierarchy_debug( $message ) {
 	if( defined( 'WP_DEBUG') && WP_DEBUG ) {
