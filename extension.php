@@ -345,7 +345,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 
 			<?php if(($bp->is_item_admin || $bp->groups->current_group->can_create_subitems) && !$hide_button) { ?>
 			<div class="generic-button group-button">
-				<a title="<?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?>" href="<?php echo $bp->root_domain . '/' . bp_get_groups_hierarchy_root_slug() . '/' . 'create' .'/?parent_id=' . $bp->groups->current_group->id ?>"><?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?></a>
+				<a title="<?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?>" href="<?php echo $bp->root_domain . '/' . bp_get_groups_root_slug() . '/' . 'create' .'/?parent_id=' . $bp->groups->current_group->id ?>"><?php printf( __( 'Create a %s', 'bp-group-hierarchy' ),__( 'Member Group', 'bp-group-hierarchy' ) ) ?></a>
 			</div><br /><br />
 			<?php } ?>
 
@@ -541,7 +541,7 @@ add_filter( 'bp_group_hierarchy_available_parent_groups', 'bp_group_hierarchy_en
 function bp_group_hierarchy_tab() {
 	global $bp;
 	?>
-	<li id="tree-all"><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_hierarchy_root_slug() . '/?tree' ?>"><?php echo $bp->group_hierarchy->extension_settings['group_tree_name'] ?></a></li>
+	<li id="tree-all"><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/?tree' ?>"><?php echo $bp->group_hierarchy->extension_settings['group_tree_name'] ?></a></li>
 	<?php
 }
 

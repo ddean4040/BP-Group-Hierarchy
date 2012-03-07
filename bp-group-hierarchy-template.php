@@ -191,7 +191,7 @@ function bp_group_hierarchy_breadcrumbs() {
 function bp_group_hierarchy_get_breadcrumbs( $separator = '|', $group = false ) {
 	global $groups_template;
 	
-	$groups_slug = bp_get_groups_hierarchy_root_slug();
+	$groups_slug = bp_get_groups_root_slug();
 	
 	if ( !$group ) {
 		/** need a copy since we're going to walk up the tree */

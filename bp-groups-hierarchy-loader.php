@@ -6,6 +6,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	
 	/**
+	 * Stub this function to prevent re-including files
+	 */
+	function includes() {}
+	
+	/**
 	 * A hierarchy-aware copy of the setup_globals function from BP_Groups_Component
 	 */
 	function setup_globals() {
@@ -37,7 +42,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 		call_user_func(array(get_parent_class(get_parent_class($this)),'setup_globals'), $globals );
 
 		/** Single Group Globals **********************************************/
-
+		
 		// Are we viewing a single group?
 		if ( bp_is_groups_component() && $group_id = BP_Groups_Hierarchy::group_exists( bp_current_action() ) ) {
 			
@@ -183,5 +188,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	}
 
 }
+
+$bp->groups = new BP_Groups_Hierarchy_Component();
 
 ?>

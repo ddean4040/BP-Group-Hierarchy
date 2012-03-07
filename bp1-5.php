@@ -16,7 +16,7 @@ function group_hierarchy_override_current_action( $current_action ) {
 	
 	if(defined('BP_VERSION') && floatval(BP_VERSION) > 1.3) {
 		
-		$groups_slug = bp_get_groups_hierarchy_root_slug();
+		$groups_slug = bp_get_groups_root_slug();
 
 		bp_group_hierarchy_debug('Routing requests for BP 1.5');
 		bp_group_hierarchy_debug('Current component: ' . $bp->current_component);
@@ -67,23 +67,29 @@ add_filter( 'bp_current_action', 'group_hierarchy_override_current_action' );
 
 function bp_group_hierarchy_override_component_routing() {
 	global $bp;
-	require_once dirname(__FILE__) . '/bp-groups-hierarchy-component.php';
-	
-	$bp->groups = new BP_Groups_Hierarchy_Component();
 	$bp->groups->setup_globals();
 }
 
-function bp_group_hierarchy_remove_default_globals_setup() {
+/**
+ * Probably deprecated
+ */
+function bp_group_hierarchy_remove_default_groups_setup() {
 	global $bp, $wp_filter;
 	
 	/** Can't get the right instance of BP_Groups_Component to remove the action; have to do it the hard way */
 	foreach($wp_filter['bp_setup_globals'][10] as $filter => $properties) {
-		if(is_a($properties['function'][0],'BP_Groups_Component')) {
-			unset($wp_filter['bp_setup_globals'][10][$filter]);
+		if( $properties['function'][0] instanceof BP_Groups_Component 
+			&& ! $properties['function'][0] instanceof BP_Groups_Hierarchy_Component) {
+
+//		if(is_a($properties['function'][0],'BP_Groups_Component')) {
+			print_r( $properties );
+//			unset($wp_filter['bp_setup_globals'][10][$filter]);
 		}
 	}
-	add_action('bp_setup_globals','bp_group_hierarchy_override_component_routing');
+//	add_action('bp_setup_globals','bp_group_hierarchy_override_component_routing');
+	
+	
 }
-add_action('bp_groups_setup_actions','bp_group_hierarchy_remove_default_globals_setup');
+//add_action('bp_groups_setup_actions','bp_group_hierarchy_remove_default_groups_setup');
 
 ?>

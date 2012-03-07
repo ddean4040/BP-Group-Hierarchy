@@ -18,14 +18,13 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		
 		global $bp, $wpdb;
 
-		if(!isset($bp->table_prefix)) {
+		if(!isset($bp->table_prefix))
 			bp_core_setup_globals();
-		}
-		if(!isset($bp->groups)) {
-			groups_setup_globals();
-		}
 		
-		if(!is_numeric($id)) {
+		if(!isset($bp->groups))
+			groups_setup_globals();
+		
+		if( ! is_numeric( $id ) ) {
 			$id = $this->group_exists( $id, $parent_id );
 		}
 		
@@ -39,7 +38,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		global $wpdb, $bp;
 
 		parent::populate();
-		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {
+		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.parent_id FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {
 			if( isset( $group->parent_id ) ) {
 				$this->parent_id = $group->parent_id;
 			} else {
@@ -258,6 +257,8 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		if( !empty($search_terms)) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+		} else {
+			$search_sql = '';
 		}
 		
 		if ( $limit && $page ) {

@@ -129,8 +129,8 @@ function bp_group_hierarchy_init() {
 	/** Enable logging with WP Debug Logger */
 	$GLOBALS['wp_log_plugins'][] = 'bp_group_hierarchy';
 	
-	require ( dirname( __FILE__ ) . '/extension.php' );
 	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-functions.php' );
+	require ( dirname( __FILE__ ) . '/extension.php' );
 	
 }
 add_action( 'bp_include', 'bp_group_hierarchy_init' );

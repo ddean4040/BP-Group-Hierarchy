@@ -85,7 +85,7 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
 	
 	global $bp;
 	
-	$group_slug = substr( $permalink, strlen( $bp->root_domain . '/' . bp_get_groups_hierarchy_root_slug() . '/' ), -1 );
+	$group_slug = substr( $permalink, strlen( $bp->root_domain . '/' . bp_get_groups_root_slug() . '/' ), -1 );
 	
 	if(strpos($group_slug,'/'))	return $permalink;
 	
@@ -100,4 +100,38 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
 }
 add_filter( 'bp_get_group_permalink', 'bp_group_hierarchy_fixup_permalink' );
 
+
+/**
+ * Load the normal BP_Groups_Component, then quickly replace it with the derived class and prevent re-loading
+ * This loads the Groups component out of order, but testing has revelead no issues
+ */
+function bp_group_hierarchy_overload_groups( $components ) {
+	
+	if(is_admin())	return $components;
+	
+	global $bp;
+
+	$components = array_flip( $components );
+
+	if( array_key_exists( 'groups', $components ) ) {
+
+		include_once( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php' );
+		
+		remove_action( 'bp_setup_globals', array( $bp->groups, 'setup_globals' ));
+		remove_action( 'bp_setup_nav', array( $bp->groups, 'setup_nav' ));
+		remove_action( 'bp_setup_title', array( $bp->groups, 'setup_title' ));
+		
+//		add_action('bp_groups_setup_actions','bp_group_hierarchy_remove_default_groups_setup');
+		
+		include_once dirname(__FILE__) . '/bp-groups-hierarchy-loader.php';
+		
+	}
+
+	unset($components['groups']);
+	$components = array_flip( $components );
+	
+	return $components;
+	
+}
+add_filter( 'bp_optional_components', 'bp_group_hierarchy_overload_groups' );
 ?>

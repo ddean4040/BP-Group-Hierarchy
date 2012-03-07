@@ -96,6 +96,22 @@ function bp_group_hierarchy_get_by_hierarchy($args) {
 	return $groups;
 }
 
+/**
+ * Function for creating groups with parents programmatically
+ * @param array Args same as groups_create_group, but accepts a 'parent_id' param
+ */
+function groups_hierarchy_create_group( $args = '' ) {
+	if( $group_id = groups_create_group( $args ) ) {
+		if(isset($args['parent_id'])) {
+			$group = new BP_Group_Hierarchy( $group_id );
+			$group->parent_id = (int)$args['parent_id'];
+			$group->save();
+		}
+		return $group_id;
+	}
+	return false;
+}
+
 /** Alias for bp_get_groups_root_slug originally for BP 1.2 compat */
 function bp_get_groups_hierarchy_root_slug() {
 	_deprecated_function( __FUNCTION__, '1.3.2', 'bp_get_groups_root_slug' );

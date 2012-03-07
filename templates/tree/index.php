@@ -18,7 +18,7 @@
 
 		<form action="" method="post" id="groups-directory-form" class="dir-form">
 
-			<h3><?php bp_group_hierarchy_group_tree_name(); ?><?php if ( is_user_logged_in() ) : ?> &nbsp;<a class="button" href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_hierarchy_root_slug() . '/create' ); ?>"><?php _e( 'Create a Group', 'buddypress' ) ?></a><?php endif; ?></h3>
+			<h3><?php bp_group_hierarchy_group_tree_name(); ?><?php if ( is_user_logged_in() ) : ?> &nbsp;<a class="button" href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create' ); ?>"><?php _e( 'Create a Group', 'buddypress' ) ?></a><?php endif; ?></h3>
 
 			<?php do_action( 'bp_before_directory_groups_content' ); ?>
 
@@ -32,11 +32,11 @@
 
 			<div class="item-list-tabs" role="navigation">
 				<ul>
-					<li class="selected" id="tree-all"><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_hierarchy_root_slug() ?>"><?php bp_group_hierarchy_group_tree_name(); ?></a></li>
+					<li class="selected" id="tree-all"><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_root_slug() ?>"><?php bp_group_hierarchy_group_tree_name(); ?></a></li>
 
 					<?php if ( is_user_logged_in() && bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) : ?>
 
-						<li id="groups-personal"><a href="<?php echo trailingslashit( bp_loggedin_user_domain() . bp_get_groups_hierarchy_root_slug() . '/my-groups' ); ?>"><?php printf( __( 'My Groups <span>%s</span>', 'buddypress' ), bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
+						<li id="groups-personal"><a href="<?php echo trailingslashit( bp_loggedin_user_domain() . bp_get_groups_root_slug() . '/my-groups' ); ?>"><?php printf( __( 'My Groups <span>%s</span>', 'buddypress' ), bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
 
 					<?php endif; ?>
 
