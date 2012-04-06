@@ -16,17 +16,10 @@ Network: true
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
 define ( 'BP_GROUP_HIERARCHY_VERSION', '1.3.1' );
-define ( 'BP_GROUP_HIERARCHY_DB_VERSION', '1' );
+define ( 'BP_GROUP_HIERARCHY_DB_VERSION', 1 );
 if( ! defined( 'BP_GROUP_HIERARCHY_SLUG' ) )
 	define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
 
-/** load localization files if present */
-if( file_exists( dirname( __FILE__ ) . '/languages/' . dirname(plugin_basename(__FILE__)) . '-' . get_locale() . '.mo' ) ) {
-	load_plugin_textdomain( 'bp-group-hierarchy', false, dirname(plugin_basename(__FILE__)) . '/languages' );
-} else if ( file_exists( dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' ) ) {
-	_doing_it_wrong( 'load_textdomain', 'Please rename your translation files to use the ' . dirname(plugin_basename(__FILE__)) . '-' . get_locale() . '.mo' . ' format', '1.2.7' );
-	load_textdomain( 'bp-group-hierarchy', dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' );
-}
 
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-filters.php' );
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-actions.php' );

@@ -37,7 +37,7 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			array_push($args, '');
 			array_push($args, '');
 			
-			call_user_func_array(array('parent','bp_groups_template'),$args);
+			call_user_func_array(array('parent','__construct'),$args);
 			$this->synchronize();
 		} else {
 			$this->params = array();

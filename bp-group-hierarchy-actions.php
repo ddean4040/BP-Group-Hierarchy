@@ -1,5 +1,7 @@
 <?php
 
+add_action( 'bp_init', 'bp_group_hierarchy_load_translations');
+
 /** This function appears to work when loaded at bp_loaded, but more research is needed */
 add_action( 'bp_loaded', 'bp_group_hierarchy_init' );
 
@@ -50,6 +52,17 @@ function bp_group_hierarchy_override_routing() {
 	if( is_admin() )	return;
 	
 	do_action( 'bp_group_hierarchy_route_requests' );
+}
+
+function bp_group_hierarchy_load_translations() {
+	/** load localization files if present */
+	if( file_exists( dirname( __FILE__ ) . '/languages/' . dirname(plugin_basename(__FILE__)) . '-' . get_locale() . '.mo' ) ) {
+		return load_plugin_textdomain( 'bp-group-hierarchy', false, dirname(plugin_basename(__FILE__)) . '/languages' );
+	} else if ( file_exists( dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' ) ) {
+		_doing_it_wrong( 'load_textdomain', 'Please rename your translation files to use the ' . dirname(plugin_basename(__FILE__)) . '-' . get_locale() . '.mo' . ' format', '1.2.7' );
+		return load_textdomain( 'bp-group-hierarchy', dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' );
+	}
+	return false;
 }
 
 /**
