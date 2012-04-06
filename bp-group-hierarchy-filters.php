@@ -1,7 +1,7 @@
 <?php
 
 /**
- *	Override group retrieval for groups_template,
+ *	Override group retrieval for global $groups_template,
  *	replacing every BP_Groups_Group with a BP_Groups_Hierarchy object
  *  @return int|bool number of matching groups or FALSE if none
  */
@@ -33,8 +33,6 @@ function bp_group_hierarchy_override_template($has_groups) {
 	foreach($groups_hierarchy_template->groups as $key => $group) {
 		if(isset($group->id)) {
 			$groups_hierarchy_template->groups[$key] = new BP_Groups_Hierarchy($group->id);
-		} else {
-//			$groups_hierarchy_template->groups[$key] = new BP_Groups_Hierarchy($group->group_id);	
 		}
 	}
 	$groups_template = $groups_hierarchy_template;
@@ -103,7 +101,7 @@ add_filter( 'bp_get_group_permalink', 'bp_group_hierarchy_fixup_permalink' );
 
 /**
  * Load the normal BP_Groups_Component, then quickly replace it with the derived class and prevent re-loading
- * This loads the Groups component out of order, but testing has revelead no issues
+ * This loads the Groups component out of order, but testing has revealed no issues
  */
 function bp_group_hierarchy_overload_groups( $components ) {
 	
@@ -129,6 +127,7 @@ function bp_group_hierarchy_overload_groups( $components ) {
 
 			include_once dirname(__FILE__) . '/bp-group-hierarchy-loader.php';
 
+			/** Remove these actions while the $bp->groups reference is correct */
 			remove_action( 'bp_setup_globals', array( $bp->groups, 'setup_globals' ));
 			remove_action( 'bp_setup_nav', array( $bp->groups, 'setup_nav' ));
 			remove_action( 'bp_setup_title', array( $bp->groups, 'setup_title' ));
@@ -136,7 +135,6 @@ function bp_group_hierarchy_overload_groups( $components ) {
 			bp_setup_groups_hierarchy();
 			
 		}
-
 		
 	}
 

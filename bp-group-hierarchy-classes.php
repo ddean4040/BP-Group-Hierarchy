@@ -48,15 +48,15 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 
 //		parent::populate();
 		parent::__construct( $this->id );
-		if ( $parent_id = $wpdb->get_var( $wpdb->prepare( "SELECT g.parent_id FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {
-			$this->parent_id = $parent_id;
-		} else {
+ 		$parent_id = $wpdb->get_var( $wpdb->prepare( "SELECT g.parent_id FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) );
+		if ( is_null( $parent_id ) ) {
 			bp_group_hierarchy_debug( 'Could not load parent_id column from database.  Hierarchical processing is disabled.' );
 			$this->parent_id = 0;
+		} else {
+			$this->parent_id = $parent_id;
 		}
 		$this->true_slug = $this->slug;
-		$this->path = $this->buildPath();
-		$this->slug = $this->path;
+		$this->slug = $this->path = $this->buildPath();
 	}
 	
 	function buildPath() {
