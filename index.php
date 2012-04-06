@@ -4,8 +4,8 @@ Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
 Version: 1.3.2-testing
-Revision Date: 03/06/2012
-Requires at least: PHP 5, WP 3.0, BuddyPress 1.2
+Revision Date: 04/06/2012
+Requires at least: PHP 5, WP 3.0, BuddyPress 1.5
 Tested up to: WP 3.3.1 , BuddyPress 1.5.4
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
@@ -31,8 +31,6 @@ if( file_exists( dirname( __FILE__ ) . '/languages/' . dirname(plugin_basename(_
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-filters.php' );
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-actions.php' );
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-widgets.php' );
-
-require ( dirname( __FILE__ ) . '/bp1-5.php' );
 
 /*************************************************************************
 *********************SETUP AND INSTALLATION*******************************
@@ -103,54 +101,8 @@ function bp_group_hierarchy_verify_install( $debug_column = false ) {
 }
 
 /**
- * Set up global variables
+ * Debugging function
  */
-function bp_group_hierarchy_setup_globals() {
-	global $bp, $wpdb;
-
-	/* For internal identification */
-	$bp->group_hierarchy->id = 'group_hierarchy';
-	$bp->group_hierarchy->table_name = $wpdb->base_prefix . 'bp_group_hierarchy';
-	$bp->group_hierarchy->format_notification_function = 'bp_group_hierarchy_format_notifications';
-	$bp->group_hierarchy->slug = BP_GROUP_HIERARCHY_SLUG;
-	
-	/* Register this in the active components array */
-	$bp->active_components[$bp->group_hierarchy->slug] = $bp->group_hierarchy->id;
-	
-	do_action('bp_group_hierarchy_globals_loaded');
-}
-add_action( 'bp_setup_globals', 'bp_group_hierarchy_setup_globals' );
-
-/**
- * Activate group extension
- */
-function bp_group_hierarchy_init() {
-	
-	/** Enable logging with WP Debug Logger */
-	$GLOBALS['wp_log_plugins'][] = 'bp_group_hierarchy';
-	
-	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-functions.php' );
-	require ( dirname( __FILE__ ) . '/extension.php' );
-	
-}
-add_action( 'bp_include', 'bp_group_hierarchy_init' );
-
-/**
- * Add hook for intercepting requests before they're routed by normal BP processes
- */
-function bp_group_hierarchy_override_routing() {
-
-	require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
-	require_once ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
-
-	if( is_admin() )	return;
-	
-	do_action( 'bp_group_hierarchy_route_requests' );
-}
-// must be lower than 8 to fire before bp_setup_nav() in BP 1.2
-add_action( 'bp_loaded', 'bp_group_hierarchy_override_routing', 7 );	
-
-
 function bp_group_hierarchy_debug( $message ) {
 	if( defined( 'WP_DEBUG') && WP_DEBUG ) {
 

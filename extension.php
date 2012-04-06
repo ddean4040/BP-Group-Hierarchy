@@ -6,6 +6,8 @@
  * and allows creators to place new groups within the hierarchy.
  * The other is an administrative and permissions interface for that feature
  * 
+ * This is not tied to the implementation of hierarchical groups contained in the other files
+ * 
  */
 
 if( ! class_exists( 'BP_Group_Extension') ) {
@@ -631,8 +633,9 @@ function bp_group_hierarchy_get_groups_tree($groups, $params, $parent_id = 0) {
 		/** remove search placeholder text for BP 1.5 */
 		if( function_exists( 'bp_get_search_default_text' ) && trim( $params['search_terms'] ) == bp_get_search_default_text( 'groups' ) )	$params['search_terms'] = '';
 		
-		if($params['search_terms'] == '') {
-			$params = array_merge( $params, array('parent_id' => $parent_id) );
+		if( empty( $params['search_terms'] ) ) {
+	
+			$params['parent_id'] = $parent_id;
 			
 			$toplevel_groups = bp_group_hierarchy_get_by_hierarchy( $params );
 			$groups = $toplevel_groups;
@@ -856,7 +859,8 @@ function bp_group_hierarchy_extension_init() {
 		if( $bp->current_action == '' && ! isset( $_POST['object'] ) ) {
 			wp_enqueue_script('bp-group-hierarchy-tree-script');
 			wp_enqueue_style('bp-group-hierarchy-tree-style');
-			if($template = apply_filters('bp_located_template',locate_template( array( "tree/index.php" ), false ), "tree/index.php" )) {
+			if( $template = apply_filters( 'bp_located_template', locate_template( array( 'tree/index.php' ), false ), 'tree/index.php' ) ) {
+
 				load_template($template);
 				die;
 			}

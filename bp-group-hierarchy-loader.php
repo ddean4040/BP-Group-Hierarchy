@@ -5,11 +5,41 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	
-	/**
-	 * Stub this function to prevent re-including files
-	 */
-	function includes() {}
+	function __construct() {
+		parent::start(
+			'groups',
+			__( 'User Groups', 'buddypress' ),
+			BP_PLUGIN_DIR
+		);
+	}
 	
+	/**
+	 * In BP 1.5, stub the includes function to prevent re-including files
+	 * In BP 1.6, call it since we've suppressed the parent invocation
+	 */
+	function includes() {
+		
+		if(floatval(BP_VERSION) >= 1.6) {
+			$includes = array(
+				'cache',
+				'forums',
+				'actions',
+				'filters',
+				'screens',
+				'classes',
+				'widgets',
+				'activity',
+				'template',
+				'buddybar',
+				'adminbar',
+				'functions',
+				'notifications'
+			);
+			parent::includes( $includes );
+		}
+		
+	}
+		
 	/**
 	 * A hierarchy-aware copy of the setup_globals function from BP_Groups_Component
 	 */
@@ -17,8 +47,9 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 		global $bp;
 
 		// Define a slug, if necessary
-		if ( !defined( 'BP_GROUPS_SLUG' ) )
+		if ( !defined( 'BP_GROUPS_SLUG' ) ) {
 			define( 'BP_GROUPS_SLUG', $this->id );
+		}
 
 		// Global tables for messaging component
 		$global_tables = array(
@@ -150,15 +181,16 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 
 		// Preconfigured group creation steps
 		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', array(
-			'group-details'  => array(
-				'name'       => __( 'Details',  'buddypress' ),
-				'position'   => 0
-			),
-			'group-settings' => array(
-				'name'       => __( 'Settings', 'buddypress' ),
-				'position'   => 10
-			)
-		) );
+				'group-details'  => array(
+					'name'       => __( 'Details',  'buddypress' ),
+					'position'   => 0
+				),
+				'group-settings' => array(
+					'name'       => __( 'Settings', 'buddypress' ),
+					'position'   => 10
+				)
+			) 
+		);
 
 		// If avatar uploads are not disabled, add avatar option
 		if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) {
@@ -186,9 +218,14 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 		// Auto join group when non group member performs group activity
 		$this->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) && BP_DISABLE_AUTO_GROUP_JOIN ? false : true;
 	}
-
 }
 
-$bp->groups = new BP_Groups_Hierarchy_Component();
+/**
+ * BP 1.6-style init function -- see -filters file for how it's used in BP 1.5
+ */
+function bp_setup_groups_hierarchy() {
+	global $bp;
+	$bp->groups = new BP_Groups_Hierarchy_Component();
+}
 
 ?>

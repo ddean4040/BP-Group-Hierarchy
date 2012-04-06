@@ -4,6 +4,7 @@ define( 'BP_GROUPS_HIERARCHY_ANY_PARENT', -1 );
 
 if( ! class_exists( 'BP_Groups_Group' ) ) {
 	// Groups component is not enabled; don't initialize this class
+	bp_group_hierarchy_debug(' Groups class was not loaded before Groups Hierarchy');
 	return;
 }
 
@@ -15,14 +16,22 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	var $vars = null;
 	
 	function bp_groups_hierarchy( $id, $parent_id = 0 ) {
+		return $this->__construct( $id, $parent_id );
+	}
+
+	function __construct( $id, $parent_id = 0 ) {
 		
 		global $bp, $wpdb;
 
-		if(!isset($bp->table_prefix))
-			bp_core_setup_globals();
+		if(!isset($bp->table_prefix)) {
+			bp_group_hierarchy_debug('BP not loaded');
+			return;
+		}
 		
-		if(!isset($bp->groups))
-			groups_setup_globals();
+		if(!isset($bp->groups)) {
+			bp_group_hierarchy_debug('BP Groups Component not loaded');
+			return;
+		}
 		
 		if( ! is_numeric( $id ) ) {
 			$id = $this->group_exists( $id, $parent_id );
@@ -38,17 +47,16 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		global $wpdb, $bp;
 
 		parent::populate();
-		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.parent_id FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {
-			if( isset( $group->parent_id ) ) {
-				$this->parent_id = $group->parent_id;
-			} else {
-				bp_group_hierarchy_debug( 'Could not load parent_id column from database.  Hierarchical processing is disabled.' );
-				$this->parent_id = 0;
-			}
-			$this->true_slug = $this->slug;
-			$this->path = $this->buildPath();
-			$this->slug = $this->path;
+		
+ 		$parent_id = $wpdb->get_var( $wpdb->prepare( "SELECT g.parent_id FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) );
+		if ( is_null( $parent_id ) ) {
+			bp_group_hierarchy_debug( 'Could not load parent_id column from database.  Hierarchical processing is disabled.' );
+			$this->parent_id = 0;
+		} else {
+			$this->parent_id = $parent_id;
 		}
+		$this->true_slug = $this->slug;
+		$this->slug = $this->path = $this->buildPath();
 	}
 	
 	function buildPath() {

@@ -34,10 +34,8 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			$this->params = $params;
 			
 			/** add extra args that BP 1.5 expects */
-			if(floatval(BP_VERSION) > 1.3) {
-				array_push($args, '');
-				array_push($args, '');
-			}
+			array_push($args, '');
+			array_push($args, '');
 			
 			call_user_func_array(array('parent','bp_groups_template'),$args);
 			$this->synchronize();
@@ -281,6 +279,65 @@ function bp_group_hierarchy_get_parents( $group = null ) {
 	}
 	
 	return $parents;
+}
+
+/**
+ * Hierarchy-aware replacement for bp_has_groups
+ */
+function bp_has_groups_hierarchy($args = '') {
+	global $groups_template, $bp;
+
+	/***
+	 * Set the defaults based on the current page. Any of these will be overridden
+	 * if arguments are directly passed into the loop. Custom plugins should always
+	 * pass their parameters directly to the loop.
+	 */
+	$type = 'active';
+	$user_id = false;
+	$search_terms = false;
+	$slug = false;
+
+	/* User filtering */
+	if ( !empty( $bp->displayed_user->id ) )
+		$user_id = $bp->displayed_user->id;
+
+	/* Type */
+	if ( 'my-groups' == $bp->current_action ) {
+		if ( 'most-popular' == $order )
+			$type = 'popular';
+		else if ( 'alphabetically' == $order )
+			$type = 'alphabetical';
+	} else if ( 'invites' == $bp->current_action ) {
+		$type = 'invites';
+	} else if ( $bp->groups->current_group->slug ) {
+		$type = 'single-group';
+		$slug = $bp->groups->current_group->slug;
+	}
+
+	if ( isset( $_REQUEST['group-filter-box'] ) || isset( $_REQUEST['s'] ) )
+		$search_terms = ( isset( $_REQUEST['group-filter-box'] ) ) ? $_REQUEST['group-filter-box'] : $_REQUEST['s'];
+
+	$defaults = array(
+		'type' => $type,
+		'page' => 1,
+		'per_page' => 20,
+		'max' => false,
+
+		'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
+		'slug' => $slug, // Pass a group slug to only return that group
+		'search_terms' => $search_terms, // Pass search terms to return only matching groups
+
+		'populate_extras' => true // Get extra meta - is_member, is_banned
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+
+	extract( $r );
+
+	$groups_template = new BP_Groups_Hierarchy_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, (bool)$populate_extras, (int)$parent_id );
+
+	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), $groups_template );
+
 }
 
 ?>
