@@ -220,6 +220,9 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	}
 }
 
+/**
+ * BP 1.6-style init function -- see -filters file for how it's used in BP 1.5
+ */
 function bp_setup_groups_hierarchy() {
 	global $bp;
 	$bp->groups = new BP_Groups_Hierarchy_Component();

@@ -17,6 +17,7 @@ function group_hierarchy_override_current_action( $current_action ) {
 	/** Only process once - hopefully this won't have any side effects */
 	remove_action( 'bp_current_action', 'group_hierarchy_override_current_action' );
 	
+	/** Abort processing on dashboard pages and when not in groups component */
 	if( is_admin() || ! bp_is_groups_component() ) return $current_action;
 	
 	$groups_slug = bp_get_groups_root_slug();
@@ -37,20 +38,20 @@ function group_hierarchy_override_current_action( $current_action ) {
 
 	$group = new BP_Groups_Hierarchy( $current_action );
 
-	if(!$group->id && (!isset($bp->current_item) || !$bp->current_item)) {
+	if( ! $group->id && ( ! isset( $bp->current_item ) || ! $bp->current_item ) ) {
 		$current_action = '';
 		bp_group_hierarchy_debug('Redirecting to groups root.');
 		bp_core_redirect( $bp->root_domain . '/' . $groups_slug . '/');
 	}
-	if($group->has_children()) {
-		$parent = $group;
+
+	if( $group->has_children() ) {
+		$parent_id = $group->id;
 		foreach($bp->action_variables as $action_var) {
-			$subgroup_id = $parent->check_slug($action_var, $parent->id);
+			$subgroup_id = BP_Groups_Hierarchy::check_slug($action_var, $parent_id);
 			if($subgroup_id) {
 				$action_var = array_shift($action_vars);
-				$subgroup = new BP_Groups_Hierarchy( $subgroup_id );
-				$current_action = $subgroup->slug;
-				$parent = $subgroup;
+				$current_action .= '/' . $action_var;
+				$parent_id = $subgroup_id;
 			} else {
 				// once we find something that isn't a group, we're done
 				break;
