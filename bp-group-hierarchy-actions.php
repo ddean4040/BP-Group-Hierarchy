@@ -19,7 +19,7 @@ function bp_group_hierarchy_setup_globals() {
 	/* For internal identification */
 	$bp->group_hierarchy->id = 'group_hierarchy';
 	$bp->group_hierarchy->table_name = $wpdb->base_prefix . 'bp_group_hierarchy';
-	$bp->group_hierarchy->format_notification_function = 'bp_group_hierarchy_format_notifications';
+//	$bp->group_hierarchy->format_notification_function = 'bp_group_hierarchy_format_notifications';
 	$bp->group_hierarchy->slug = BP_GROUP_HIERARCHY_SLUG;
 	
 	/* Register this in the active components array */

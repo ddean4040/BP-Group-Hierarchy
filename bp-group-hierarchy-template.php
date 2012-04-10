@@ -15,7 +15,7 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 	function bp_groups_hierarchy_template( ) {
 		
 		$args = func_get_args();
-		if(is_array($args) && count($args) > 1) {
+		if( is_array( $args ) && count( $args ) > 1 ) {
 			list(
 				$params['user_id'],
 				$params['type'],
@@ -37,7 +37,7 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			array_push($args, '');
 			array_push($args, '');
 			
-			call_user_func_array(array('parent','__construct'),$args);
+			call_user_func_array( array( 'parent', '__construct' ), $args );
 			$this->synchronize();
 		} else {
 			$this->params = array();
