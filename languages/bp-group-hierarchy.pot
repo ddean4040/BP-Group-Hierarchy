@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-group-hierarchy\n"
-"POT-Creation-Date: 2012-02-22 03:09:44+00:00\n"
+"POT-Creation-Date: 2012-04-12 02:27:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,7 +12,35 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: bp-group-hierarchy-widgets.php:14 extension.php:784
+#: bp-group-hierarchy-loader.php:11
+msgid "User Groups"
+msgstr ""
+
+#: bp-group-hierarchy-loader.php:69
+msgid "Search Groups..."
+msgstr ""
+
+#: bp-group-hierarchy-loader.php:170
+msgid "You do not have access to this group."
+msgstr ""
+
+#: bp-group-hierarchy-loader.php:185
+msgid "Details"
+msgstr ""
+
+#: bp-group-hierarchy-loader.php:189
+msgid "Settings"
+msgstr ""
+
+#: bp-group-hierarchy-loader.php:198
+msgid "Avatar"
+msgstr ""
+
+#: bp-group-hierarchy-loader.php:206
+msgid "Invites"
+msgstr ""
+
+#: bp-group-hierarchy-widgets.php:14 extension.php:787
 msgid "Toplevel Groups"
 msgstr ""
 
@@ -33,12 +61,12 @@ msgid "created %s ago"
 msgstr ""
 
 #: bp-group-hierarchy-widgets.php:52 bp-group-hierarchy-widgets.php:172
-#: extension.php:378 templates/tree/tree-loop.php:57
+#: extension.php:380 templates/tree/tree-loop.php:57
 msgid "active %s"
 msgstr ""
 
 #: bp-group-hierarchy-widgets.php:54 bp-group-hierarchy-widgets.php:174
-#: extension.php:376 templates/tree/tree-loop.php:55
+#: extension.php:378 templates/tree/tree-loop.php:55
 msgid "active %s ago"
 msgstr ""
 
@@ -105,8 +133,8 @@ msgid ""
 "else."
 msgstr ""
 
-#: bp-group-hierarchy-widgets.php:209 extension.php:164 extension.php:165
-#: extension.php:266 extension.php:267 extension.php:756
+#: bp-group-hierarchy-widgets.php:209 extension.php:166 extension.php:167
+#: extension.php:268 extension.php:269 extension.php:759
 msgid "Member Groups"
 msgstr ""
 
@@ -114,192 +142,132 @@ msgstr ""
 msgid "Title when on a group page:"
 msgstr ""
 
-#: bp-groups-hierarchy-component.php:33
-msgid "Search Groups..."
-msgstr ""
-
-#: bp-groups-hierarchy-component.php:134
-msgid "You do not have access to this group."
-msgstr ""
-
-#: bp-groups-hierarchy-component.php:149
-msgid "Details"
-msgstr ""
-
-#: bp-groups-hierarchy-component.php:153
-msgid "Settings"
-msgstr ""
-
-#: bp-groups-hierarchy-component.php:161
-msgid "Avatar"
-msgstr ""
-
-#: bp-groups-hierarchy-component.php:169 bp1-2.php:108
-msgid "Invites"
-msgstr ""
-
-#: bp1-2.php:102
-msgid "Groups <span>(%d)</span>"
-msgstr ""
-
-#: bp1-2.php:107 bp1-2.php:114
-msgid "My Groups"
-msgstr ""
-
-#: bp1-2.php:134
-msgid "Group Avatar"
-msgstr ""
-
-#: bp1-2.php:156
-msgid "Home"
-msgstr ""
-
-#: bp1-2.php:160
-msgid "Admin"
-msgstr ""
-
-#: bp1-2.php:164
-msgid "Request Membership"
-msgstr ""
-
-#: bp1-2.php:167
-msgid "Forum"
-msgstr ""
-
-#: bp1-2.php:169
-msgid "Members (%s)"
-msgstr ""
-
-#: bp1-2.php:173
-msgid "Send Invites"
-msgstr ""
-
-#: extension.php:24
+#: extension.php:26
 msgid "Member Groups %d"
 msgstr ""
 
-#: extension.php:26 extension.php:825
+#: extension.php:28 extension.php:828
 msgid "Group Hierarchy"
 msgstr ""
 
-#: extension.php:49
+#: extension.php:51
 msgid "Anybody"
 msgstr ""
 
-#: extension.php:50
+#: extension.php:52
 msgid "Nobody"
 msgstr ""
 
-#: extension.php:51
+#: extension.php:53
 msgid "only Group Members"
 msgstr ""
 
-#: extension.php:52
+#: extension.php:54
 msgid "only Group Admins"
 msgstr ""
 
-#: extension.php:100 extension.php:142 extension.php:235
+#: extension.php:102 extension.php:144 extension.php:237
 msgid "Parent Group"
 msgstr ""
 
-#: extension.php:126 extension.php:144 extension.php:237
+#: extension.php:128 extension.php:146 extension.php:239
 msgid "Site Root"
 msgstr ""
 
-#: extension.php:165 extension.php:267
+#: extension.php:167 extension.php:269
 msgid "Allow %1$s to create %2$s"
 msgstr ""
 
-#: extension.php:246
+#: extension.php:248
 msgid "Only a site administrator can edit the group hierarchy."
 msgstr ""
 
-#: extension.php:270 extension.php:817
+#: extension.php:272 extension.php:820
 msgid "Save Changes"
 msgstr ""
 
-#: extension.php:309
+#: extension.php:311
 msgid "There was an error saving; please try again."
 msgstr ""
 
-#: extension.php:311
+#: extension.php:313
 msgid "Group hierarchy settings saved successfully."
 msgstr ""
 
-#: extension.php:348
+#: extension.php:350
 msgid "Create a %s"
 msgstr ""
 
-#: extension.php:348
+#: extension.php:350
 msgid "Member Group"
 msgstr ""
 
-#: extension.php:414
+#: extension.php:416
 msgid "No member groups were found."
 msgstr ""
 
-#: extension.php:683 extension.php:713
+#: extension.php:686 extension.php:716
 msgid "Sorry, you are not allowed to create groups."
 msgstr ""
 
-#: extension.php:755 extension.php:810 extension.php:840
+#: extension.php:758 extension.php:813 extension.php:843
 msgid "Group Tree"
 msgstr ""
 
-#: extension.php:760
+#: extension.php:763
 msgid "Settings saved."
 msgstr ""
 
-#: extension.php:761
+#: extension.php:764
 msgid "Group Hierarchy Settings"
 msgstr ""
 
-#: extension.php:766
+#: extension.php:769
 msgid "Show Group Tree"
 msgstr ""
 
-#: extension.php:770
+#: extension.php:773
 msgid ""
 "Show the Group Tree view on the Groups page along with the flat list of "
 "groups."
 msgstr ""
 
-#: extension.php:775
+#: extension.php:778
 msgid "Hide Group List"
 msgstr ""
 
-#: extension.php:779
+#: extension.php:782
 msgid ""
 "Hide the flat list of groups and show ONLY the Group Tree on the Groups page"
 msgstr ""
 
-#: extension.php:794
+#: extension.php:797
 msgid ""
 "Select who is allowed to create toplevel groups. Super admins can always "
 "create toplevel groups."
 msgstr ""
 
-#: extension.php:802
+#: extension.php:805
 msgid "Nav Item"
 msgstr ""
 
-#: extension.php:805
+#: extension.php:808
 msgid "Name of the nav item on an individual group's page."
 msgstr ""
 
-#: extension.php:806
+#: extension.php:809
 msgid "Use <code>%d</code> to include the number of child groups."
 msgstr ""
 
-#: extension.php:813
+#: extension.php:816
 msgid "Name of the Group Tree listing on the main Groups page."
 msgstr ""
 
-#: extension.php:839
+#: extension.php:842
 msgid "Member Groups (%d)"
 msgstr ""
 
-#: extension.php:863
+#: extension.php:871
 msgid "Failed to load the requested template."
 msgstr ""
 
