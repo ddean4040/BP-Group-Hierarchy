@@ -3,10 +3,10 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.3.2-testing
-Revision Date: 04/06/2012
+Version: 1.3.2
+Revision Date: 04/11/2012
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.5
-Tested up to: WP 3.3.1 , BuddyPress 1.5.4
+Tested up to: WP 3.3.1 , BuddyPress 1.5.5
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.generalthreat.com/
@@ -15,7 +15,7 @@ Network: true
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
-define ( 'BP_GROUP_HIERARCHY_VERSION', '1.3.1' );
+define ( 'BP_GROUP_HIERARCHY_VERSION', '1.3.2' );
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', 1 );
 if( ! defined( 'BP_GROUP_HIERARCHY_SLUG' ) )
 	define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
@@ -28,6 +28,8 @@ require ( dirname( __FILE__ ) . '/bp-group-hierarchy-widgets.php' );
 /*************************************************************************
 *********************SETUP AND INSTALLATION*******************************
 *************************************************************************/
+
+register_activation_hook( __FILE__, 'bp_group_hierarchy_install' );
 
 /**
  * Install and/or upgrade the database
@@ -55,8 +57,6 @@ function bp_group_hierarchy_install() {
 		die('Could not create the required column.  Please enable debugging for more details.');
 	}
 }
-
-register_activation_hook( __FILE__, 'bp_group_hierarchy_install' );
 
 /**
  * Try to DESCRIBE the groups table to see whether the column exists / was added

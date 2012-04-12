@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDC
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 
 Allows BuddyPress groups to have subgroups.
 
@@ -15,10 +15,6 @@ Break free from the tyranny of a flat group list!
 This plugin allows group creators to place a new group under an existing group.  There is currently no limit to the depth of the group hierarchy.
 
 Every group and subgroup is a normal BuddyPress group and can have members and a forum, use group extensions, etc.
-
-NOTE: THIS WILL BE THE LAST RELEASE TO SUPPORT BuddyPress 1.2! 
-BuddyPress 1.5 has been through several major updates since release, and BuddyPress 1.2 is dead.
-Dropping support for BP 1.2 will free up development and testing time to make things better.
 
 = Translation =
 
@@ -47,7 +43,6 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 = Do activity stream messages propagate up (from child to parent) or down (from parent to child)? =
 
 No. There is no way to have activity propagate up without creating duplicate entries in the sitewide activity stream.
-This feature will re-appear once I can make a decent interface for it, but probably in an Extras plugin.
 
 
 == Screenshots ==
@@ -66,13 +61,13 @@ This feature will re-appear once I can make a decent interface for it, but proba
 * Changed: detection of deprecated BP title hook to avoid potential issue - thanks, tomraff
 
 = 1.3.0 =
-* Added: respect for setting BP_GROUPS_HIERARCHY_SLUG constant outside the plugin, for changing Member Groups URL
+* Added: respect for setting `BP_GROUPS_HIERARCHY_SLUG` constant outside the plugin, for changing Member Groups URL
 * Added: pagination self-sufficiency to BP_Group_Hierarchy_Template class
 * Changed: default Member Groups text to reflect BP 1.5+ tab style
 * Changed: wrap a subgroup count in "Member Groups" tab name in a span tag for proper display in BP 1.5+
 * Changed: switched from deprecated upgrade file to the right one for plugin activation
 * Fixed: bugs that triggered some warnings
-* Fixed: debug functions respect WP_DEBUG_DISPLAY settings - thanks, rolandinsh
+* Fixed: debug functions respect `WP_DEBUG_DISPLAY` settings - thanks, rolandinsh
 * Removed: ability to enable activity propagation - it will be fixed up and re-released, probably in an extras package
 
 = 1.2.9 =
