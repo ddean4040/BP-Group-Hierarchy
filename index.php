@@ -15,7 +15,7 @@ Network: true
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
-define ( 'BP_GROUP_HIERARCHY_VERSION', '1.3.1' );
+define ( 'BP_GROUP_HIERARCHY_VERSION', '1.3.2' );
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', 1 );
 if( ! defined( 'BP_GROUP_HIERARCHY_SLUG' ) )
 	define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
@@ -28,6 +28,8 @@ require ( dirname( __FILE__ ) . '/bp-group-hierarchy-widgets.php' );
 /*************************************************************************
 *********************SETUP AND INSTALLATION*******************************
 *************************************************************************/
+
+register_activation_hook( __FILE__, 'bp_group_hierarchy_install' );
 
 /**
  * Install and/or upgrade the database
@@ -55,8 +57,6 @@ function bp_group_hierarchy_install() {
 		die('Could not create the required column.  Please enable debugging for more details.');
 	}
 }
-
-register_activation_hook( __FILE__, 'bp_group_hierarchy_install' );
 
 /**
  * Try to DESCRIBE the groups table to see whether the column exists / was added

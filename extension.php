@@ -842,7 +842,11 @@ function bp_group_hierarchy_extension_init() {
 	);
 
 	wp_register_script('bp-group-hierarchy-tree-script', WP_PLUGIN_URL .'/bp-group-hierarchy/includes/hierarchy.js', array('jquery'));
-	wp_register_style('bp-group-hierarchy-tree-style', WP_PLUGIN_URL . '/bp-group-hierarchy/includes/hierarchy.css');
+	
+	/** Load the hierarchy.css file from the user's theme, if available */
+	if( $hierarchy_css = apply_filters( 'bp_located_template', locate_template( array( '_inc/css/hierarchy.css' ), false ), '_inc/css/hierarchy.css' ) ) {
+		wp_register_style( 'bp-group-hierarchy-tree-style', str_replace(array(substr(ABSPATH,0,-1),'\\'), array('','/'), $hierarchy_css) );
+	}
 	
 	if(bp_is_groups_component() && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['hide_group_list']) {
 		add_filter( 'groups_get_groups', 'bp_group_hierarchy_get_groups_tree', 10, 2 );
