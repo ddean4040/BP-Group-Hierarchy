@@ -3,8 +3,8 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.3.2
-Revision Date: 04/11/2012
+Version: 1.3.3-testing
+Revision Date: 04/12/2012
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.5
 Tested up to: WP 3.3.1 , BuddyPress 1.5.5
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
@@ -97,18 +97,18 @@ function bp_group_hierarchy_verify_install( $debug_column = false ) {
  * Debugging function
  */
 function bp_group_hierarchy_debug( $message ) {
-	if( defined( 'WP_DEBUG') && WP_DEBUG ) {
 
-		if(defined( 'WP_DEBUG_LOG') && WP_DEBUG_LOG ) {
-			$GLOBALS['wp_log']['bp_group_hierarchy'][] = 'BP Group Hierarchy - ' .  $message;
-			error_log('BP Group Hierarchy - ' .  $message);
-		}
+	if( ! defined( 'WP_DEBUG') || ! WP_DEBUG )	return;
 
-		if( defined('WP_DEBUG_DISPLAY') && false !== WP_DEBUG_DISPLAY) {
-			echo '<div class="log">BP Group Hierarchy - ' . $message . "</div>\n";
-		}
-		
+	if(defined( 'WP_DEBUG_LOG') && WP_DEBUG_LOG ) {
+		$GLOBALS['wp_log']['bp_group_hierarchy'][] = 'BP Group Hierarchy - ' .  $message;
+		error_log('BP Group Hierarchy - ' .  $message);
 	}
+
+	if( defined('WP_DEBUG_DISPLAY') && false !== WP_DEBUG_DISPLAY) {
+		echo '<div class="log">BP Group Hierarchy - ' . $message . "</div>\n";
+	}
+	
 }
 
 ?>
