@@ -53,6 +53,16 @@ No. There is no way to have activity propagate up without creating duplicate ent
 
 == Changelog ==
 
+= 1.3.2 =
+* Added: support for loading `hierarchy.css` from your theme directory so the group tree can better fit your site
+* Added: `groups_hierarchy_create_group` function for creating groups with parents programatically
+* Added: more debugging messages 
+* Changed: deprecated `bp_get_groups_hierarchy_root_slug` wrapper function
+* Changed: optimized path calculation for group pages
+* Changed: reorganized plugin files
+* Fixed: PHP warning that could occur on group pages
+* Removed: BP 1.2 compatibility
+
 = 1.3.1 =
 * Added: new safeguards to alert admin when DB changes can't be made, and prevent fatal errors in some cases
 * Added: strip HTML from page titles when displaying member group count in BP 1.2
@@ -214,6 +224,9 @@ No. There is no way to have activity propagate up without creating duplicate ent
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.3.2 =
+Optimized group page loading, and reorganized files
 
 = 1.3.1 =
 Cleanup and bug fixes - LAST BP 1.2-COMPATIBLE RELEASE
