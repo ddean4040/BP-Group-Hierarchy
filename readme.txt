@@ -42,7 +42,7 @@ Yes. Restrictions affect only the group to which they are applied.  Subgroups ca
 
 = Do activity stream messages propagate up (from child to parent) or down (from parent to child)? =
 
-No. There is no way to have activity propagate up without creating duplicate entries in the sitewide activity stream.
+No. There is currently no way to have activity propagate up without creating duplicate entries in the sitewide activity stream.
 
 
 == Screenshots ==
@@ -59,7 +59,7 @@ No. There is no way to have activity propagate up without creating duplicate ent
 * Added: more debugging messages 
 * Changed: deprecated `bp_get_groups_hierarchy_root_slug` wrapper function
 * Changed: optimized path calculation for group pages
-* Changed: reorganized plugin files
+* Changed: reorganized plugin files to better fit BP coding standards
 * Fixed: PHP warning that could occur on group pages
 * Removed: BP 1.2 compatibility
 
