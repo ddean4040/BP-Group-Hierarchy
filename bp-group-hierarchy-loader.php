@@ -163,7 +163,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 					$bp->is_single_item  = false;
 					bp_do_404();
 					return;
-				} elseif ( ! bp_is_current_action( 'home' ) && ! bp_is_current_action( 'request-membership' ) ) {
+				} elseif ( ! bp_is_current_action( 'home' ) && ! bp_is_current_action( 'request-membership' ) && ! bp_is_current_action( BP_GROUP_HIERARCHY_SLUG ) ) {
 					if ( is_user_logged_in() ) {
 						// Off-limits to this user. Throw an error and redirect to the group's home page
 						bp_core_no_access( array(

@@ -23,14 +23,15 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 		global $bp;
 		
-		$nav_item_name = get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups %d','bp-group-hierarchy') );
-		
 		$this->name = __( 'Group Hierarchy', 'bp-group-hierarchy' );
-		$this->nav_item_name = $nav_item_name;
+		$this->nav_item_name = get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups %d','bp-group-hierarchy') );
 		
-		if(isset($bp->groups->current_group) && $bp->groups->current_group) {
+		if( isset( $bp->groups->current_group ) && $bp->groups->current_group ) {
 			$this->nav_item_name = str_replace( '%d', '<span>%d</span>', $this->nav_item_name );
-			$this->nav_item_name = sprintf($this->nav_item_name, BP_Groups_Hierarchy::get_total_subgroup_count( $bp->groups->current_group->id ) );
+			
+			// Only count subgroups if admin has a placeholder in the nav item name
+			if( strpos( $this->nav_item_name, '%d' ) !== FALSE )
+				$this->nav_item_name = sprintf($this->nav_item_name, BP_Groups_Hierarchy::get_total_subgroup_count( $bp->groups->current_group->id ) );
 		}
 		
 		$this->slug = BP_GROUP_HIERARCHY_SLUG;
@@ -53,15 +54,10 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			'group_members'	=> __('only Group Members','bp-group-hierarchy'),
 			'group_admins'	=> __('only Group Admins','bp-group-hierarchy')
 		);
-		$bp->subgroup_permission_options = $this->subgroup_permission_options;
+		$bp->group_hierarchy->subgroup_permission_options = $this->subgroup_permission_options;
 		
 		if(isset($bp->groups->current_group) && $bp->groups->current_group) {
 			$bp->groups->current_group->can_create_subitems = bp_group_hierarchy_can_create_subgroups();
-			
-			/** strip HTML from page title - only needed for BP 1.2 */
-			if($bp->current_action == $this->slug) {
-				add_filter( 'bp_page_title', 'bp_group_hierarchy_clean_title', 10, 2);
-			}
 		}
 		
 		$this->enable_nav_item = $this->enable_nav_item();
@@ -75,8 +71,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	function enable_nav_item() {
 		global $bp;
 		
-		if(is_admin())	return false;
-		
+		if( is_admin() )	return false;
 		if( ! is_object($bp->groups->current_group) )	return false;
 		
 		/** Only display the nav item for admins, those who can create subgroups, or everyone if the group has subgroups */
@@ -482,17 +477,13 @@ function bp_group_hierarchy_can_create_subgroups( $user_id = null, $group_id = n
 			return false;
 			break;
 		case 'anyone':
-			return (is_user_logged_in() || get_site_option( 'bpgh_extension_allow_anon_private_access', true) );
+			return is_user_logged_in();
 			break;
 		case 'group_members':
-			if(groups_is_user_member( $user_id, $group_id )) {
-				return true;
-			}
+			return groups_is_user_member( $user_id, $group_id );
 			break;
 		case 'group_admins':
-			if(groups_is_user_admin( $user_id, $group_id )) {
-				return true;
-			}
+			return groups_is_user_admin( $user_id, $group_id );
 			break;
 		default:
 			if(
@@ -646,13 +637,6 @@ function bp_group_hierarchy_get_groups_tree($groups, $params, $parent_id = 0) {
 }
 
 /**
- * Strip the SPAN tags from the HTML title
- */
-function bp_group_hierarchy_clean_title( $full_title ) {
-	return strip_tags( html_entity_decode( $full_title ) );
-}
-
-/**
  * Change the HTML title to reflect custom Group Tree name
  * Works with either the BP 1.2 bp_page_title hook or the standard wp_title hook used in BP 1.5+
  */
@@ -769,7 +753,7 @@ function bp_group_hierarchy_admin_page() {
 					<th scope="row"><label for="show_group_tree"><?php _e('Show Group Tree','bp-group-hierarchy') ?></label></th>
 					<td>
 						<label>
-							<input type="checkbox" id="show_group_tree" name="options[show_group_tree]"<?php if($options['show_group_tree']) echo 'checked'; ?> />
+							<input type="checkbox" id="show_group_tree" name="options[show_group_tree]"<?php checked($options['show_group_tree']); ?> />
 							<?php _e('Show the Group Tree view on the Groups page along with the flat list of groups.','bp-group-hierarchy'); ?>
 						</label>
 					</td>
@@ -778,7 +762,7 @@ function bp_group_hierarchy_admin_page() {
 					<th scope="row"><label for="hide_group_list"><?php _e('Hide Group List','bp-group-hierarchy') ?></label></th>
 					<td>
 						<label>
-							<input type="checkbox" id="hide_group_list" name="options[hide_group_list]"<?php if($options['hide_group_list']) echo 'checked'; ?> />
+							<input type="checkbox" id="hide_group_list" name="options[hide_group_list]"<?php checked($options['hide_group_list']); ?> />
 							<?php _e('Hide the flat list of groups and show ONLY the Group Tree on the Groups page','bp-group-hierarchy'); ?> (EXPERIMENTAL)
 						</label>
 					</td>
@@ -789,8 +773,8 @@ function bp_group_hierarchy_admin_page() {
 						<label>
 							<select id="toplevel_group_permission" name="options[toplevel_group_permission]">
 								<?php
-								$subgroup_permission_options = apply_filters( 'bp_group_hierarchy_toplevel_subgroup_permissions', $bp->subgroup_permission_options );
-								foreach($subgroup_permission_options as $option => $text) { if(strpos($option,'one') === false)	continue;?>
+								$subgroup_permission_options = apply_filters( 'bp_group_hierarchy_toplevel_subgroup_permissions', $bp->group_hierarchy->subgroup_permission_options );
+								foreach($subgroup_permission_options as $option => $text) { ?>
 									<option value="<?php echo $option ?>" <?php if($option == $options['toplevel_group_permission']) echo ' selected'; ?>><?php echo $text ?></option>
 								<?php }	?>
 							</select>
@@ -823,9 +807,25 @@ function bp_group_hierarchy_admin_page() {
 	</div>
 	<?php
 }
- 
+
+/**
+ * Filter subgroup permissions options available to toplevel groups, since membership-based constructs don't apply
+ */
+function bp_group_hierarchy_limit_toplevel_permissions_options( $options ) {
+	$options = array_flip($options);
+	$options = array_filter( $options, create_function(
+		'$option',
+		'return strpos($option,"one") !== false;'
+	) );
+	return array_flip($options);
+}
+
+/**
+ * Load the Group Hierarchy settings dashboard page and the Toplevel group permissions filter
+ */
 function bp_group_hierarchy_extension_admin() {
 	add_submenu_page( 'bp-general-settings', __('Group Hierarchy','bp-group-hierarchy'), __('Group Hierarchy','bp-group-hierarchy'), 'manage_options', 'bp_group_hierarchy_settings', 'bp_group_hierarchy_admin_page' );
+	add_filter( 'bp_group_hierarchy_toplevel_subgroup_permissions', 'bp_group_hierarchy_limit_toplevel_permissions_options' );
 }
 add_action( 'network_admin_menu', 'bp_group_hierarchy_extension_admin' );
 add_action( 'admin_menu', 'bp_group_hierarchy_extension_admin' );
