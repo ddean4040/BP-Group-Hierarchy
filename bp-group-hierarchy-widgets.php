@@ -41,17 +41,11 @@ class BP_Toplevel_Groups_Widget extends WP_Widget {
 							<div class="item-meta"><span class="activity">
 								<?php switch($instance['sort_type']) {
 										case 'newest':
-											if(floatval(BP_VERSION) > 1.3)
-												printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
-											else
-												printf( __( 'created %s ago', 'buddypress' ), bp_get_group_date_created() );
+											printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
 											break;
 										case 'alphabetical':
 										case 'active':
-											if(floatval(BP_VERSION) > 1.3)
-												printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
-											else
-												printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() );
+											printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
 											break;
 										case 'popular':
 											bp_group_member_count();
@@ -161,17 +155,11 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 							<div class="item-meta"><span class="activity">
 								<?php switch($instance['sort_type']) {
 										case 'newest':
-											if(floatval(BP_VERSION) > 1.3)
-												printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
-											else
-												printf( __( 'created %s ago', 'buddypress' ), bp_get_group_date_created() );
+											printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
 											break;
 										case 'alphabetical':
 										case 'active':
-											if(floatval(BP_VERSION) > 1.3)
-												printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
-											else
-												printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() );
+											printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
 											break;
 										case 'popular':
 											bp_group_member_count();

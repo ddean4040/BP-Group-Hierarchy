@@ -369,11 +369,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 					<div class="item">
 						<div class="item-title"><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></div>
-						<?php if(floatval(BP_VERSION) < 1.3 ) : ?>
-						<div class="item-meta"><span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span></div>
-						<?php else: ?>
 						<div class="item-meta"><span class="activity"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span></div>
-						<?php endif; ?>
 						<div class="item-desc"><?php bp_group_description_excerpt() ?></div>
 		
 						<?php do_action( 'bp_directory_groups_item' ) ?>
@@ -637,6 +633,13 @@ function bp_group_hierarchy_get_groups_tree($groups, $params, $parent_id = 0) {
 }
 
 /**
+ * Strip the SPAN tags from the HTML title
+ */
+function bp_group_hierarchy_clean_title( $full_title ) {
+	return strip_tags( html_entity_decode( $full_title ) );
+}
+
+/**
  * Change the HTML title to reflect custom Group Tree name
  * Works with either the BP 1.2 bp_page_title hook or the standard wp_title hook used in BP 1.5+
  */
@@ -853,12 +856,7 @@ function bp_group_hierarchy_extension_init() {
 	if(bp_is_groups_component() && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['hide_group_list']) {
 		add_filter( 'groups_get_groups', 'bp_group_hierarchy_get_groups_tree', 10, 2 );
 		
-		/** 'bp_page_title' disappears after 1.2 */
-		if( defined('BP_VERSION') && floatval(BP_VERSION) > 1.3 ) {
-			add_filter( 'wp_title', 'bp_group_hierarchy_group_tree_title', 10, 3 );
-		} else {
-			add_filter( 'bp_page_title', 'bp_group_hierarchy_group_tree_title', 10, 2 );
-		}
+		add_filter( 'wp_title', 'bp_group_hierarchy_group_tree_title', 10, 3 );
 		
 		if( $bp->current_action == '' && ! isset( $_POST['object'] ) ) {
 			wp_enqueue_script('bp-group-hierarchy-tree-script');
@@ -875,11 +873,7 @@ function bp_group_hierarchy_extension_init() {
 		wp_enqueue_script('bp-group-hierarchy-tree-script');
 		wp_enqueue_style('bp-group-hierarchy-tree-style');
 
-		if( defined('BP_VERSION') && floatval(BP_VERSION) > 1.3 ) {
-			add_action( 'bp_groups_directory_group_filter', 'bp_group_hierarchy_tab' );
-		} else {
-			add_action( 'bp_groups_directory_group_types', 'bp_group_hierarchy_tab' );
-		}
+		add_action( 'bp_groups_directory_group_filter', 'bp_group_hierarchy_tab' );
 	}
 	
 }
