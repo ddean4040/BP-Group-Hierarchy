@@ -171,6 +171,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	
 	/**
 	 * Static functions - I believe these functions to be called exclusively in a static context
+	 * UPDATE: these have all been marked static in BP 1.6 trunk
 	 */
 	
 	/**
