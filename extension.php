@@ -574,11 +574,13 @@ function bp_group_hierarchy_display_member_group_pages() {
 add_action( 'wp_ajax_group_filter', 'bp_group_hierarchy_display_member_group_pages');
 
 /** 
- * Enable loading template files from the plugin directory 
+ * Enable loading template files from the plugin directory
+ * This plugin only has template files for group pages, so pass on any requests for other components
  */
 function bp_group_hierarchy_load_template_filter( $found_template, $templates ) {
 	
-	if ( !bp_is_groups_component() )
+	/** Starting in BP 1.6, group list page (or maybe AJAX requests from it) is not in the groups component */
+	if ( ! bp_is_groups_component() && ! isset( $_POST['object'] ) )
 		return $found_template;
 	
 	$filtered_templates = array();
@@ -646,7 +648,7 @@ function bp_group_hierarchy_clean_title( $full_title ) {
 function bp_group_hierarchy_group_tree_title( $full_title, $title, $sep_location = null ) {
 	global $bp;
 	if($sep_location != null) {
-		return bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] ) . $full_title;
+		return bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] ) . ' ' . $title . ' ';
 	}
 	return $full_title . bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] );
 }
