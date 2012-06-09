@@ -574,11 +574,13 @@ function bp_group_hierarchy_display_member_group_pages() {
 add_action( 'wp_ajax_group_filter', 'bp_group_hierarchy_display_member_group_pages');
 
 /** 
- * Enable loading template files from the plugin directory 
+ * Enable loading template files from the plugin directory
+ * This plugin only has template files for group pages, so pass on any requests for other components
  */
 function bp_group_hierarchy_load_template_filter( $found_template, $templates ) {
 	
-	if ( !bp_is_groups_component() )
+	/** Starting in BP 1.6, group list page (or maybe AJAX requests from it) is not in the groups component */
+	if ( ! bp_is_groups_component() && ! isset( $_POST['object'] ) )
 		return $found_template;
 	
 	$filtered_templates = array();
