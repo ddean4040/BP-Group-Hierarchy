@@ -473,7 +473,7 @@ function bp_group_hierarchy_can_create_subgroups( $user_id = null, $group_id = n
 			return false;
 			break;
 		case 'anyone':
-			return (is_user_logged_in() || get_site_option( 'bpgh_extension_allow_anon_private_access', true) );
+			return (is_user_logged_in() || get_site_option( 'bpgh_extension_allow_anon_access', false ) );
 			break;
 		case 'group_members':
 			return groups_is_user_member( $user_id, $group_id );
@@ -861,12 +861,11 @@ function bp_group_hierarchy_extension_init() {
 		if( $bp->current_action == '' && ! isset( $_POST['object'] ) ) {
 			wp_enqueue_script('bp-group-hierarchy-tree-script');
 			wp_enqueue_style('bp-group-hierarchy-tree-style');
-			if( $template = apply_filters( 'bp_located_template', locate_template( array( 'tree/index.php' ), false ), 'tree/index.php' ) ) {
-
-				load_template($template);
-				die;
-			}
-			die(__('Failed to load the requested template.','bp-group-hierarchy'));
+			
+			/**
+			 * Override BP's default group index with the tree
+			 */
+			add_filter( 'groups_template_directory_groups', create_function( '$template', 'return "tree/index";' ) );
 		}
 		
 	} else if(bp_is_groups_component() && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['show_group_tree']) {
