@@ -22,7 +22,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	function __construct( $id, $parent_id = 0 ) {
 		
 		global $bp, $wpdb;
-
+		
 		if(!isset($bp->table_prefix)) {
 			bp_group_hierarchy_debug('BP not loaded');
 			return;

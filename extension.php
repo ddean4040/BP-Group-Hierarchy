@@ -646,7 +646,7 @@ function bp_group_hierarchy_clean_title( $full_title ) {
 function bp_group_hierarchy_group_tree_title( $full_title, $title, $sep_location = null ) {
 	global $bp;
 	if($sep_location != null) {
-		return bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] ) . $full_title;
+		return bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] ) . ' ' . $title . ' ';
 	}
 	return $full_title . bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] );
 }
@@ -843,7 +843,7 @@ function bp_group_hierarchy_extension_init() {
 		'show_group_tree'	=> get_site_option( 'bpgh_extension_show_group_tree', false ),
 		'hide_group_list'	=> get_site_option( 'bpgh_extension_hide_group_list', false ),
 		'nav_item_name'		=> get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups (%d)','bp-group-hierarchy') ),
-		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') ),
+		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') )
 	);
 
 	wp_register_script('bp-group-hierarchy-tree-script', WP_PLUGIN_URL .'/bp-group-hierarchy/includes/hierarchy.js', array('jquery'));
