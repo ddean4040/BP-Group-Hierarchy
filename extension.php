@@ -845,7 +845,7 @@ function bp_group_hierarchy_extension_init() {
 		'show_group_tree'	=> get_site_option( 'bpgh_extension_show_group_tree', false ),
 		'hide_group_list'	=> get_site_option( 'bpgh_extension_hide_group_list', false ),
 		'nav_item_name'		=> get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups (%d)','bp-group-hierarchy') ),
-		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') ),
+		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') )
 	);
 
 	wp_register_script('bp-group-hierarchy-tree-script', WP_PLUGIN_URL .'/bp-group-hierarchy/includes/hierarchy.js', array('jquery'));
