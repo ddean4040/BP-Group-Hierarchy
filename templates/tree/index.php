@@ -45,6 +45,26 @@
 				</ul>
 			</div><!-- .item-list-tabs -->
 			
+			<div class="item-list-tabs" id="subnav" role="navigation">
+				<ul>
+
+					<?php do_action( 'bp_groups_directory_group_types' ); ?>
+
+					<li id="groups-order-select" class="last filter">
+
+						<label for="groups-order-by"><?php _e( 'Order By:', 'buddypress' ); ?></label>
+						<select id="groups-order-by">
+							<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
+							<option value="popular"><?php _e( 'Most Members', 'buddypress' ); ?></option>
+							<option value="newest"><?php _e( 'Newly Created', 'buddypress' ); ?></option>
+							<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
+
+							<?php do_action( 'bp_groups_directory_order_options' ); ?>
+						</select>
+					</li>
+				</ul>
+			</div><!-- .item-list-tabs -->
+
 			<div id="groups-dir-list" class="groups dir-list">
 			<?php
 				$loop_template = apply_filters('bp_located_template',locate_template( array( "tree/tree-loop.php" ), false ), "tree/tree-loop.php" );

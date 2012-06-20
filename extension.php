@@ -442,8 +442,9 @@ add_action( 'bp_group_hierarchy_route_requests', 'bp_group_hierarchy_set_parent_
 
 /**
  * Check whether the user is allowed to create subgroups of the selected group
+ * 	and to see the Create a Member Group button
  * @param int UserID ID of the user whose access is being checked (or current user if omitted)
- * @param int GroupID ID of the group being checked (or group beign displayed if omitted)
+ * @param int GroupID ID of the group being checked (or group being displayed if omitted)
  * @return bool TRUE if permitted, FALSE otherwise
  */
 function bp_group_hierarchy_can_create_subgroups( $user_id = null, $group_id = null ) {
@@ -473,7 +474,7 @@ function bp_group_hierarchy_can_create_subgroups( $user_id = null, $group_id = n
 			return false;
 			break;
 		case 'anyone':
-			return (is_user_logged_in() || get_site_option( 'bpgh_extension_allow_anon_access', false ) );
+			return (is_user_logged_in() || get_site_option( 'bpgh_extension_allow_anon_subgroups', false ) );
 			break;
 		case 'group_members':
 			return groups_is_user_member( $user_id, $group_id );
