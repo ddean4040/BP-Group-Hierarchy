@@ -46,8 +46,8 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	function populate() {
 		global $wpdb, $bp;
 
-//		parent::populate();
-		parent::__construct( $this->id );
+		parent::populate();
+		
  		$parent_id = $wpdb->get_var( $wpdb->prepare( "SELECT g.parent_id FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) );
 		if ( is_null( $parent_id ) ) {
 			bp_group_hierarchy_debug( 'Could not load parent_id column from database.  Hierarchical processing is disabled.' );
@@ -180,7 +180,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	 * @param int ParentID optional ID of parent group to search (ANY group if omitted)
 	 * Not declared as static in parent, but called statically
 	 */
-	static function check_slug( $slug, $parent_id = BP_GROUPS_HIERARCHY_ANY_PARENT ) {
+	function check_slug( $slug, $parent_id = BP_GROUPS_HIERARCHY_ANY_PARENT ) {
 		global $wpdb, $bp;
 
 		if ( !$slug )
@@ -209,7 +209,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	/**
 	 * Not declared as static in parent, but called statically
 	 */
-	static function group_exists( $path, $parent_id = 0 ) {
+	function group_exists( $path, $parent_id = 0 ) {
 		
 		if(strpos( $path, '/' )) {
 			$path = explode('/',$path);
@@ -230,7 +230,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	/**
 	 * Not declared as static in parent, but called statically
 	 */
-	static function get_id_from_slug( $slug, $parent_id = 0 ) {
+	function get_id_from_slug( $slug, $parent_id = 0 ) {
 		return self::group_exists( $slug, $parent_id );
 	}
 	
@@ -320,7 +320,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	/**
 	 * Not declared as static in parent, but called statically
 	 */
-	static function get_group_extras( $paged_groups, $group_ids, $type = false ) {
+	function get_group_extras( $paged_groups, $group_ids, $type = false ) {
 
 		foreach($paged_groups as $key => $group) {
 			if(!isset($group->path)) {
