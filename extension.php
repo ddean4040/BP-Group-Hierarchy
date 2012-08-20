@@ -115,19 +115,17 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 			$this_group->save();
 		}
 
-		$groups = BP_Groups_Hierarchy::get_active();
-		$exclude_groups = array($bp->groups->new_group_id);
+		$groups = BP_Groups_Hierarchy::get( 'alphabetical', null, null, 0, false, false, true, $bp->groups->new_group_id );
 		
 		$site_root = new stdClass();
 		$site_root->id = 0;
 		$site_root->name = __( 'Site Root', 'bp-group-hierarchy' );
+		
 		$display_groups = array(
 			$site_root
 		);
 		foreach($groups['groups'] as $group) {
-			if(!in_array($group->id,$exclude_groups)) {
-				$display_groups[] = $group;
-			}
+			$display_groups[] = $group;
 		}
 		
 		/* deprecated */
@@ -140,7 +138,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		<select name="parent_id" id="parent_id">
 			<!--<option value="0"><?php _e( 'Site Root', 'bp-group-hierarchy' ); ?></option>-->
 			<?php foreach($display_groups as $group) { ?>
-				<option value="<?php echo $group->id ?>"<?php if($group->id == $this_group->parent_id) echo ' selected'; ?>><?php echo $group->name; ?></option>
+				<option value="<?php echo $group->id ?>"<?php if($group->id == $this_group->parent_id) echo ' selected'; ?>><?php echo stripslashes( $group->name ); ?></option>
 			<?php } ?>
 		</select>
 		<?php

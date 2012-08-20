@@ -249,10 +249,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	 * Compatibility function for BP 1.2 - 1.5
 	 */
 	function get_active() {
+		_deprecated_function( 'BP_Groups_Hierarchy::get_active()', '1.3.4', 'BP_Groups_Hierarchy::get()' );
 		if(method_exists('BP_Groups_Group','get')) {
 			return self::get('active');
-		} else {
-			return parent::get_active();
 		}
 	}
 	
