@@ -207,7 +207,20 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		}
 		
 		if(is_super_admin()) {
-			$groups = BP_Groups_Hierarchy::get( 'alphabetical', null, null, 0, false, false, true, $bp->groups->new_group_id );
+
+			$exclude_groups = BP_Groups_Hierarchy::get_by_parent( $bp->groups->current_group->id );
+			
+			if(count($exclude_groups['groups']) > 0) {
+				foreach($exclude_groups['groups'] as $key => $exclude_group) {
+					$exclude_groups['groups'][$key] = $exclude_group->id;
+				}
+				$exclude_groups = $exclude_groups['groups'];
+			} else {
+				$exclude_groups = array();
+			}
+			$exclude_groups[] = $bp->groups->current_group->id;
+			
+			$groups = BP_Groups_Hierarchy::get( 'alphabetical', null, null, 0, false, false, true, $exclude_groups );
 			
 			$site_root = new stdClass();
 			$site_root->id = 0;
