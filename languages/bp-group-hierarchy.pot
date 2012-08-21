@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-group-hierarchy\n"
-"POT-Creation-Date: 2012-06-20 16:26:19+00:00\n"
+"POT-Creation-Date: 2012-08-21 03:04:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,7 +40,7 @@ msgstr ""
 msgid "Invites"
 msgstr ""
 
-#: bp-group-hierarchy-widgets.php:14 extension.php:777
+#: bp-group-hierarchy-widgets.php:14 extension.php:796
 msgid "Toplevel Groups"
 msgstr ""
 
@@ -57,7 +57,7 @@ msgid "created %s"
 msgstr ""
 
 #: bp-group-hierarchy-widgets.php:48 bp-group-hierarchy-widgets.php:162
-#: extension.php:372 templates/tree/tree-loop.php:54
+#: extension.php:368 templates/tree/tree-loop.php:54
 msgid "active %s"
 msgstr ""
 
@@ -124,8 +124,8 @@ msgid ""
 "else."
 msgstr ""
 
-#: bp-group-hierarchy-widgets.php:197 extension.php:161 extension.php:162
-#: extension.php:263 extension.php:264 extension.php:749
+#: bp-group-hierarchy-widgets.php:197 extension.php:165 extension.php:166
+#: extension.php:259 extension.php:260 extension.php:768
 msgid "Member Groups"
 msgstr ""
 
@@ -133,128 +133,128 @@ msgstr ""
 msgid "Title when on a group page:"
 msgstr ""
 
-#: extension.php:26 extension.php:833
+#: extension.php:32 extension.php:852
 msgid "Group Hierarchy"
 msgstr ""
 
-#: extension.php:27
+#: extension.php:33
 msgid "Member Groups %d"
 msgstr ""
 
-#: extension.php:52
+#: extension.php:58
 msgid "Anybody"
 msgstr ""
 
-#: extension.php:53
+#: extension.php:59
 msgid "Nobody"
 msgstr ""
 
-#: extension.php:54
+#: extension.php:60
 msgid "only Group Members"
 msgstr ""
 
-#: extension.php:55
+#: extension.php:61
 msgid "only Group Admins"
 msgstr ""
 
-#: extension.php:97 extension.php:139 extension.php:232
+#: extension.php:103 extension.php:143 extension.php:229
 msgid "Parent Group"
 msgstr ""
 
-#: extension.php:123 extension.php:141 extension.php:234
+#: extension.php:128 extension.php:145 extension.php:214
 msgid "Site Root"
 msgstr ""
 
-#: extension.php:162 extension.php:264
+#: extension.php:166 extension.php:260
 msgid "Allow %1$s to create %2$s"
 msgstr ""
 
-#: extension.php:243
+#: extension.php:239
 msgid "Only a site administrator can edit the group hierarchy."
 msgstr ""
 
-#: extension.php:267 extension.php:810
+#: extension.php:263 extension.php:829
 msgid "Save Changes"
 msgstr ""
 
-#: extension.php:306
+#: extension.php:302
 msgid "There was an error saving; please try again."
 msgstr ""
 
-#: extension.php:308
+#: extension.php:304
 msgid "Group hierarchy settings saved successfully."
 msgstr ""
 
-#: extension.php:345
+#: extension.php:341
 msgid "Create a %s"
 msgstr ""
 
-#: extension.php:345
+#: extension.php:341
 msgid "Member Group"
 msgstr ""
 
-#: extension.php:407
+#: extension.php:403
 msgid "No member groups were found."
 msgstr ""
 
-#: extension.php:676 extension.php:706
+#: extension.php:695 extension.php:725
 msgid "Sorry, you are not allowed to create groups."
 msgstr ""
 
-#: extension.php:748 extension.php:803 extension.php:849
+#: extension.php:767 extension.php:822 extension.php:868
 msgid "Group Tree"
 msgstr ""
 
-#: extension.php:753
+#: extension.php:772
 msgid "Settings saved."
 msgstr ""
 
-#: extension.php:754
+#: extension.php:773
 msgid "Group Hierarchy Settings"
 msgstr ""
 
-#: extension.php:759
+#: extension.php:778
 msgid "Show Group Tree"
 msgstr ""
 
-#: extension.php:763
+#: extension.php:782
 msgid ""
 "Show the Group Tree view on the Groups page along with the flat list of "
 "groups."
 msgstr ""
 
-#: extension.php:768
+#: extension.php:787
 msgid "Hide Group List"
 msgstr ""
 
-#: extension.php:772
+#: extension.php:791
 msgid ""
 "Hide the flat list of groups and show ONLY the Group Tree on the Groups page"
 msgstr ""
 
-#: extension.php:787
+#: extension.php:806
 msgid ""
 "Select who is allowed to create toplevel groups. Super admins can always "
 "create toplevel groups."
 msgstr ""
 
-#: extension.php:795
+#: extension.php:814
 msgid "Nav Item"
 msgstr ""
 
-#: extension.php:798
+#: extension.php:817
 msgid "Name of the nav item on an individual group's page."
 msgstr ""
 
-#: extension.php:799
+#: extension.php:818
 msgid "Use <code>%d</code> to include the number of child groups."
 msgstr ""
 
-#: extension.php:806
+#: extension.php:825
 msgid "Name of the Group Tree listing on the main Groups page."
 msgstr ""
 
-#: extension.php:848
+#: extension.php:867
 msgid "Member Groups (%d)"
 msgstr ""
 

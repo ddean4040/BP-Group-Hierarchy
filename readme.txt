@@ -3,8 +3,8 @@ Contributors: ddean
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDCMJRYPKNN&lc=US&item_name=BP%20Group%20Hierarchy&currency_code=USD
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
-Tested up to: 3.4
-Stable tag: 1.3.3
+Tested up to: 3.4.1
+Stable tag: 1.3.4
 
 Allows BuddyPress groups to have subgroups.
 
@@ -52,6 +52,14 @@ No. There is currently no way to have activity propagate up without creating dup
 3. Hierarchy options when creating new groups
 
 == Changelog ==
+
+= 1.3.4 =
+* Added: faster saving of parent selection when creating a group on BP 1.6+
+* Changed: slight speed-up filling in parent group dropdown with a large number of groups
+* Changed: parent groups are sorted alphabetically in dropdowns
+* Changed: plugin is no longer Network/Site Wide Only
+* Changed: deprecated BP_Groups_Hierarchy::get_active() compatibility function
+* Fixed: display bugs for anonymous users browsing group tree or member groups page - thanks, arialburnz
 
 = 1.3.3 =
 * Added: a filter for adding or removing toplevel group-creation permissions separately
@@ -234,6 +242,12 @@ No. There is currently no way to have activity propagate up without creating dup
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.3.4 =
+Bug fixes for BP 1.6
+
+= 1.3.3 =
+Cleanup, template changes
 
 = 1.3.2 =
 Optimized group page loading, and reorganized files
