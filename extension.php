@@ -10,6 +10,12 @@
  * 
  */
 
+/**
+ * Save the parent when creating a new group as early as possible
+ * This hook was added in BP 1.6, and must be called before the BP_Group_Extension class exists
+ */
+add_action( 'groups_create_group_step_save_group-details', 'bp_group_hierarchy_save_parent_selection' );
+
 if( ! class_exists( 'BP_Group_Extension') ) {
 	// Groups component is not enabled; don't initialize the extension
 	return;
@@ -36,7 +42,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 		$this->slug = BP_GROUP_HIERARCHY_SLUG;
 		
-		if(isset($_COOKIE['bp_new_group_parent_id'])) {
+		if( isset( $_COOKIE['bp_new_group_parent_id'] ) ) {
 			$bp->group_hierarchy->new_group_parent_id = $_COOKIE['bp_new_group_parent_id'];
 			add_action( 'bp_after_group_details_creation_step', array( &$this, 'add_parent_selection' ) );
 		}
@@ -439,6 +445,22 @@ function bp_group_hierarchy_set_parent_id_cookie() {
 add_action( 'bp_group_hierarchy_route_requests', 'bp_group_hierarchy_set_parent_id_cookie' );
 
 /**
+ * Save the parent group even before the extension has loaded in BP 1.6+
+ */
+function bp_group_hierarchy_save_parent_selection() {
+
+	global $bp;
+
+	if( isset( $_COOKIE['bp_new_group_parent_id'] ) ) {
+		$this_group = new BP_Groups_Hierarchy( $bp->groups->new_group_id );
+		$this_group->parent_id = $_COOKIE['bp_new_group_parent_id'];
+		$this_group->save();
+	}
+	
+}
+
+
+/**
  * Check whether the user is allowed to create subgroups of the selected group
  * 	and to see the Create a Member Group button
  * @param int UserID ID of the user whose access is being checked (or current user if omitted)
@@ -537,7 +559,9 @@ function bp_group_hierarchy_tab() {
  * Functions for new 'tree' object-based hierachy display, which supports a new template
  */
  
-/** Filter group results when requesting as part of the tree */
+/** 
+ * Filter group results when requesting as part of the tree 
+ */
 function bp_group_hierarchy_display( $query_string, $object, $parent_id = 0 ) {
 	if($object == 'tree') {
 		if(isset($_POST['scope']) && $_POST['scope'] != 'all') {
@@ -554,23 +578,28 @@ function bp_group_hierarchy_display( $query_string, $object, $parent_id = 0 ) {
 }
 add_filter( 'bp_ajax_querystring', 'bp_group_hierarchy_display', 20, 2 );
 
-/** Load the tree loop instead of the group loop when requested as part of the tree */
+/** 
+ * Load the tree loop instead of the group loop when requested as part of the tree 
+ */
 function bp_group_hierarchy_object_template_loader() {
 	$object = esc_attr( $_POST['object'] );
 	if($object == 'tree') {
 		if($template = apply_filters('bp_located_template',locate_template( array( "$object/$object-loop.php" ), false ), "$object/$object-loop.php" )) {
 			load_template($template);
+			die();
 		} else {
 			bp_group_hierarchy_debug('Failed to find loop template for object: ' . $object);
 		}
 	}
 }
 add_action( 'wp_ajax_tree_filter', 'bp_group_hierarchy_object_template_loader' );
+add_action( 'wp_ajax_nopriv_tree_filter', 'bp_group_hierarchy_object_template_loader' );
 
 function bp_group_hierarchy_display_member_group_pages() {
 	die(BP_Groups_Hierarchy_Extension::display($_POST['page']));
 }
 add_action( 'wp_ajax_group_filter', 'bp_group_hierarchy_display_member_group_pages');
+add_action( 'wp_ajax_nopriv_group_filter', 'bp_group_hierarchy_display_member_group_pages');
 
 /** 
  * Enable loading template files from the plugin directory
@@ -607,7 +636,7 @@ add_filter( 'bp_located_template', 'bp_group_hierarchy_load_template_filter', 10
 /**
  * Restrict group listing to top-level groups
  */
-function bp_group_hierarchy_get_groups_tree($groups, $params, $parent_id = 0) {
+function bp_group_hierarchy_get_groups_tree( $groups, $params, $parent_id = 0 ) {
 	global $bp, $groups_template;
 	
 	if( isset($_POST['scope']) && $_POST['object'] == 'tree' && $_POST['scope'] != 'all' ) {
@@ -834,11 +863,11 @@ function bp_group_hierarchy_extension_admin() {
 add_action( 'network_admin_menu', 'bp_group_hierarchy_extension_admin' );
 add_action( 'admin_menu', 'bp_group_hierarchy_extension_admin' );
 
-
 function bp_group_hierarchy_extension_init() {
 	global $bp;
 	
 	add_action( 'wp_ajax_groups_tree_filter', 'bp_dtheme_object_template_loader' );
+	add_action( 'wp_ajax_nopriv_groups_tree_filter', 'bp_dtheme_object_template_loader' );
 	
 	$bp->group_hierarchy->extension_settings = array(
 		'show_group_tree'	=> get_site_option( 'bpgh_extension_show_group_tree', false ),
