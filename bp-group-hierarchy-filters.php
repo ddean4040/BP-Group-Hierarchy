@@ -18,7 +18,13 @@ function group_hierarchy_override_current_action( $current_action ) {
 	remove_action( 'bp_current_action', 'group_hierarchy_override_current_action' );
 	
 	/** Abort processing on dashboard pages and when not in groups component */
-	if( is_admin() || ! bp_is_groups_component() ) return $current_action;
+	if( is_admin() && ! strpos( admin_url('admin-ajax.php'), $_SERVER['REQUEST_URI'] ) ) {
+		return $current_action;
+	}
+	
+	if( ! bp_is_groups_component() ) {
+		return $current_action;
+	}
 	
 	$groups_slug = bp_get_groups_root_slug();
 
@@ -170,7 +176,7 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
  */
 function bp_group_hierarchy_overload_groups( $components ) {
 	
-	if(is_admin())	return $components;
+	if( is_admin() && ! strpos( admin_url('admin-ajax.php'), $_SERVER['REQUEST_URI'] ) )	return $components;
 	
 	global $bp;
 
