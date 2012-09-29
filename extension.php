@@ -434,17 +434,16 @@ bp_register_group_extension( 'BP_Groups_Hierarchy_Extension' );
  * Store the ID of the group the user selected as the parent for group creation
  */
 function bp_group_hierarchy_set_parent_id_cookie() {
-	global $current_component, $current_action, $action_variables, $bp;
+	global $bp;
 	
-	/** BP 1.5 compatibility */
-	if(!isset($current_component)) {
-		bp_core_set_uri_globals();
-		$current_component = $bp->current_component;
-		$current_action = $bp->current_action;
-	}
-
-	if(bp_is_groups_component() && $current_action == 'create' && isset($_REQUEST['parent_id']) && $_REQUEST['parent_id'] != 0) {
-		setcookie( 'bp_new_group_parent_id', (int)$_REQUEST['parent_id'], time() + 1000, COOKIEPATH );
+	if( bp_is_groups_component() && $bp->current_action == 'create' && isset( $_REQUEST['parent_id'] ) && $_REQUEST['parent_id'] != 0 ) {
+		
+		if( bp_group_hierarchy_can_create_subgroups( $bp->loggedin_user->id, (int)$_REQUEST['parent_id'] ) ) {
+			setcookie( 'bp_new_group_parent_id', (int)$_REQUEST['parent_id'], time() + 1000, COOKIEPATH );
+		} else {
+			do_action( 'bp_group_hierarchy_unauthorized_parent', (int)$_REQUEST['parent_id'] );
+		}
+		
 	}
 }
 add_action( 'bp_group_hierarchy_route_requests', 'bp_group_hierarchy_set_parent_id_cookie' );
