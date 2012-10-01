@@ -3,8 +3,8 @@ Contributors: ddean
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDCMJRYPKNN&lc=US&item_name=BP%20Group%20Hierarchy&currency_code=USD
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 1.3.4
+Tested up to: 3.4.2
+Stable tag: 1.3.5
 
 Allows BuddyPress groups to have subgroups.
 
