@@ -187,7 +187,7 @@ function bp_group_hierarchy_overload_groups( $components ) {
 
 		include_once( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php' );
 
-		// BP 1.6
+		// BP 1.6+
 		if( has_action( 'bp_setup_components') ) {
 			
 			remove_action( 'bp_setup_components', 'bp_setup_groups', 6);

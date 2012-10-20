@@ -4,9 +4,9 @@ Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
 Version: 1.3.6-testing
-Revision Date: 09/30/2012
+Revision Date: 10/19/2012
 Requires at least: PHP 5, WP 3.0, BuddyPress 1.5
-Tested up to: WP 3.4.2 , BuddyPress 1.6.1
+Tested up to: WP 3.5-beta2 , BuddyPress 1.7-bleeding
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.generalthreat.com/

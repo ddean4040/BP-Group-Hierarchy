@@ -19,7 +19,11 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	 */
 	function includes() {
 		
-		if(floatval(BP_VERSION) >= 1.6) {
+		if(function_exists('buddypress')) $bp = buddypress();
+		$bp_version = isset($bp->version) ? $bp->version : BP_VERSION;
+		
+		if(floatval($bp_version) >= 1.6) {
+		
 			$includes = array(
 				'cache',
 				'forums',
