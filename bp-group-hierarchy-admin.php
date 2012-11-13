@@ -8,7 +8,6 @@
 
 add_action( 'network_admin_menu', 'bp_group_hierarchy_extension_admin' );
 add_action( 'admin_menu', 'bp_group_hierarchy_extension_admin' );
-add_action( 'bp_groups_admin_meta_box_content_hierarchy', 'bp_group_hierarchy_admin_meta_box' );
 
 /**
  * Load the Group Hierarchy settings dashboard page and the Toplevel group permissions filter
@@ -130,12 +129,6 @@ function bp_group_hierarchy_admin_page() {
 			<?php wp_nonce_field( 'bp_group_hierarchy_extension_options' ); ?>
 		</form>
 	</div>
-	<?php
-}
-
-function bp_group_hierarchy_admin_meta_box( $group_id ) {
-	?>
-	<p>Editing group: <?php echo $group_id; ?></p>
 	<?php
 }
 
