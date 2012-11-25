@@ -46,7 +46,6 @@ function bp_group_hierarchy_init() {
  */
 function bp_group_hierarchy_load_components() {
 
-	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-functions.php' );
 	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
 	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
 

@@ -18,7 +18,6 @@ define ( 'BP_GROUP_HIERARCHY_DB_VERSION', 1 );
 if( ! defined( 'BP_GROUP_HIERARCHY_SLUG' ) )
 	define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
 
-
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-filters.php' );
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-actions.php' );
 require ( dirname( __FILE__ ) . '/bp-group-hierarchy-widgets.php' );

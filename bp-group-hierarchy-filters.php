@@ -29,7 +29,7 @@ function group_hierarchy_override_current_action( $current_action ) {
 	
 	$groups_slug = bp_get_groups_root_slug();
 
-	bp_group_hierarchy_debug('Routing requests for BP 1.5');
+	bp_group_hierarchy_debug('Routing request');
 	bp_group_hierarchy_debug('Current component: ' . $bp->current_component);
 	bp_group_hierarchy_debug('Current action: ' . $current_action);
 	bp_group_hierarchy_debug('Groups slug: ' . $groups_slug);
@@ -176,6 +176,8 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
  * This loads the Groups component out of order, but testing has revealed no issues
  */
 function bp_group_hierarchy_overload_groups( $components ) {
+
+	include dirname(__FILE__) . '/bp-group-hierarchy-functions.php';
 	
 	if( is_admin() && ! strpos( admin_url('admin-ajax.php'), $_SERVER['REQUEST_URI'] ) )	return $components;
 	

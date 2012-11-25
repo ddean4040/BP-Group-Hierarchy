@@ -60,4 +60,13 @@ function bp_get_groups_hierarchy_root_slug() {
 
 }
 
+/**
+ * Compatibility function for getting BP version on BP 1.5-1.7
+ */
+if( ! function_exists( 'bp_get_version' ) ) {
+	function bp_get_version() {
+		return BP_VERSION;
+	}
+}
+
 ?>
