@@ -6,7 +6,7 @@ Description: Allows BuddyPress groups to belong to other groups
 Version: 1.3.6
 Revision Date: 11/25/2012
 Requires at least: PHP 5, WP 3.2, BuddyPress 1.5
-Tested up to: WP 3.5 , BuddyPress 1.7-bleeding
+Tested up to: WP 3.5-beta3, BuddyPress 1.7-bleeding
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.generalthreat.com/
