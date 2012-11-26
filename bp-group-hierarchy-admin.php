@@ -13,16 +13,15 @@ add_action( 'admin_menu', 'bp_group_hierarchy_extension_admin' );
  * Load the Group Hierarchy settings dashboard page and the Toplevel group permissions filter
  */
 function bp_group_hierarchy_extension_admin() {
-	/**
-	 * Hack to detect new toplevel Groups menu item
-	 */
-	global $admin_page_hooks;
-	if( isset( $admin_page_hooks['bp-groups'] ) ) {
+	
+	if( bpgh_has_groups_admin_menu() ) {
 		add_submenu_page( 'bp-groups', __('Hierarchy Settings','bp-group-hierarchy'), __('Hierarchy Settings','bp-group-hierarchy'), 'manage_options', 'bp_group_hierarchy_settings', 'bp_group_hierarchy_admin_page' );
 	} else {
 		add_submenu_page( 'bp-general-settings', __('Group Hierarchy','bp-group-hierarchy'), __('Group Hierarchy','bp-group-hierarchy'), 'manage_options', 'bp_group_hierarchy_settings', 'bp_group_hierarchy_admin_page' );
 	}
 	add_filter( 'bp_group_hierarchy_toplevel_subgroup_permissions', 'bp_group_hierarchy_limit_toplevel_permissions_options' );
+	
+	do_action( 'bp_group_hierarchy_admin_loaded' );
 }
 
 /**

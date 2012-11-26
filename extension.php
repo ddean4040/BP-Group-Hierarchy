@@ -86,7 +86,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 				$bp->groups->current_group->can_create_subitems || 
 				BP_Groups_Hierarchy::has_children( $bp->groups->current_group->id )
 			) {
-			return true;
+			return apply_filters( 'bp_group_hierarchy_show_member_groups', true );
 		}
 		return false;
 	}

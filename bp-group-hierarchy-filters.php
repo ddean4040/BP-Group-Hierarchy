@@ -177,7 +177,7 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
  */
 function bp_group_hierarchy_overload_groups( $components ) {
 
-	include dirname(__FILE__) . '/bp-group-hierarchy-functions.php';
+	require dirname(__FILE__) . '/bp-group-hierarchy-functions.php';
 	
 	if( is_admin() && ! strpos( admin_url('admin-ajax.php'), $_SERVER['REQUEST_URI'] ) )	return $components;
 	
@@ -187,7 +187,7 @@ function bp_group_hierarchy_overload_groups( $components ) {
 
 	if( array_key_exists( 'groups', $components ) ) {
 
-		include_once( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php' );
+		require( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php' );
 
 		// BP 1.6+
 		if( has_action( 'bp_setup_components') ) {
@@ -195,11 +195,11 @@ function bp_group_hierarchy_overload_groups( $components ) {
 			remove_action( 'bp_setup_components', 'bp_setup_groups', 6);
 			add_action( 'bp_setup_components', 'bp_setup_groups_hierarchy', 6);
 	
-			include_once dirname(__FILE__) . '/bp-group-hierarchy-loader.php';
+			require dirname(__FILE__) . '/bp-group-hierarchy-loader.php';
 			
 		} else {
 
-			include_once dirname(__FILE__) . '/bp-group-hierarchy-loader.php';
+			require dirname(__FILE__) . '/bp-group-hierarchy-loader.php';
 
 			/** Remove these actions while the $bp->groups reference is correct */
 			remove_action( 'bp_setup_globals', array( $bp->groups, 'setup_globals' ));
