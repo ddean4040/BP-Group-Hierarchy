@@ -247,10 +247,15 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	
 	/**
 	 * Compatibility function for BP 1.2 - 1.5
+	 * This function will be removed soon
 	 */
 	function get_active() {
 		_deprecated_function( 'BP_Groups_Hierarchy::get_active()', '1.3.4', 'BP_Groups_Hierarchy::get()' );
 		if(method_exists('BP_Groups_Group','get')) {
+			
+			if( (float)bp_get_version() >= 1.7 ) {
+				return self::get( array( 'type'=>'active' ) );
+			}
 			return self::get('active');
 		}
 	}
@@ -260,7 +265,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		
 		$hidden_sql = '';
 		if ( !is_super_admin() )
-			$hidden_sql = $wpdb->prepare( " AND status != 'hidden'");
+			$hidden_sql = " AND status != 'hidden'";
 		
 		if( !empty($search_terms)) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );

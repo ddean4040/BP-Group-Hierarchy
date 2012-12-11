@@ -25,6 +25,11 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	
 	var $visibility = 'public';
 	
+	/**
+	 * Disable metabox in BP 1.7 Group Edit screen until something is written to fill it :)
+	 */
+	var $enable_admin_item = false;
+	
 	function bp_groups_hierarchy_extension() {
 		
 		global $bp;
