@@ -55,6 +55,10 @@ No. There is currently no way to have activity propagate up without creating dup
 
 == Changelog ==
 
+= 1.3.9 =
+* Added: Danish translation contributed by Mort3n
+* Added: French translation contributed by Mecanographik
+
 = 1.3.8 =
 * Added: Russian translation contributed by Roman
 * Added: Slovak translation contributed by Branco, (<a href="http://webhostinggeeks.com/blog/">WebHostingGeeks.com</a>)
