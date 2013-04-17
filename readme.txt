@@ -21,6 +21,9 @@ Every group and subgroup is a normal BuddyPress group and can have members and a
 * Spanish translation generously provided by <a href="http://dorsvenabili.com">_DorsVenabili</a>
 * Russian translation generously provided by Roman
 * Slovak translation generously provided by Branco, (<a href="http://webhostinggeeks.com/blog/">WebHostingGeeks.com</a>)
+* Danish translation generously provided by Mort3n
+* French translation generously provided by Mecanographik
+* Brazilian Portugese translation generously provided by <a href="http://wordpress.org/support/profile/stickfinger">stickFinger</a>
 
 == Installation ==
 
@@ -58,6 +61,7 @@ No. There is currently no way to have activity propagate up without creating dup
 = 1.3.9 =
 * Added: Danish translation contributed by Mort3n
 * Added: French translation contributed by Mecanographik
+* Added: Brazilian Portugese translation contributed by <a href="http://wordpress.org/support/profile/stickfinger">stickFinger</a>
 
 = 1.3.8 =
 * Added: Russian translation contributed by Roman
