@@ -3,7 +3,7 @@ Contributors: ddean
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDCMJRYPKNN&lc=US&item_name=BP%20Group%20Hierarchy&currency_code=USD
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: WP 3.2, BuddyPress 1.5
-Tested up to: WP 3.5.1, BuddyPress 1.7-bleeding
+Tested up to: WP 3.5.1, BuddyPress 1.7
 Stable tag: 1.3.8
 
 Allows BuddyPress groups to have subgroups.
@@ -24,6 +24,7 @@ Every group and subgroup is a normal BuddyPress group and can have members and a
 * Danish translation generously provided by Mort3n
 * French translation generously provided by Mecanographik
 * Brazilian Portugese translation generously provided by <a href="http://wordpress.org/support/profile/stickfinger">stickFinger</a>
+* Dutch translation generously provided by Zé Vandenhoeck
 
 == Installation ==
 
@@ -62,6 +63,7 @@ No. There is currently no way to have activity propagate up without creating dup
 * Added: Danish translation contributed by Mort3n
 * Added: French translation contributed by Mecanographik
 * Added: Brazilian Portugese translation contributed by <a href="http://wordpress.org/support/profile/stickfinger">stickFinger</a>
+* Added: Dutch translation contributed by Zé Vandenhoeck
 
 = 1.3.8 =
 * Added: Russian translation contributed by Roman
