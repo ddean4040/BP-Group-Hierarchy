@@ -1,0 +1,287 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: bp-group-hierarchy\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-group-hierarchy\n"
+"POT-Creation-Date: 2011-09-13 00:14:24+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-03-19 23:43+0100\n"
+"Last-Translator: \n"
+"Language-Team: Mecus <rocio@mecus.es>\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: bp-groups-hierarchy-component.php:30
+msgid "Search Groups..."
+msgstr "recherche de groupes…"
+
+#: bp-groups-hierarchy-component.php:118
+msgid "You do not have access to this group."
+msgstr "Vous n'avez pas accès à ce groupe"
+
+#: bp-groups-hierarchy-component.php:131
+msgid "Details"
+msgstr "Détails"
+
+#: bp-groups-hierarchy-component.php:135
+msgid "Settings"
+msgstr "Réglages"
+
+#: bp-groups-hierarchy-component.php:143
+msgid "Avatar"
+msgstr "Imagen"
+
+#: bp-groups-hierarchy-component.php:151 bp1-2.php:102
+msgid "Invites"
+msgstr "Invitations"
+
+#: templates/tree/index.php:7
+msgid "Groups Directory"
+msgstr "Annuaire des groupes"
+
+#: templates/tree/index.php:7
+msgid "Create a Group"
+msgstr "Créer un groupe"
+
+#: templates/tree/index.php:20
+msgid "My Groups (%s)"
+msgstr "Mes groupes (%s)"
+
+#: templates/tree/index.php:27
+msgid "Order By:"
+msgstr "Trier par:"
+
+#: templates/tree/index.php:29
+msgid "Last Active"
+msgstr "Récemment actif"
+
+#: templates/tree/index.php:30
+msgid "Most Members"
+msgstr "Le plus de membres"
+
+#: templates/tree/index.php:31
+msgid "Newly Created"
+msgstr "Récemment créé"
+
+#: templates/tree/index.php:32
+msgid "Alphabetical"
+msgstr "Alphabétique"
+
+#: templates/tree/tree-loop.php:39 extension.php:354
+#: bp-group-hierarchy-widgets.php:39
+msgid "active %s ago"
+msgstr "Actif il y a %s"
+
+#: templates/tree/tree-loop.php:41 extension.php:356
+msgid "active %s"
+msgstr "actif %s"
+
+#: templates/tree/tree-loop.php:84
+msgid "There were no groups found."
+msgstr "Aucun groupe trouvé."
+
+#: extension.php:18 extension.php:793
+msgid "Member Groups (%d)"
+msgstr "Sous-groupes (%d)"
+
+#: extension.php:20 extension.php:779
+msgid "Group Hierarchy"
+msgstr "Hiérarchie des groupes"
+
+#: extension.php:42
+msgid "Anybody"
+msgstr "Tout le monde"
+
+#: extension.php:43
+msgid "Nobody"
+msgstr "Personne"
+
+#: extension.php:44
+msgid "only Group Members"
+msgstr "seulement les membres du groupe"
+
+#: extension.php:45
+msgid "only Group Admins"
+msgstr "uniquement les administrateurs du groupe"
+
+#: extension.php:84 extension.php:125 extension.php:218
+msgid "Parent Group"
+msgstr "groupe parent"
+
+#: extension.php:109 extension.php:127 extension.php:220
+msgid "Site Root"
+msgstr "Racine du site"
+
+#: extension.php:147 extension.php:148 extension.php:249 extension.php:250
+#: extension.php:710
+msgid "Member Groups"
+msgstr "Sous-groupes"
+
+#: extension.php:148 extension.php:250
+msgid "Allow %1$s to create %2$s"
+msgstr "Permettre %1$s de créer %2$s"
+
+#: extension.php:229
+msgid "Only a site administrator can edit the group hierarchy."
+msgstr ""
+"Seulement l'administrateur du site est autorisé à éditer la hiérarchie du "
+"groupe"
+
+#: extension.php:253 extension.php:771
+msgid "Save Changes"
+msgstr "Enregistrer les modifications"
+
+#: extension.php:292
+msgid "There was an error saving; please try again."
+msgstr "Une erreur est survenue durant l'enregistrement. Merci de réessayer."
+
+#: extension.php:294
+msgid "Group hierarchy settings successfully."
+msgstr "les réglages de hiérarchie du groupe ont bien été enregistrés."
+
+#: extension.php:325
+msgid "Create a %s"
+msgstr "Créer un %s"
+
+#: extension.php:325
+msgid "Member Group"
+msgstr "Sous-groupe"
+
+#: extension.php:393
+msgid "No member groups were found."
+msgstr "Aucun sous-groupe n'a été trouvé."
+
+#: extension.php:637 extension.php:667
+msgid "Sorry, you are not allowed to create groups."
+msgstr "Désolé, vous n'êtes pas autorisé à créer de groupe."
+
+#: extension.php:709 extension.php:764 extension.php:794
+msgid "Group Tree"
+msgstr "Arborescence des groupes"
+
+#: extension.php:714
+msgid "Settings saved."
+msgstr "Réglages mis à jour."
+
+#: extension.php:715
+msgid "Group Hierarchy Settings"
+msgstr "Réglages de la hiérachie des groupes"
+
+#: extension.php:720
+msgid "Show Group Tree"
+msgstr "Afficher l'arborescence des groupes"
+
+#: extension.php:724
+msgid ""
+"Show the Group Tree view on the Groups page along with the flat list of "
+"groups."
+msgstr ""
+"Afficher l'arborescence des groupes sur la page des groupes en complément de "
+"la liste sans hiérarchie des groupes"
+
+#: extension.php:729
+msgid "Hide Group List"
+msgstr "Cacher la liste des groupes"
+
+#: extension.php:733
+msgid ""
+"Hide the flat list of groups and show ONLY the Group Tree on the Groups page"
+msgstr ""
+"Cacher la liste classique des groupes (sans hiérarchie)  et afficher "
+"uniquement les groupes sous forme hiérarchique sur la page des groupes "
+
+#: extension.php:738 bp-group-hierarchy-widgets.php:15
+msgid "Toplevel Groups"
+msgstr "groupes supérieurs"
+
+#: extension.php:748
+msgid ""
+"Select who is allowed to create toplevel groups. Super admins can always "
+"create toplevel groups."
+msgstr ""
+"Sélectionner qui est autorisé à créer des groupes de niveaux supérieurs. "
+"Super admin peut toujours créer des groupes de niveaux supérieurs (parent)."
+
+#: extension.php:756
+msgid "Nav Item"
+msgstr "Element de navigation"
+
+#: extension.php:759
+msgid "Name of the nav item on an individual group's page."
+msgstr "Nom de l'élément de navigation sur la page individuelle d'un groupe."
+
+#: extension.php:760
+msgid "Use <code>%d</code> to include the number of child groups."
+msgstr ""
+"Utilisez <code>%d</code> pour inclure le nombre de groupes enfants (niveau "
+"inférieur)."
+
+#: extension.php:767
+msgid "Name of the Group Tree listing on the main Groups page."
+msgstr ""
+"Nom du listing hiérarchique des groupes (arborescence) sur la page "
+"principale des groupes."
+
+#: extension.php:817
+msgid "Failed to load the requested template."
+msgstr "Erreur lors du chargement du modèle de template requis."
+
+#: bp-group-hierarchy-widgets.php:54
+msgid "There are no groups to display."
+msgstr "Aucun groupe à afficher."
+
+#: bp-group-hierarchy-widgets.php:73
+msgid "Groups"
+msgstr "groupes"
+
+#: bp-group-hierarchy-widgets.php:80
+msgid "Title:"
+msgstr "Titre:"
+
+#: bp-group-hierarchy-widgets.php:81
+msgid "Max groups to show:"
+msgstr "Nombre maximum de groupes à afficher:"
+
+#: bp-group-hierarchy-widgets.php:82
+msgid "Show descriptions:"
+msgstr "Afficher les descriptions:"
+
+#: bp1-2.php:96
+msgid "Groups <span>(%d)</span>"
+msgstr "groupes <span>(%d)</span>"
+
+#: bp1-2.php:101 bp1-2.php:108
+msgid "My Groups"
+msgstr "Mes groupes"
+
+#: bp1-2.php:128
+msgid "Group Avatar"
+msgstr "Avatar de ce groupe"
+
+#: bp1-2.php:150
+msgid "Home"
+msgstr "Accueil"
+
+#: bp1-2.php:154
+msgid "Admin"
+msgstr "Admin"
+
+#: bp1-2.php:158
+msgid "Request Membership"
+msgstr "Demander d'adhérer au groupe"
+
+#: bp1-2.php:161
+msgid "Forum"
+msgstr "Foro"
+
+#: bp1-2.php:163
+msgid "Members (%s)"
+msgstr "Membres (%s)"
+
+#: bp1-2.php:167
+msgid "Send Invites"
+msgstr "Envoyer des invitations"
