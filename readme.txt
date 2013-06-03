@@ -60,6 +60,7 @@ No. There is currently no way to have activity propagate up without creating dup
 == Changelog ==
 
 = 1.3.9 =
+* NOTE: This will be the last release to support BuddyPress 1.5!
 * Added: Danish translation contributed by Mort3n
 * Added: French translation contributed by Mecanographik
 * Added: Brazilian Portugese translation contributed by <a href="http://wordpress.org/support/profile/stickfinger">stickFinger</a>
@@ -281,7 +282,7 @@ No. There is currently no way to have activity propagate up without creating dup
 == Upgrade Notice ==
 
 = 1.3.9 =
-Added translations and filter for Member Groups tab
+Lots of new translations and a filter for the Member Groups tab - LAST BP 1.5-COMPATIBLE RELEASE
 
 = 1.3.8 =
 Added translations and bug fix for adding groups
