@@ -143,7 +143,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 		) );
 
 		// If the user was attempting to access a group, but no group by that name was found, 404
-		if ( bp_is_groups_component() && empty( $this->current_group ) && !empty( $bp->current_action ) && !in_array( $bp->current_action, $this->forbidden_names ) ) {
+		if ( bp_is_groups_component() && empty( $this->current_group ) && bp_current_action() && ! in_array( bp_current_action(), $this->forbidden_names ) ) {
 			bp_do_404();
 			return;
 		}
