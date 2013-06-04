@@ -3,8 +3,8 @@ Contributors: ddean
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDCMJRYPKNN&lc=US&item_name=BP%20Group%20Hierarchy&currency_code=USD
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: WP 3.2, BuddyPress 1.5
-Tested up to: WP 3.5.1, BuddyPress 1.7-bleeding
-Stable tag: 1.3.8
+Tested up to: WP 3.6-beta3, BuddyPress 1.7.2
+Stable tag: 1.3.9
 
 Allows BuddyPress groups to have subgroups.
 
@@ -21,6 +21,10 @@ Every group and subgroup is a normal BuddyPress group and can have members and a
 * Spanish translation generously provided by <a href="http://dorsvenabili.com">_DorsVenabili</a>
 * Russian translation generously provided by Roman
 * Slovak translation generously provided by Branco, (<a href="http://webhostinggeeks.com/blog/">WebHostingGeeks.com</a>)
+* Danish translation generously provided by Mort3n
+* French translation generously provided by Mecanographik
+* Brazilian Portugese translation generously provided by <a href="http://wordpress.org/support/profile/stickfinger">stickFinger</a>
+* Dutch translation generously provided by Zé Vandenhoeck
 
 == Installation ==
 
@@ -54,6 +58,14 @@ No. There is currently no way to have activity propagate up without creating dup
 3. Hierarchy options when creating new groups
 
 == Changelog ==
+
+= 1.3.9 =
+* NOTE: This will be the last release to support BuddyPress 1.5!
+* Added: Danish translation contributed by Mort3n
+* Added: French translation contributed by Mecanographik
+* Added: Brazilian Portugese translation contributed by <a href="http://wordpress.org/support/profile/stickfinger">stickFinger</a>
+* Added: Dutch translation contributed by Zé Vandenhoeck
+* Added: `bp_group_hierarchy_extension_tab_name` filter for Member Groups tab name
 
 = 1.3.8 =
 * Added: Russian translation contributed by Roman
@@ -268,6 +280,9 @@ No. There is currently no way to have activity propagate up without creating dup
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.3.9 =
+Lots of new translations and a filter for the Member Groups tab - LAST BP 1.5-COMPATIBLE RELEASE
 
 = 1.3.8 =
 Added translations and bug fix for adding groups

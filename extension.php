@@ -35,7 +35,11 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		global $bp;
 		
 		$this->name = __( 'Group Hierarchy', 'bp-group-hierarchy' );
-		$this->nav_item_name = get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups %d','bp-group-hierarchy') );
+		$this->nav_item_name = apply_filters( 
+			'bp_group_hierarchy_extension_tab_name',
+			get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups %d','bp-group-hierarchy') ),
+			$bp->groups->current_group
+		);
 		
 		if( isset( $bp->groups->current_group ) && $bp->groups->current_group ) {
 			$this->nav_item_name = str_replace( '%d', '<span>%d</span>', $this->nav_item_name );
