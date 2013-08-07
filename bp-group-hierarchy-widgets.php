@@ -127,11 +127,11 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 		
 	    extract( $args );
 		
-		$parent_id = isset($bp->groups->current_group->id) ? $bp->groups->current_group->id : 0;
+		$parent_id = bp_get_current_group_id();
 		
 		echo $before_widget;
 		echo $before_title;
-		if($parent_id == 0) {
+		if( empty( $parent_id ) ) {
 			echo $instance['title'];
 		} else {
 			echo $instance['sub_title'];

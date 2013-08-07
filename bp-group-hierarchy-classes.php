@@ -4,7 +4,7 @@ define( 'BP_GROUPS_HIERARCHY_ANY_PARENT', -1 );
 
 if( ! class_exists( 'BP_Groups_Group' ) ) {
 	// Groups component is not enabled; don't initialize this class
-	bp_group_hierarchy_debug(' Groups class was not loaded before Groups Hierarchy');
+	bp_group_hierarchy_debug( 'Groups class was not loaded before Groups Hierarchy' );
 	return;
 }
 
@@ -23,7 +23,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		
 		global $bp, $wpdb;
 
-		if(!isset($bp->table_prefix)) {
+		if( ! function_exists( 'buddypress' ) ) {
 			bp_group_hierarchy_debug('BP not loaded');
 			return;
 		}
@@ -171,7 +171,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	
 	/**
 	 * Static functions - I believe these functions to be called exclusively in a static context
-	 * UPDATE: these have all been marked static in BP 1.6 trunk
+	 * UPDATE: these have all been marked static in BP 1.9 trunk
 	 */
 	
 	/**

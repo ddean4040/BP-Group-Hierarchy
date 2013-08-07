@@ -3,17 +3,17 @@
 Plugin Name: BP Group Hierarchy
 Plugin URI: http://www.generalthreat.com/projects/buddypress-group-hierarchy/
 Description: Allows BuddyPress groups to belong to other groups
-Version: 1.3.9
-Revision Date: 6/02/2013
-Requires at least: PHP 5, WP 3.2, BuddyPress 1.5
-Tested up to: WP 3.5.1, BuddyPress 1.7.2
+Version: 1.4.0-testing
+Revision Date: 8/06/2013
+Requires at least: PHP 5, WP 3.2, BuddyPress 1.6
+Tested up to: WP 3.6, BuddyPress 1.8.1
 License: Example: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 Author: David Dean
 Author URI: http://www.generalthreat.com/
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
-define ( 'BP_GROUP_HIERARCHY_VERSION', '1.3.9' );
+define ( 'BP_GROUP_HIERARCHY_VERSION', '1.4.0' );
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', 1 );
 if( ! defined( 'BP_GROUP_HIERARCHY_SLUG' ) )
 	define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
@@ -33,6 +33,12 @@ register_activation_hook( __FILE__, 'bp_group_hierarchy_install' );
  */
 function bp_group_hierarchy_install() {
 	global $wpdb, $bp;
+
+	// Check whether BP is active and whether Groups component is loaded, and throw error if not
+	if( ! function_exists( 'buddypress' ) || ! array_key_exists( 'groups', $bp->active_components ) ) {
+		_e( 'BuddyPress is not installed or the Groups component is not activated. Cannot continue install.', 'bp-group-hierarchy' );
+		return;
+	}
 
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
