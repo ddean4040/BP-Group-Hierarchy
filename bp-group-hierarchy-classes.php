@@ -84,6 +84,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		parent::save();
 		
 		if($this->id) {
+		
+			do_action_ref_array( 'bp_group_hierarchy_before_save', array( &$this ) );
+			
 			$sql = $wpdb->prepare(
 				"UPDATE {$bp->groups->table_name} SET
 					parent_id = %d
@@ -104,6 +107,8 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			
 			$this->path = $this->buildPath();
 			$this->slug = $this->path;
+			
+			do_action_ref_array( 'bp_group_hierarchy_after_save', array( &$this ) );
 			
 			return true;
 		}
