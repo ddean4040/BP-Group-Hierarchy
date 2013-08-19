@@ -190,26 +190,10 @@ function bp_group_hierarchy_overload_groups( $components ) {
 
 		require( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php' );
 
-		// BP 1.6+
-		if( has_action( 'bp_setup_components') ) {
-			
-			remove_action( 'bp_setup_components', 'bp_setup_groups', 6);
-			add_action( 'bp_setup_components', 'bp_setup_groups_hierarchy', 6);
-	
-			require dirname(__FILE__) . '/bp-group-hierarchy-loader.php';
-			
-		} else {
-
-			require dirname(__FILE__) . '/bp-group-hierarchy-loader.php';
-
-			/** Remove these actions while the $bp->groups reference is correct */
-			remove_action( 'bp_setup_globals', array( $bp->groups, 'setup_globals' ));
-			remove_action( 'bp_setup_nav', array( $bp->groups, 'setup_nav' ));
-			remove_action( 'bp_setup_title', array( $bp->groups, 'setup_title' ));
-			
-			bp_setup_groups_hierarchy();
-			
-		}
+		remove_action( 'bp_setup_components', 'bp_setup_groups', 6);
+		add_action( 'bp_setup_components', 'bp_setup_groups_hierarchy', 6);
+		
+		require dirname(__FILE__) . '/bp-group-hierarchy-loader.php';
 		
 	}
 

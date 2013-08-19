@@ -90,7 +90,7 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			 */
 			$this->groups = array(
 				(object)array(
-					'group_id'	=> $bp->groups->current_group->id
+					'group_id'	=> bp_get_current_group_id()
 				)
 			);
 			$this->group_count = 1;
@@ -305,20 +305,20 @@ function bp_has_groups_hierarchy($args = '') {
 	$slug = false;
 
 	/* User filtering */
-	if ( !empty( $bp->displayed_user->id ) )
-		$user_id = $bp->displayed_user->id;
+	if ( ! empty( bp_displayed_user_id() ) )
+		$user_id = bp_displayed_user_id();
 
 	/* Type */
-	if ( 'my-groups' == $bp->current_action ) {
+	if ( 'my-groups' == bp_current_action() ) {
 		if ( 'most-popular' == $order )
 			$type = 'popular';
 		else if ( 'alphabetically' == $order )
 			$type = 'alphabetical';
-	} else if ( 'invites' == $bp->current_action ) {
+	} else if ( 'invites' == bp_current_action() ) {
 		$type = 'invites';
-	} else if ( $bp->groups->current_group->slug ) {
+	} else if ( bp_get_current_group_slug() ) {
 		$type = 'single-group';
-		$slug = $bp->groups->current_group->slug;
+		$slug =  bp_get_current_group_slug();
 	}
 
 	if ( isset( $_REQUEST['group-filter-box'] ) || isset( $_REQUEST['s'] ) )

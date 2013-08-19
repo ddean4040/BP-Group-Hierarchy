@@ -72,13 +72,4 @@ function bpgh_has_groups_admin_menu() {
 	return isset( $admin_page_hooks['bp-groups'] );
 }
 
-/**
- * Compatibility function for getting BP version on BP 1.5-1.7
- */
-if( ! function_exists( 'bp_get_version' ) ) {
-	function bp_get_version() {
-		return BP_VERSION;
-	}
-}
-
 ?>

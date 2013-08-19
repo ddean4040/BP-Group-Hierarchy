@@ -30,7 +30,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	 */
 	var $enable_admin_item = false;
 	
-	function bp_groups_hierarchy_extension() {
+	public function __construct() {
 		
 		global $bp;
 		
@@ -58,11 +58,6 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		$this->create_step_position = 6;
 		$this->nav_item_position = 61;
 
-		/** workaround for buddypress bug #2701 */
-		if(!$bp->is_item_admin && !is_super_admin()) {
-			$this->enable_edit_item = false;
-		}
-				
 		$this->subgroup_permission_options = array(
 			'anyone'		=> __('Anybody','bp-group-hierarchy'),
 			'noone'			=> __('Nobody','bp-group-hierarchy'),
@@ -77,6 +72,27 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 		$this->enable_nav_item = $this->enable_nav_item();
 		
+		// BP 1.8+ initiation process -- for future compatibility
+		if( method_exists( $this, 'init' ) ) {
+
+			$args = array(
+				'name'              => $this->name,
+				'slug'              => BP_GROUP_HIERARCHY_SLUG,
+				'enable_nav_item'   => $this->enable_nav_item(),
+				'nav_item_name'     => $this->nav_item_name,
+				'nav_item_position' => $this->nav_item_position,
+				'screens'           => array(
+					'create'           => array(
+						'position'        => $this->create_step_position
+					),
+					'edit'             => array(
+						'name'            => $this->name // Didn't want to pass an empty array
+					)
+				)
+			);
+			
+			parent::init( $args );
+		}
 	}
 	
 	function get_default_permission_option() {
@@ -663,7 +679,7 @@ function bp_group_hierarchy_get_groups_tree( $groups, $params, $parent_id = 0 ) 
 	if( ! isset( $bp->groups->current_group->id ) && ! $params['user_id'] ) {
 
 		/** remove search placeholder text for BP 1.5 */
-		if( function_exists( 'bp_get_search_default_text' ) && trim( $params['search_terms'] ) == bp_get_search_default_text( 'groups' ) )	$params['search_terms'] = '';
+//		if( function_exists( 'bp_get_search_default_text' ) && trim( $params['search_terms'] ) == bp_get_search_default_text( 'groups' ) )	$params['search_terms'] = '';
 		
 		if( empty( $params['search_terms'] ) ) {
 	
@@ -754,13 +770,16 @@ function bp_group_hierarchy_assert_parent_available( $return = false ) {
 add_action( 'bp_before_create_group', 'bp_group_hierarchy_assert_parent_available' );
 
 /**
- * (BP 1.5.x) Hide the Create a New Group buton if the user doesn't have a place to create new groups
+ * (BP 1.5+) Hide the Create a New Group button if the user doesn't have a place to create new groups
  */
 function bp_group_hierarchy_can_create_any_group( $permitted, $global_setting ) {
 	return $permitted && bp_group_hierarchy_assert_parent_available(true);
 }
 add_filter( 'bp_user_can_create_groups', 'bp_group_hierarchy_can_create_any_group', 10, 2 );
 
+/**
+ * Get the party started
+ */
 function bp_group_hierarchy_extension_init() {
 	global $bp;
 	

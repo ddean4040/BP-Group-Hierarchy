@@ -46,7 +46,13 @@ function bp_group_hierarchy_init() {
  */
 function bp_group_hierarchy_load_components() {
 
-	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
+	if( version_compare( (float)bp_get_version(), '1.9', '>=' ) ) {
+		// Load BP 1.9+ class -- still using same file until the new one is written
+		require ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
+	} else {
+		// Load legacy (BP 1.6 - 1.8) class
+		require ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
+	}
 	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
 
 	if( is_admin() && ! strpos( admin_url('admin-ajax.php'), $_SERVER['REQUEST_URI'] ) ) return;
