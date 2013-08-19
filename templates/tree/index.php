@@ -5,9 +5,7 @@
  *
  */
 
-?>
-
-<?php get_header( 'buddypress' ); ?>
+get_header( 'buddypress' ); ?>
 
 	<?php do_action( 'bp_before_directory_groups_page' ); ?>
 
@@ -60,6 +58,7 @@
 							<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
 
 							<?php do_action( 'bp_groups_directory_order_options' ); ?>
+
 						</select>
 					</li>
 				</ul>
