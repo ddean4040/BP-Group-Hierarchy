@@ -47,11 +47,11 @@ function bp_group_hierarchy_init() {
 function bp_group_hierarchy_load_components() {
 
 	if( version_compare( (float)bp_get_version(), '1.9', '>=' ) ) {
-		// Load BP 1.9+ class -- still using same file until the new one is written
+		// Load BP 1.9+ class
 		require ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
 	} else {
 		// Load legacy (BP 1.6 - 1.8) class
-		require ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes.php' );
+		require ( dirname( __FILE__ ) . '/bp-group-hierarchy-classes-legacy.php' );
 	}
 	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
 

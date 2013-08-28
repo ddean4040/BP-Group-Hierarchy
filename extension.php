@@ -702,14 +702,19 @@ function bp_group_hierarchy_clean_title( $full_title ) {
 
 /**
  * Change the HTML title to reflect custom Group Tree name
- * Works with either the BP 1.2 bp_page_title hook or the standard wp_title hook used in BP 1.5+
  */
-function bp_group_hierarchy_group_tree_title( $full_title, $title, $sep_location = null ) {
+function bp_group_hierarchy_group_tree_title(  $title, $sep, $sep_location = null ) {
 	global $bp;
 	if($sep_location != null) {
-		return bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] ) . ' ' . $title . ' ';
-	}
-	return $full_title . bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] );
+		return str_replace(
+			sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug() ),
+			bp_group_hierarchy_clean_title( $bp->group_hierarchy->extension_settings['group_tree_name'] ),
+			$title
+		);
+ 	}
+ 	
+ 	// I think this is left over from BP 1.2, so just return the title
+	return $title;
 }
 
 /************************************************************
@@ -777,6 +782,25 @@ function bp_group_hierarchy_can_create_any_group( $permitted, $global_setting ) 
 }
 add_filter( 'bp_user_can_create_groups', 'bp_group_hierarchy_can_create_any_group', 10, 2 );
 
+
+/**
+ * (BP 1.7+) Add plugin templates folder to list of available template paths
+ */
+function bp_group_hierarchy_register_template_location() {
+	return dirname( __FILE__ ) . '/templates/';
+}
+
+/**
+ * (BP 1.7+) Replace groups/index with tree/index-compat depending on user settings
+ */
+function bp_group_hierarchy_maybe_replace_group_loop_template( $templates, $slug, $name ) {
+	
+	if( 'groups/index' != $slug )
+		return $templates;
+	
+	return array( 'tree/index-compat.php' );
+}
+
 /**
  * Get the party started
  */
@@ -785,6 +809,10 @@ function bp_group_hierarchy_extension_init() {
 	
 	add_action( 'wp_ajax_groups_tree_filter', 'bp_dtheme_object_template_loader' );
 	add_action( 'wp_ajax_nopriv_groups_tree_filter', 'bp_dtheme_object_template_loader' );
+	
+	/** Register templates folder for theme compatibility support when available */
+	if( function_exists( 'bp_register_template_stack' ) )
+		bp_register_template_stack( 'bp_group_hierarchy_register_template_location' );
 	
 	$bp->group_hierarchy->extension_settings = array(
 		'show_group_tree'	=> get_site_option( 'bpgh_extension_show_group_tree', false ),
@@ -812,7 +840,15 @@ function bp_group_hierarchy_extension_init() {
 			/**
 			 * Override BP's default group index with the tree
 			 */
-			add_filter( 'groups_template_directory_groups', create_function( '$template', 'return "tree/index";' ) );
+			if(
+				! class_exists( 'BP_Theme_Compat' ) || 
+				current_theme_supports('buddypress') || 
+				in_array( 'bp-default', array( get_stylesheet(), get_template() ) ) 
+			) {
+				add_filter( 'groups_template_directory_groups', create_function( '$template', 'return "tree/index";' ) );
+			} else {
+				add_filter( 'bp_get_template_part', 'bp_group_hierarchy_maybe_replace_group_loop_template', 10, 3 );
+			}
 		}
 		
 	} else if(bp_is_groups_component() && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['show_group_tree']) {

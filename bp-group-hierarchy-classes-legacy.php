@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Groups class for BuddyPress 1.9+
+ * Groups class for BuddyPress < 1.9
  */
 
 define( 'BP_GROUPS_HIERARCHY_ANY_PARENT', -1 );
@@ -187,9 +187,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	 * Check whether slug is valid for a subgroup of passed parent group ID
 	 * @param string Slug group slug to check
 	 * @param int ParentID optional ID of parent group to search (ANY group if omitted)
-	 * Declared static since BP 1.9
+	 * Not declared as static in parent, but called statically
 	 */
-	public static function check_slug( $slug, $parent_id = BP_GROUPS_HIERARCHY_ANY_PARENT ) {
+	function check_slug( $slug, $parent_id = BP_GROUPS_HIERARCHY_ANY_PARENT ) {
 		global $wpdb, $bp;
 
 		if ( !$slug )
@@ -216,9 +216,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 	
 	/**
-	 * Declared static since BP 1.9
+	 * Not declared as static in parent, but called statically
 	 */
-	public static function group_exists( $path, $parent_id = 0 ) {
+	function group_exists( $path, $parent_id = 0 ) {
 		
 		if(strpos( $path, '/' )) {
 			$path = explode('/',$path);
@@ -237,9 +237,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 	
 	/**
-	 * Declared static since BP 1.9
+	 * Not declared as static in parent, but called statically
 	 */
-	public static function get_id_from_slug( $slug, $parent_id = 0 ) {
+	function get_id_from_slug( $slug, $parent_id = 0 ) {
 		return self::group_exists( $slug, $parent_id );
 	}
 	
@@ -337,9 +337,9 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 
 	/**
-	 * Declared static since BP 1.9
+	 * Not declared as static in parent, but called statically
 	 */
-	public static function get_group_extras( $paged_groups, $group_ids, $type = false ) {
+	function get_group_extras( $paged_groups, $group_ids, $type = false ) {
 
 		foreach($paged_groups as $key => $group) {
 			if(!isset($group->path)) {

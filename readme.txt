@@ -61,6 +61,11 @@ No. There is currently no way to have activity propagate up without creating dup
 
 = 1.4.0 =
 * Removed: Support for BuddyPress 1.5
+* Added: Support for BuddyPress 1.9
+* Added: Support for BP theme compatibility mode
+* Changed: Updated extension class to conform (better) to new BP_Group_Extension guidelines
+* Fixed: Weird HTML title when hiding the flat group list
+* Fixed: Wrong tab could be highlighted when loading the Groups list page under certain circumstances - thanks, Mike
 
 = 1.3.9 =
 * NOTE: This will be the last release to support BuddyPress 1.5!
