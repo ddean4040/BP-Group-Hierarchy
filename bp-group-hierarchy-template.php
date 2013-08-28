@@ -305,7 +305,7 @@ function bp_has_groups_hierarchy($args = '') {
 	$slug = false;
 
 	/* User filtering */
-	if ( ! empty( bp_displayed_user_id() ) )
+	if ( bp_displayed_user_id() )
 		$user_id = bp_displayed_user_id();
 
 	/* Type */
