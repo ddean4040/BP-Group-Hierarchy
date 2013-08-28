@@ -1,4 +1,10 @@
 jQuery(document).ready( function() {
+
+	/** Mark the Group Tree tab active (unless user has been traversing the tree) */
+	jQuery(window).load(function() {
+		bp_init_objects(["tree"]);
+	});
+
 	/** Add tree class to groups panel for AJAX loading */
 	jQuery('div.groups').addClass('tree');
 	jQuery('.item-subitem-indicator a').live('click',function(event) {
@@ -43,4 +49,26 @@ jQuery(document).ready( function() {
 		jq(this).html('[-]');
 		return false;
 	});
+	
+	/** Set groups scope when a tree button is clicked -- keeps "My Groups" tab from being active after a reload */
+	jq('div.item-list-tabs').on( 'click', function(event) {
+		if ( jq(this).hasClass('no-ajax') )
+			return;
+
+		var targetElem = ( event.target.nodeName == 'SPAN' ) ? event.target.parentNode : event.target;
+		var target     = jq( targetElem ).parent();
+		if ( 'LI' == target[0].nodeName && !target.hasClass( 'last' ) ) {
+			var css_id = target.attr('id').split( '-' );
+			var object = css_id[0];
+
+			if ( 'tree' != object )
+				return;
+			
+			var scope = css_id[1];
+			
+			jq.cookie('bp-groups-scope', scope, {
+				path: '/'
+			});
+		}
+	}	
 });
