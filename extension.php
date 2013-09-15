@@ -825,6 +825,11 @@ function bp_group_hierarchy_extension_init() {
 	
 	/** Load the hierarchy.css file from the user's theme, if available */
 	if( $hierarchy_css = apply_filters( 'bp_located_template', locate_template( array( '_inc/css/hierarchy.css' ), false ), '_inc/css/hierarchy.css' ) ) {
+
+		// Detect when loading CSS from the plugin dir and rewrite with plugins_url for better MS / symlink support
+		if( 0 === strpos( $hierarchy_css, dirname( __FILE__ ) ) )
+			$hierarchy_css = plugins_url( 'templates/_inc/css/hierarchy.css', __FILE__ );
+		
 		wp_register_style( 'bp-group-hierarchy-tree-style', str_replace(array(substr(ABSPATH,0,-1),'\\'), array('','/'), $hierarchy_css) );
 	}
 	
