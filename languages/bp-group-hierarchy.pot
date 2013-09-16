@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-group-hierarchy\n"
-"POT-Creation-Date: 2013-06-03 02:16:52+00:00\n"
+"POT-Creation-Date: 2013-09-16 02:00:49+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,12 +21,12 @@ msgid "Group Hierarchy"
 msgstr ""
 
 #: bp-group-hierarchy-admin.php:65 bp-group-hierarchy-admin.php:120
-#: extension.php:774
+#: extension.php:821
 msgid "Group Tree"
 msgstr ""
 
 #: bp-group-hierarchy-admin.php:66 bp-group-hierarchy-widgets.php:197
-#: extension.php:174 extension.php:175 extension.php:280 extension.php:281
+#: extension.php:190 extension.php:191 extension.php:296 extension.php:297
 msgid "Member Groups"
 msgstr ""
 
@@ -83,7 +83,7 @@ msgstr ""
 msgid "Name of the Group Tree listing on the main Groups page."
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:127 extension.php:284
+#: bp-group-hierarchy-admin.php:127 extension.php:300
 msgid "Save Changes"
 msgstr ""
 
@@ -132,7 +132,7 @@ msgid "created %s"
 msgstr ""
 
 #: bp-group-hierarchy-widgets.php:48 bp-group-hierarchy-widgets.php:162
-#: extension.php:389 templates/tree/tree-loop.php:54
+#: extension.php:405 templates/tree/tree-loop.php:54
 msgid "active %s"
 msgstr ""
 
@@ -163,17 +163,17 @@ msgid "Order by:"
 msgstr ""
 
 #: bp-group-hierarchy-widgets.php:106 bp-group-hierarchy-widgets.php:212
-#: templates/tree/index.php:60
+#: templates/tree/index-compat.php:42 templates/tree/index.php:58
 msgid "Alphabetical"
 msgstr ""
 
 #: bp-group-hierarchy-widgets.php:107 bp-group-hierarchy-widgets.php:213
-#: templates/tree/index.php:59
+#: templates/tree/index-compat.php:41 templates/tree/index.php:57
 msgid "Newly Created"
 msgstr ""
 
 #: bp-group-hierarchy-widgets.php:108 bp-group-hierarchy-widgets.php:214
-#: templates/tree/index.php:57
+#: templates/tree/index-compat.php:39 templates/tree/index.php:55
 msgid "Last Active"
 msgstr ""
 
@@ -207,80 +207,90 @@ msgstr ""
 msgid "Member Groups %d"
 msgstr ""
 
-#: extension.php:67
+#: extension.php:62
 msgid "Anybody"
 msgstr ""
 
-#: extension.php:68
+#: extension.php:63
 msgid "Nobody"
 msgstr ""
 
-#: extension.php:69
+#: extension.php:64
 msgid "only Group Members"
 msgstr ""
 
-#: extension.php:70
+#: extension.php:65
 msgid "only Group Admins"
 msgstr ""
 
-#: extension.php:112 extension.php:152 extension.php:250
+#: extension.php:128 extension.php:168 extension.php:266
 msgid "Parent Group"
 msgstr ""
 
-#: extension.php:137 extension.php:154 extension.php:235
+#: extension.php:153 extension.php:170 extension.php:251
 msgid "Site Root"
 msgstr ""
 
-#: extension.php:175 extension.php:281
+#: extension.php:191 extension.php:297
 msgid "Allow %1$s to create %2$s"
 msgstr ""
 
-#: extension.php:260
+#: extension.php:276
 msgid "Only a site administrator can edit the group hierarchy."
 msgstr ""
 
-#: extension.php:323
+#: extension.php:339
 msgid "There was an error saving; please try again."
 msgstr ""
 
-#: extension.php:325
+#: extension.php:341
 msgid "Group hierarchy settings saved successfully."
 msgstr ""
 
-#: extension.php:362
+#: extension.php:378
 msgid "Create a %s"
 msgstr ""
 
-#: extension.php:362
+#: extension.php:378
 msgid "Member Group"
 msgstr ""
 
-#: extension.php:424
+#: extension.php:440
 msgid "No member groups were found."
 msgstr ""
 
-#: extension.php:720 extension.php:750
+#: extension.php:710
+msgid "%s Directory"
+msgstr ""
+
+#: extension.php:741 extension.php:771
 msgid "Sorry, you are not allowed to create groups."
 msgstr ""
 
-#: extension.php:773
+#: extension.php:820
 msgid "Member Groups (%d)"
 msgstr ""
 
-#: templates/tree/index.php:21
-msgid "Create a Group"
+#: index.php:39
+msgid ""
+"BuddyPress is not installed or the Groups component is not activated. Cannot "
+"continue install."
 msgstr ""
 
-#: templates/tree/index.php:39
+#: templates/tree/index-compat.php:22 templates/tree/index.php:37
 msgid "My Groups <span>%s</span>"
 msgstr ""
 
-#: templates/tree/index.php:55
+#: templates/tree/index-compat.php:36 templates/tree/index.php:53
 msgid "Order By:"
 msgstr ""
 
-#: templates/tree/index.php:58
+#: templates/tree/index-compat.php:40 templates/tree/index.php:56
 msgid "Most Members"
+msgstr ""
+
+#: templates/tree/index.php:19
+msgid "Create a Group"
 msgstr ""
 
 #: templates/tree/tree-loop.php:98
