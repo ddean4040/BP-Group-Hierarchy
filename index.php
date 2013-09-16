@@ -35,7 +35,7 @@ function bp_group_hierarchy_install() {
 	global $wpdb, $bp;
 
 	// Check whether BP is active and whether Groups component is loaded, and throw error if not
-	if( ! function_exists( 'buddypress' ) || ! bp_is_active( 'groups' ) ) {
+	if( ! ( function_exists( 'buddypress' ) || is_a( $bp, 'BuddyPress' ) ) || ! bp_is_active( 'groups' ) ) {
 		_e( 'BuddyPress is not installed or the Groups component is not activated. Cannot continue install.', 'bp-group-hierarchy' );
 		exit;
 	}

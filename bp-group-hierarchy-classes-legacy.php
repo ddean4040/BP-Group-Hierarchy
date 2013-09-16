@@ -27,7 +27,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		
 		global $bp, $wpdb;
 
-		if( ! function_exists( 'buddypress' ) ) {
+		if( ! function_exists( 'buddypress' ) && ! is_a( $bp, 'BuddyPress' ) ) {
 			bp_group_hierarchy_debug('BP not loaded');
 			return;
 		}
