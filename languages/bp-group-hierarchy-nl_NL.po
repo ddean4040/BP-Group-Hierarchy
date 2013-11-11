@@ -1,0 +1,281 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the package.
+msgid ""
+msgstr ""
+"Project-Id-Version: bp-group-hierarchy\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-group-hierarchy\n"
+"POT-Creation-Date: 2011-09-13 00:14:24+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-04-23 17:12-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: bp-groups-hierarchy-component.php:30
+msgid "Search Groups..."
+msgstr "Zoek ploegen…"
+
+#: bp-groups-hierarchy-component.php:118
+msgid "You do not have access to this group."
+msgstr "U heeft geen toegang tot deze ploeg."
+
+#: bp-groups-hierarchy-component.php:131
+msgid "Details"
+msgstr "Details"
+
+#: bp-groups-hierarchy-component.php:135
+msgid "Settings"
+msgstr "Instellingen"
+
+#: bp-groups-hierarchy-component.php:143
+msgid "Avatar"
+msgstr "Afbeeldingen"
+
+#: bp-groups-hierarchy-component.php:151 bp1-2.php:102
+msgid "Invites"
+msgstr "Uitnodigingen"
+
+#: templates/tree/index.php:7
+msgid "Groups Directory"
+msgstr "Lijst van plegen"
+
+#: templates/tree/index.php:7
+msgid "Create a Group"
+msgstr "Maak een ploeg aan"
+
+#: templates/tree/index.php:20
+msgid "My Groups (%s)"
+msgstr "Mijn ploegen (%s)"
+
+#: templates/tree/index.php:27
+msgid "Order By:"
+msgstr "Sorteer op:"
+
+#: templates/tree/index.php:29
+msgid "Last Active"
+msgstr "Recent actief"
+
+#: templates/tree/index.php:30
+msgid "Most Members"
+msgstr "Meeste leden"
+
+#: templates/tree/index.php:31
+msgid "Newly Created"
+msgstr "Recent aangemaakt"
+
+#: templates/tree/index.php:32
+msgid "Alphabetical"
+msgstr "Alfabetisch"
+
+#: templates/tree/tree-loop.php:39 extension.php:354
+#: bp-group-hierarchy-widgets.php:39
+msgid "active %s ago"
+msgstr "%s geleden actief"
+
+#: templates/tree/tree-loop.php:41 extension.php:356
+msgid "active %s"
+msgstr "%s actief"
+
+#: templates/tree/tree-loop.php:84
+msgid "There were no groups found."
+msgstr "Er werden geen ploegen gevonden."
+
+#: extension.php:18 extension.php:793
+msgid "Member Groups (%d)"
+msgstr "Ploegen (%d)"
+
+#: extension.php:20 extension.php:779
+msgid "Group Hierarchy"
+msgstr "Groepsstructuur"
+
+#: extension.php:42
+msgid "Anybody"
+msgstr "Iedereen"
+
+#: extension.php:43
+msgid "Nobody"
+msgstr "Niemand"
+
+#: extension.php:44
+msgid "only Group Members"
+msgstr "Enkel ploegleden"
+
+#: extension.php:45
+msgid "only Group Admins"
+msgstr "Enkel groepsadmins"
+
+#: extension.php:84 extension.php:125 extension.php:218
+msgid "Parent Group"
+msgstr "Verbond"
+
+#: extension.php:109 extension.php:127 extension.php:220
+msgid "Site Root"
+msgstr "Hoogste niveau"
+
+#: extension.php:147 extension.php:148 extension.php:249 extension.php:250
+#: extension.php:710
+msgid "Member Groups"
+msgstr "Ploegen"
+
+#: extension.php:148 extension.php:250
+msgid "Allow %1$s to create %2$s"
+msgstr "Sta %1$s toe om %2$s aan te maken"
+
+#: extension.php:229
+msgid "Only a site administrator can edit the group hierarchy."
+msgstr ""
+"De groepsstructuur kan enkel door een site administrator aangepast worden."
+
+#: extension.php:253 extension.php:771
+msgid "Save Changes"
+msgstr "Wijzigingen bewaren"
+
+#: extension.php:292
+msgid "There was an error saving; please try again."
+msgstr ""
+"Er is een fout opgetreden bij het bewaren; gelieve opnieuw te proberen."
+
+#: extension.php:294
+msgid "Group hierarchy settings successfully."
+msgstr "De instellingen van de groepsstructuur zijn succesvol bewaard."
+
+#: extension.php:325
+msgid "Create a %s"
+msgstr "%s aanmaken"
+
+#: extension.php:325
+msgid "Member Group"
+msgstr "Ploeg"
+
+#: extension.php:393
+msgid "No member groups were found."
+msgstr "Er werden geen ploegen gevonden"
+
+#: extension.php:637 extension.php:667
+msgid "Sorry, you are not allowed to create groups."
+msgstr "U heeft onvoldoende rechten om ploegen aan te maken."
+
+#: extension.php:709 extension.php:764 extension.php:794
+msgid "Group Tree"
+msgstr "Overzicht van de groepsstructuur"
+
+#: extension.php:714
+msgid "Settings saved."
+msgstr "Instellingen bewaard."
+
+#: extension.php:715
+msgid "Group Hierarchy Settings"
+msgstr "Instellingen van de groepsstructuur"
+
+#: extension.php:720
+msgid "Show Group Tree"
+msgstr "Toon het overzicht van de groepsstructuur"
+
+#: extension.php:724
+msgid ""
+"Show the Group Tree view on the Groups page along with the flat list of "
+"groups."
+msgstr ""
+"Toon het overzicht van de groepsstructuur op de groepspagina, samen met de "
+"lijst van de ploegen."
+
+#: extension.php:729
+msgid "Hide Group List"
+msgstr "Verberg lijst van de ploegen."
+
+#: extension.php:733
+msgid ""
+"Hide the flat list of groups and show ONLY the Group Tree on the Groups page"
+msgstr ""
+"Verberg de lijst van de ploegen, en toon ENKEL het overzicht van de "
+"groepsstructuur op de groepspagina."
+
+#: extension.php:738 bp-group-hierarchy-widgets.php:15
+msgid "Toplevel Groups"
+msgstr "Toplevel groepen"
+
+#: extension.php:748
+msgid ""
+"Select who is allowed to create toplevel groups. Super admins can always "
+"create toplevel groups."
+msgstr ""
+"Duid aan wie toplevel groepen kan aanmaken. Administrators kunnen altijd "
+"deze groepen aanmaken."
+
+#: extension.php:756
+msgid "Nav Item"
+msgstr "Menu-item"
+
+#: extension.php:759
+msgid "Name of the nav item on an individual group's page."
+msgstr "Naam van het menu-item op pagina van een individuele ploeg."
+
+#: extension.php:760
+msgid "Use %d to include the number of child groups."
+msgstr "Hanteer %d om het aantal ploegen te vermelden."
+
+#: extension.php:767
+msgid "Name of the Group Tree listing on the main Groups page."
+msgstr "Naam van het overzicht van de groepsstructuur op de groepspagina."
+
+#: extension.php:817
+msgid "Failed to load the requested template."
+msgstr "De gevraagde template kon niet geladen worden."
+
+#: bp-group-hierarchy-widgets.php:54
+msgid "There are no groups to display."
+msgstr "Er zijn geen ploegen om weer te geven."
+
+#: bp-group-hierarchy-widgets.php:73
+msgid "Groups"
+msgstr "Ploegen"
+
+#: bp-group-hierarchy-widgets.php:80
+msgid "Title:"
+msgstr "Titel:"
+
+#: bp-group-hierarchy-widgets.php:81
+msgid "Max groups to show:"
+msgstr "Maximaal aantal te tonen ploegen:"
+
+#: bp-group-hierarchy-widgets.php:82
+msgid "Show descriptions:"
+msgstr "Toon beschrijving:"
+
+#: bp1-2.php:96
+msgid "Groups (%d)"
+msgstr "Ploegen (%d)"
+
+#: bp1-2.php:101 bp1-2.php:108
+msgid "My Groups"
+msgstr "Mijn ploegen"
+
+#: bp1-2.php:128
+msgid "Group Avatar"
+msgstr "Ploegafbeelding"
+
+#: bp1-2.php:150
+msgid "Home"
+msgstr "Start"
+
+#: bp1-2.php:154
+msgid "Admin"
+msgstr "Admin"
+
+#: bp1-2.php:158
+msgid "Request Membership"
+msgstr "Vraag lidmaatschap aan"
+
+#: bp1-2.php:161
+msgid "Forum"
+msgstr "Forum"
+
+#: bp1-2.php:163
+msgid "Members (%s)"
+msgstr "Leden (%s)"
+
+#: bp1-2.php:167
+msgid "Send Invites"
+msgstr "Verzend uitnodigingen"
