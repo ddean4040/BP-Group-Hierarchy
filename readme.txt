@@ -60,8 +60,8 @@ No. There is currently no way to have activity propagate up without creating dup
 == Changelog ==
 
 = 1.4.1 =
-* Fixed: error in `groups_hierarchy_create_group` function - thanks, dcavins
-* Fixed: pagination issue on the Member Groups page of a group - thanks, phlux303
+* Fixed: Error in `groups_hierarchy_create_group` function - thanks, dcavins
+* Fixed: Pagination issue on the Member Groups page of a group - thanks, phlux303
 
 = 1.4.0 =
 * Removed: Support for BuddyPress 1.5
