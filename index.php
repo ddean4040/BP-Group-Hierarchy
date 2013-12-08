@@ -13,7 +13,11 @@ Author URI: http://www.generalthreat.com/
 */
 
 define ( 'BP_GROUP_HIERARCHY_IS_INSTALLED', 1 );
+<<<<<<< HEAD
+define ( 'BP_GROUP_HIERARCHY_VERSION', '1.3.9' );
+=======
 define ( 'BP_GROUP_HIERARCHY_VERSION', '1.4.0' );
+>>>>>>> remotes/trunk
 define ( 'BP_GROUP_HIERARCHY_DB_VERSION', 1 );
 if( ! defined( 'BP_GROUP_HIERARCHY_SLUG' ) )
 	define ( 'BP_GROUP_HIERARCHY_SLUG', 'hierarchy' );
