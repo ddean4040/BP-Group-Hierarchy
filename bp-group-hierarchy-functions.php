@@ -44,7 +44,7 @@ function bp_group_hierarchy_get_by_hierarchy($args) {
 function groups_hierarchy_create_group( $args = '' ) {
 	if( $group_id = groups_create_group( $args ) ) {
 		if( isset( $args['parent_id'] ) ) {
-			$group = new BP_Group_Hierarchy( $group_id );
+			$group = new BP_Groups_Hierarchy( $group_id );
 			$group->parent_id = (int)$args['parent_id'];
 			$group->save();
 		}
