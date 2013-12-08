@@ -16,7 +16,7 @@ function group_hierarchy_override_current_action( $current_action ) {
 	do_action( 'bp_group_hierarchy_route_requests' );
 
 	/** Only process once - hopefully this won't have any side effects */
-	remove_action( 'bp_current_action', 'group_hierarchy_override_current_action' );
+	remove_filter( 'bp_current_action', 'group_hierarchy_override_current_action' );
 	
 	/** Abort processing on dashboard pages and when not in groups component */
 	if( is_admin() && ! strpos( admin_url('admin-ajax.php'), $_SERVER['REQUEST_URI'] ) ) {
