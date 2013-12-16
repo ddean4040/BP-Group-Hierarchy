@@ -55,6 +55,9 @@ function bp_group_hierarchy_admin_page() {
 		update_site_option( 'bpgh_extension_group_tree_name', $options['group_tree_name']);
 		update_site_option( 'bpgh_extension_nav_item_name',   $options['nav_item_name']);
 		
+		// allow plugins to receive saved data
+		do_action( 'bpgh_admin_after_save', $options );
+		
 		$updated = true;
 	}
 	
@@ -105,6 +108,12 @@ function bp_group_hierarchy_admin_page() {
 						</label>
 					</td>
 				</tr>
+				<?php 
+				
+				// allow plugins to add options
+				do_action( 'bpgh_admin_after_settings' ); 
+				
+				?>
 			</table>
 			<h3>Labels</h3>
 			<table class="form-table">
