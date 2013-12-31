@@ -277,7 +277,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			$hidden_sql = " AND status != 'hidden'";
 		
 		if( !empty($search_terms)) {
-			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
+			$search_terms = like_escape( esc_sql( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		} else {
 			$search_sql = '';
@@ -325,7 +325,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		$group_ids = array();
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
+			$group_ids = esc_sql( join( ',', (array)$group_ids ) );
 			$paged_groups = self::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 		
