@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-group-hierarchy\n"
-"POT-Creation-Date: 2013-11-11 20:14:40+00:00\n"
+"POT-Creation-Date: 2013-12-31 21:51:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,70 +20,70 @@ msgstr ""
 msgid "Group Hierarchy"
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:65 bp-group-hierarchy-admin.php:120
+#: bp-group-hierarchy-admin.php:68 bp-group-hierarchy-admin.php:129
 #: extension.php:821
 msgid "Group Tree"
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:66 bp-group-hierarchy-widgets.php:197
+#: bp-group-hierarchy-admin.php:69 bp-group-hierarchy-widgets.php:197
 #: extension.php:190 extension.php:191 extension.php:296 extension.php:297
 msgid "Member Groups"
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:70
+#: bp-group-hierarchy-admin.php:73
 msgid "Settings saved."
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:71
+#: bp-group-hierarchy-admin.php:74
 msgid "Group Hierarchy Settings"
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:76
+#: bp-group-hierarchy-admin.php:79
 msgid "Show Group Tree"
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:80
+#: bp-group-hierarchy-admin.php:83
 msgid ""
 "Show the Group Tree view on the Groups page along with the flat list of "
 "groups."
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:85
+#: bp-group-hierarchy-admin.php:88
 msgid "Hide Group List"
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:89
+#: bp-group-hierarchy-admin.php:92
 msgid ""
 "Hide the flat list of groups and show ONLY the Group Tree on the Groups page"
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:94 bp-group-hierarchy-widgets.php:14
+#: bp-group-hierarchy-admin.php:97 bp-group-hierarchy-widgets.php:14
 msgid "Toplevel Groups"
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:104
+#: bp-group-hierarchy-admin.php:107
 msgid ""
 "Select who is allowed to create toplevel groups. Super admins can always "
 "create toplevel groups."
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:112
+#: bp-group-hierarchy-admin.php:121
 msgid "Nav Item"
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:115
+#: bp-group-hierarchy-admin.php:124
 msgid "Name of the nav item on an individual group's page."
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:116
+#: bp-group-hierarchy-admin.php:125
 msgid "Use <code>%d</code> to include the number of child groups."
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:123
+#: bp-group-hierarchy-admin.php:132
 msgid "Name of the Group Tree listing on the main Groups page."
 msgstr ""
 
-#: bp-group-hierarchy-admin.php:127 extension.php:300
+#: bp-group-hierarchy-admin.php:136 extension.php:300
 msgid "Save Changes"
 msgstr ""
 

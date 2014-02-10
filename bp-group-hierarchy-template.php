@@ -31,6 +31,9 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			$params['page'] = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $params['page'];
 			$params['per_page']  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $params['per_page'];
 
+			// TODO: handle order, orderby
+			
+
 			$this->params = $params;
 			
 			array_push( $args, '' );
