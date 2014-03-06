@@ -17,7 +17,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	 * In BP 1.5, stub the includes function to prevent re-including files
 	 * In BP 1.6, call it since we've suppressed the parent invocation
 	 */
-	function includes() {
+	function includes( $includes = array() ) {
 		
 		if( floatval( bp_get_version() ) >= 1.6 ) {
 		
@@ -44,7 +44,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	/**
 	 * A hierarchy-aware copy of the setup_globals function from BP_Groups_Component
 	 */
-	function setup_globals() {
+	function setup_globals( $args = array() ) {
 		global $bp;
 
 		// Define a slug, if necessary
