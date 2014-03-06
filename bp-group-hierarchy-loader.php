@@ -85,7 +85,12 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			
 			$bp->is_single_item  = true;
 			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Hierarchy' );
-			$this->current_group = apply_filters( 'bp_groups_current_group_object', new $current_group_class( $group_id ) );
+
+			if ( 'BP_Groups_Hierarchy' == $current_group_class ) {
+				$this->current_group = new BP_Groups_Hierarchy( $group_id, 0, array( 'populate_extras' => true ) );
+			} else {
+				$this->current_group = apply_filters( 'bp_groups_current_group_object', new $current_group_class( $group_id ) );
+			}
 
 			// When in a single group, the first action is bumped down one because of the
 			// group name, so we need to adjust this and set the group name to current_item.

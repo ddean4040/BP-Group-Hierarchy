@@ -108,7 +108,7 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 		$this->group = $this->next_group();
 
 		if ( $this->single_group )
-			$this->group = new BP_Groups_Hierarchy( $this->group->group_id );
+			$this->group = groups_get_current_group();
 		else {
 			if ( $this->group )
 				wp_cache_set( 'groups_group_nouserdata_' . $this->group->id, $this->group, 'bp' );

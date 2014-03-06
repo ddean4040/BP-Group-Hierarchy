@@ -19,11 +19,11 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 
 	var $vars = null;
 	
-	function bp_groups_hierarchy( $id, $parent_id = 0 ) {
-		return $this->__construct( $id, $parent_id );
+	function bp_groups_hierarchy( $id, $parent_id = 0, $args = array() ) {
+		return $this->__construct( $id, $parent_id, $args = array() );
 	}
 
-	function __construct( $id, $parent_id = 0 ) {
+	function __construct( $id, $parent_id = 0, $args = array() ) {
 		
 		global $bp, $wpdb;
 
@@ -37,6 +37,10 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			return;
 		}
 		
+		$this->args = wp_parse_args( $args, array(
+			'populate_extras' => false,
+		) );
+
 		if( ! is_numeric( $id ) ) {
 			$id = $this->group_exists( $id, $parent_id );
 		}
