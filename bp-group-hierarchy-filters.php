@@ -109,7 +109,7 @@ function bp_group_hierarchy_override_template($has_groups) {
 
 	foreach($groups_hierarchy_template->groups as $key => $group) {
 		if(isset($group->id)) {
-			$groups_hierarchy_template->groups[$key] = new BP_Groups_Hierarchy($group->id);
+			$groups_hierarchy_template->groups[$key] = new BP_Groups_Hierarchy($group->id, 0, array( 'populate_extras' => true ) );
 		}
 	}
 	$groups_template = $groups_hierarchy_template;
