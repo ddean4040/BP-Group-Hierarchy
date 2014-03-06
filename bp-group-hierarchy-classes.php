@@ -18,10 +18,6 @@ if( ! class_exists( 'BP_Groups_Group' ) ) {
 class BP_Groups_Hierarchy extends BP_Groups_Group {
 
 	var $vars = null;
-	
-	function bp_groups_hierarchy( $id, $parent_id = 0, $args = array() ) {
-		return $this->__construct( $id, $parent_id, $args = array() );
-	}
 
 	function __construct( $id, $parent_id = 0, $args = array() ) {
 		
