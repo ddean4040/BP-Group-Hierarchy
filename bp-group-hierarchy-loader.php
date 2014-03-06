@@ -58,6 +58,11 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			'table_name_groupmeta' => $bp->table_prefix . 'bp_groups_groupmeta'
 		);
 
+		// Metadata tables for groups component
+		$meta_tables = array(
+			'group' => $bp->table_prefix . 'bp_groups_groupmeta',
+		);
+
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(
@@ -67,7 +72,8 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			'has_directory'         => true,
 			'notification_callback' => 'groups_format_notifications',
 			'search_string'         => __( 'Search Groups...', 'buddypress' ),
-			'global_tables'         => $global_tables
+			'global_tables'         => $global_tables,
+			'meta_tables'           => $meta_tables,
 		);
 		
 		call_user_func(array(get_parent_class(get_parent_class($this)),'setup_globals'), $globals );
