@@ -18,12 +18,8 @@ if( ! class_exists( 'BP_Groups_Group' ) ) {
 class BP_Groups_Hierarchy extends BP_Groups_Group {
 
 	var $vars = null;
-	
-	function bp_groups_hierarchy( $id, $parent_id = 0 ) {
-		return $this->__construct( $id, $parent_id );
-	}
 
-	function __construct( $id, $parent_id = 0 ) {
+	function __construct( $id, $parent_id = 0, $args = array() ) {
 		
 		global $bp, $wpdb;
 
@@ -37,6 +33,10 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 			return;
 		}
 		
+		$this->args = wp_parse_args( $args, array(
+			'populate_extras' => false,
+		) );
+
 		if( ! is_numeric( $id ) ) {
 			$id = $this->group_exists( $id, $parent_id );
 		}
@@ -146,7 +146,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		return $wpdb->get_var($wpdb->prepare("SELECT COUNT(g.id) FROM {$bp->groups->table_name} g WHERE g.parent_id=%d AND g.id = %d",$parent_id, $group_id));
 	}
 	
-	function get_total_subgroup_count( $group_id = null ) {
+	public static function get_total_subgroup_count( $group_id = null ) {
 		global $wpdb, $bp;
 
 		if(is_null($group_id) && isset($this->id)) {
@@ -246,7 +246,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	/**
 	 * Get the full path for a group
 	 */
-	function get_path( $group_id ) {
+	public static function get_path( $group_id ) {
 		$group = new BP_Groups_Hierarchy( $group_id );
 		if($group) {
 			return $group->path;
@@ -339,7 +339,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	/**
 	 * Declared static since BP 1.9
 	 */
-	public static function get_group_extras( $paged_groups, $group_ids, $type = false ) {
+	public static function get_group_extras( &$paged_groups, &$group_ids, $type = false ) {
 
 		foreach($paged_groups as $key => $group) {
 			if(!isset($group->path)) {

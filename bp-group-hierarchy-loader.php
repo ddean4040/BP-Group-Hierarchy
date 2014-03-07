@@ -17,7 +17,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	 * In BP 1.5, stub the includes function to prevent re-including files
 	 * In BP 1.6, call it since we've suppressed the parent invocation
 	 */
-	function includes() {
+	function includes( $includes = array() ) {
 		
 		if( floatval( bp_get_version() ) >= 1.6 ) {
 		
@@ -44,7 +44,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	/**
 	 * A hierarchy-aware copy of the setup_globals function from BP_Groups_Component
 	 */
-	function setup_globals() {
+	function setup_globals( $args = array() ) {
 		global $bp;
 
 		// Define a slug, if necessary
@@ -58,6 +58,11 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			'table_name_groupmeta' => $bp->table_prefix . 'bp_groups_groupmeta'
 		);
 
+		// Metadata tables for groups component
+		$meta_tables = array(
+			'group' => $bp->table_prefix . 'bp_groups_groupmeta',
+		);
+
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(
@@ -67,7 +72,8 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			'has_directory'         => true,
 			'notification_callback' => 'groups_format_notifications',
 			'search_string'         => __( 'Search Groups...', 'buddypress' ),
-			'global_tables'         => $global_tables
+			'global_tables'         => $global_tables,
+			'meta_tables'           => $meta_tables,
 		);
 		
 		call_user_func(array(get_parent_class(get_parent_class($this)),'setup_globals'), $globals );
@@ -79,7 +85,12 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			
 			$bp->is_single_item  = true;
 			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Hierarchy' );
-			$this->current_group = apply_filters( 'bp_groups_current_group_object', new $current_group_class( $group_id ) );
+
+			if ( 'BP_Groups_Hierarchy' == $current_group_class ) {
+				$this->current_group = new BP_Groups_Hierarchy( $group_id, 0, array( 'populate_extras' => true ) );
+			} else {
+				$this->current_group = apply_filters( 'bp_groups_current_group_object', new $current_group_class( $group_id ) );
+			}
 
 			// When in a single group, the first action is bumped down one because of the
 			// group name, so we need to adjust this and set the group name to current_item.
