@@ -131,7 +131,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		<?php
 	}
 	
-	function create_screen() {
+	function create_screen( $group_id = null ) {
 		
 		global $bp;
 
@@ -194,7 +194,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		wp_nonce_field( 'groups_create_save_' . $this->slug );
 	}
 	
-	function create_screen_save() {
+	function create_screen_save( $group_id = null ) {
 		global $bp;
 		
 		check_admin_referer( 'groups_create_save_' . $this->slug );
@@ -223,7 +223,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		
 	}
 	
-	function edit_screen() {
+	function edit_screen( $group_id = null ) {
 
 		global $bp;
 
@@ -305,7 +305,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		}
 	}
 	
-	function edit_screen_save() {
+	function edit_screen_save( $group_id = null ) {
 		global $bp;
 		
 		if( !isset($_POST['save']) ) {

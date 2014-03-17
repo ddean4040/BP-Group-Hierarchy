@@ -60,6 +60,10 @@ No. There is currently no way to have activity propagate up without creating dup
 
 == Changelog ==
 
+= 1.4.3 =
+* Added: preliminary support for BP 2.0 - contributed by r-a-y
+* Fixed: strict standards warnings - contributed by r-a-y
+
 = 1.4.2 =
 * Added: Italian translation contributed by Stefano Colarelli
 * Added: Hooks for adding fields to the plugin settings page - contributed by Christian Wach
