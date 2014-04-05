@@ -295,7 +295,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 				$order_sql = 'ORDER BY g.date_created DESC';
 				break;
 			case 'popular':
-				$order_sql = 'ORDER BY CONVERT(gm1.meta_value, SIGNED) ASC';
+				$order_sql = 'ORDER BY CONVERT(gm1.meta_value, SIGNED) DESC';
 				break;
 			case 'alphabetical':
 				$order_sql = 'ORDER BY g.name ASC';
