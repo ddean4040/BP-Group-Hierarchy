@@ -3,8 +3,8 @@ Contributors: ddean
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6BKDCMJRYPKNN&lc=US&item_name=BP%20Group%20Hierarchy&currency_code=USD
 Tags: buddypress, groups, subgroups, hierarchy, parent group
 Requires at least: WP 3.2, BuddyPress 1.6
-Tested up to: WP 3.8, BuddyPress 1.9
-Stable tag: 1.4.2
+Tested up to: WP 3.8.2, BuddyPress 2.0-beta2
+Stable tag: 1.4.3
 
 Allows BuddyPress groups to have subgroups.
 
@@ -61,8 +61,10 @@ No. There is currently no way to have activity propagate up without creating dup
 == Changelog ==
 
 = 1.4.3 =
+* NOTE: This will be the last release to support BuddyPress 1.6 and 1.7!
 * Added: preliminary support for BP 2.0 - contributed by r-a-y
 * Fixed: strict standards warnings - contributed by r-a-y
+* Fixed: when sorting by popularity, sort descending - contributed by trans1t
 
 = 1.4.2 =
 * Added: Italian translation contributed by Stefano Colarelli
@@ -302,6 +304,9 @@ No. There is currently no way to have activity propagate up without creating dup
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.4.3 =
+Add initial BP 2.0 compatibility and other fixes - LAST BP 1.6, 1.7-COMPATIBLE RELEASE
 
 = 1.4.2 =
 Add translations and hooks for plugin settings page
