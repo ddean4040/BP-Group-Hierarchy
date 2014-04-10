@@ -1,14 +1,14 @@
-# Copyright (C) 2013 
+# Copyright (C) 2014 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-group-hierarchy\n"
-"POT-Creation-Date: 2013-12-31 21:51:29+00:00\n"
+"POT-Creation-Date: 2014-04-10 03:19:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -91,31 +91,31 @@ msgstr ""
 msgid "User Groups"
 msgstr ""
 
-#: bp-group-hierarchy-loader.php:69
+#: bp-group-hierarchy-loader.php:74
 msgid "Search Groups..."
 msgstr ""
 
-#: bp-group-hierarchy-loader.php:198
+#: bp-group-hierarchy-loader.php:209
 msgid "You do not have access to this group."
 msgstr ""
 
-#: bp-group-hierarchy-loader.php:213
+#: bp-group-hierarchy-loader.php:224
 msgid "You are not an admin of this group."
 msgstr ""
 
-#: bp-group-hierarchy-loader.php:223
+#: bp-group-hierarchy-loader.php:234
 msgid "Details"
 msgstr ""
 
-#: bp-group-hierarchy-loader.php:227
+#: bp-group-hierarchy-loader.php:238
 msgid "Settings"
 msgstr ""
 
-#: bp-group-hierarchy-loader.php:235
+#: bp-group-hierarchy-loader.php:246
 msgid "Avatar"
 msgstr ""
 
-#: bp-group-hierarchy-loader.php:243
+#: bp-group-hierarchy-loader.php:254
 msgid "Invites"
 msgstr ""
 
