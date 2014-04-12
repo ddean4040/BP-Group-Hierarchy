@@ -25,7 +25,7 @@ class BP_Toplevel_Groups_Widget extends WP_Widget {
 		   . $after_title; ?>
 		<?php if( ! class_exists('BP_Groups_Group') ) {
 			 _e( 'You must enable Groups component to use this widget.', 'bp-group-hierarchy' );
-			 return; 
+			 return;
 		} ?>
 		<?php if ( bp_has_groups_hierarchy( 'type=' . $instance['sort_type'] . '&per_page=' . $instance['max_groups'] . '&max=' . $instance['max_groups'] . '&parent_id=0' ) ) : ?>
 
@@ -53,7 +53,7 @@ class BP_Toplevel_Groups_Widget extends WP_Widget {
 										case 'prolific':
 											printf( _n( '%d member group', '%d member groups', bp_group_hierarchy_has_subgroups(), 'bp-group-hierarchy'), bp_group_hierarchy_has_subgroups() );
 									}
-										
+
 								?>
 							</span></div>
 							<?php if($instance['show_desc']) { ?>
@@ -121,14 +121,14 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 	function __construct() {
 		parent::WP_Widget( false, $name = __( 'Group Navigator', 'bp-group-hierarchy' ), array('description' => __( 'A list of member groups of the current group, or top-level groups anywhere else.', 'bp-group-hierarchy' ) ) );
 	}
-	
+
 	function widget( $args, $instance ) {
 		global $bp;
-		
+
 	    extract( $args );
-		
+
 		$parent_id = bp_get_current_group_id();
-		
+
 		echo $before_widget;
 		echo $before_title;
 		if( empty( $parent_id ) ) {
@@ -139,7 +139,7 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 		echo $after_title; ?>
 		<?php if( ! class_exists('BP_Groups_Group') ) {
 			 _e( 'You must enable Groups component to use this widget.', 'bp-group-hierarchy' );
-			 return; 
+			 return;
 		} ?>
 		<?php if ( bp_has_groups_hierarchy( 'type=' . $instance['sort_type'] . '&per_page=' . $instance['max_groups'] . '&max=' . $instance['max_groups'] . '&parent_id=' . $parent_id ) ) : ?>
 
@@ -167,7 +167,7 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 										case 'prolific':
 											printf( _n( '%d member group', '%d member groups', bp_group_hierarchy_has_subgroups(), 'bp-group-hierarchy'), bp_group_hierarchy_has_subgroups() );
 									}
-										
+
 								?>
 							</span></div>
 							<?php if($instance['show_desc']) { ?>
@@ -192,7 +192,7 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 		<?php echo $after_widget; ?>
 		<?php
 	}
-	
+
 	function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'max_groups' => 5, 'title'	=> __('Groups'), 'sub_title' => __('Member Groups', 'bp-group-hierarchy'), 'sort_type' => 'active' ) );
 		$max_groups = strip_tags( $instance['max_groups'] );
@@ -220,7 +220,7 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 		<p><label for="<?php echo $this->get_field_id( 'show_desc' ); ?>"><input type="checkbox" id="<?php echo $this->get_field_id( 'show_desc' ); ?>" name="<?php echo $this->get_field_name( 'show_desc' ); ?>"<?php if($show_desc) echo ' checked'; ?> /> <?php _e('Show descriptions:', 'bp-group-hierarchy'); ?></label></p>
 		<?php
 	}
-	
+
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['max_groups'] = strip_tags( $new_instance['max_groups'] );
@@ -231,7 +231,7 @@ class BP_Group_Navigator_Widget extends WP_Widget {
 
 		return $instance;
 	}
-	
+
 }
 
 ?>
