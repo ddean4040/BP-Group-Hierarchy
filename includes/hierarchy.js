@@ -2,7 +2,7 @@ jQuery(document).ready( function() {
 
 	/** Add tree class to groups panel for AJAX loading */
 	jQuery('div.groups').addClass('tree');
-	jQuery('.item-subitem-indicator a').live('click',function(event) {
+	jQuery('.item-subitem-indicator a').on('click',function(event) {
 
 		if( jq(this).html() == '[-]' && jq(this).parents('li').has('div.subitem').length ) {
 			jq(this).parent().parent().children('div.subitem').remove();
@@ -32,8 +32,11 @@ jQuery(document).ready( function() {
 
 			/** This is "childof_{ID}" */
 			var scope = css_id[1];
-			var filter = jq("#" + object + "-order-select select").val();
-			var search_terms = jq("#" + object + "_search").val();
+			var filter = jq("#groups-order-select select").val();
+			var search_terms = false;
+			if ( jq('.dir-search input').length ) {
+				search_terms = jq('.dir-search input').val();
+			}
 			
 			target = jq('<div />').appendTo(target);
 			target.addClass('subitem');
