@@ -2,7 +2,7 @@ jQuery(document).ready( function() {
 
 	/** Add tree class to groups panel for AJAX loading */
 	jQuery('div.groups').addClass('tree');
-	jQuery('.item-subitem-indicator a').on('click',function(event) {
+	jQuery('#groups-dir-list').on('click', '.item-subitem-indicator a', function(event) {
 
 		if( jq(this).html() == '[-]' && jq(this).parents('li').has('div.subitem').length ) {
 			jq(this).parent().parent().children('div.subitem').remove();
