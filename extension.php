@@ -592,7 +592,7 @@ function bp_group_hierarchy_tab() {
  */
 function bp_group_hierarchy_display( $query_string, $object, $parent_id = 0 ) {
 	if($object == 'tree') {
-		if(isset($_POST['scope']) && $_POST['scope'] != 'all') {
+	    if(isset($_POST['scope']) && $_POST['scope'] != 'all') {
 			$parent_id = substr($_POST['scope'],8);
 			$parent_id = (int)$parent_id;
 		}
@@ -666,7 +666,7 @@ add_filter( 'bp_located_template', 'bp_group_hierarchy_load_template_filter', 10
  */
 function bp_group_hierarchy_get_groups_tree( $groups, $params, $parent_id = 0 ) {
 	global $bp, $groups_template;
-	
+
 	if( $_POST['object'] == 'tree') {
 		if ( isset($_POST['scope']) && $_POST['scope'] != 'all' ) {
 			$parent_id = substr( $_POST['scope'], 8 );
@@ -829,6 +829,10 @@ function bp_group_hierarchy_extension_init() {
 		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') )
 	);
 
+	// Set a cookie if hide_group_list is true, used in hierarchy.js
+	if ( $bp->group_hierarchy->extension_settings['hide_group_list'] )
+		setcookie( 'bp_group_hierarchy_hide_group_list', 1 );
+
 	wp_register_script( 'bp-group-hierarchy-tree-script', plugins_url( 'includes/hierarchy.js', __FILE__ ), array('jquery') );
 	
 	/** Load the hierarchy.css file from the user's theme, if available */
@@ -840,16 +844,16 @@ function bp_group_hierarchy_extension_init() {
 		
 		wp_register_style( 'bp-group-hierarchy-tree-style', str_replace(array(substr(ABSPATH,0,-1),'\\'), array('','/'), $hierarchy_css) );
 	}
-	
+
 	if(bp_is_groups_component() && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['hide_group_list']) {
 		add_filter( 'groups_get_groups', 'bp_group_hierarchy_get_groups_tree', 10, 2 );
 		
 		add_filter( 'wp_title', 'bp_group_hierarchy_group_tree_title', 10, 3 );
 		
-		if( $bp->current_action == '' && ! isset( $_POST['object'] ) ) {
+		if( ! isset( $_POST['object'] ) ) {
 			wp_enqueue_script('bp-group-hierarchy-tree-script');
 			wp_enqueue_style('bp-group-hierarchy-tree-style');
-			
+
 			/**
 			 * Override BP's default group index with the tree
 			 */

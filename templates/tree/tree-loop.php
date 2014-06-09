@@ -13,7 +13,21 @@
 
 <?php do_action( 'bp_before_groups_loop' ); ?>
 
-<?php if ( bp_has_groups( bp_ajax_querystring( 'tree' ) ) ) : ?>
+<?php // If the user has chosen to hide the bp-normal all groups tab, we can help what happens at page load by modifying the object.
+	$object = 'tree';
+	if( get_site_option( 'bpgh_extension_hide_group_list', false ) ) {
+		if ( ! empty( $_POST['cookie'] ) ) {
+			$cookies = wp_parse_args( str_replace( '; ', '&', urldecode( $_POST['cookie'] ) ) );
+		} else {
+			$cookies = &$_COOKIE;
+		}
+		if ( isset( $cookies['bp-groups-scope'] ) && $cookies['bp-groups-scope'] == 'personal' ) {
+			// If the user is trying to load or reload the "my groups" tab, the object needs to be "groups"
+			$object = 'groups';
+		}
+	}
+
+if ( bp_has_groups( bp_ajax_querystring( $object ) ) ) : ?>
 
 	<div id="pag-top" class="pagination">
 
@@ -38,6 +52,7 @@
 	<?php while ( bp_groups() ) : bp_the_group(); ?>
 
 		<li id="tree-childof_<?php bp_group_id(); ?>">
+			<?php if ( $object == 'tree' ) : ?>
 			<div class="item-subitem-indicator">
 				<?php if(bp_group_hierarchy_has_subgroups()) : ?>
 				<a href="">[+]</a>
@@ -45,6 +60,7 @@
 				<a href="" class="disabled">&nbsp;- </a>
 				<?php endif; ?>
 			</div>
+			<?php endif; ?>
 			<div class="item-avatar">
 				<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar( 'type=thumb&width=50&height=50' ); ?></a>
 			</div>
