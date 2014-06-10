@@ -830,8 +830,8 @@ function bp_group_hierarchy_extension_init() {
 	);
 
 	// Set a cookie if hide_group_list is true, used in hierarchy.js
-	if ( $bp->group_hierarchy->extension_settings['hide_group_list'] )
-		setcookie( 'bp_group_hierarchy_hide_group_list', 1 );
+	if ( $bp->group_hierarchy->extension_settings['hide_group_list'] && !isset( $_COOKIE['bp_group_hierarchy_hide_group_list'] ) )
+		setcookie( 'bp_group_hierarchy_hide_group_list', 1 , 0, COOKIEPATH );
 
 	wp_register_script( 'bp-group-hierarchy-tree-script', plugins_url( 'includes/hierarchy.js', __FILE__ ), array('jquery') );
 	
