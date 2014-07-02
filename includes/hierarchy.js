@@ -2,7 +2,7 @@ jQuery(document).ready( function() {
 
 	/** Add tree class to groups panel for AJAX loading */
 	jQuery('div.groups').addClass('tree');
-	jQuery('.item-subitem-indicator a').live('click',function(event) {
+	jQuery('#groups-dir-list').on('click', '.item-subitem-indicator a', function(event) {
 
 		if( jq(this).html() == '[-]' && jq(this).parents('li').has('div.subitem').length ) {
 			jq(this).parent().parent().children('div.subitem').remove();
@@ -32,8 +32,11 @@ jQuery(document).ready( function() {
 
 			/** This is "childof_{ID}" */
 			var scope = css_id[1];
-			var filter = jq("#" + object + "-order-select select").val();
-			var search_terms = jq("#" + object + "_search").val();
+			var filter = jq("#groups-order-select select").val();
+			var search_terms = false;
+			if ( jq('.dir-search input').length ) {
+				search_terms = jq('.dir-search input').val();
+			}
 			
 			target = jq('<div />').appendTo(target);
 			target.addClass('subitem');
@@ -67,9 +70,14 @@ jQuery(document).ready( function() {
 		}
 	});
 
-	/** Mark the Group Tree tab active (unless user has been traversing the tree) */
+	/** Set the "selected" tab */
 	jQuery(window).load(function() {
-		bp_init_objects(["tree"]);
+		// If the main group list is set to be replaced by the tree, we want to treat the tabs a little differently
+		if ( null != jq.cookie('bp_group_hierarchy_hide_group_list') ) {
+			if ( null != jq.cookie('bp-groups-scope') && jq.cookie('bp-groups-scope') == 'all' && jq('div.groups').length ) {
+					jq('.item-list-tabs #tree-all').addClass('selected');
+			}
+		}
 	});
 
 });
