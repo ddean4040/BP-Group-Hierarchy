@@ -19,7 +19,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 	 */
 	function includes( $includes = array() ) {
 		
-		if( floatval( bp_get_version() ) >= 1.6 ) {
+		if( version_compare( bp_get_version(), 1.6, '>=' ) ) {
 		
 			$includes = array(
 				'cache',
@@ -189,7 +189,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 
 		// Group access control
 		// BuddyPress 2.1 handles group access differently, making this check no longer necessary. See https://buddypress.trac.wordpress.org/changeset/8605
-		if ( floatval( bp_get_version() ) < 2.1 ) {
+		if ( version_compare( bp_get_version(), 2.1, '<' ) ) {
 			if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
 				if ( !$this->current_group->user_has_access ) {
 
@@ -229,7 +229,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 					) );
 				}
 			}
-		} // End if ( floatval( bp_get_version() ) < 2.1 )
+		} // End version_compare( bp_get_version(), 2.1, '<' )
 
 		// Preconfigured group creation steps
 		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', array(
