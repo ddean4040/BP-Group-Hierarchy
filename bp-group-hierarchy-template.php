@@ -31,9 +31,12 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			$params['page'] = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $params['page'];
 			$params['per_page']  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $params['per_page'];
 
-			// TODO: handle order, orderby
+			// Order and orderby were added in BP 1.8.0
+			if ( version_compare( bp_get_version(), 1.8, '>=' ) ) {
+				$params['order'] = 'DESC';
+				$params['orderby'] = 'date_created';
+			}
 			
-
 			$this->params = $params;
 			
 			array_push( $args, '' );
@@ -42,7 +45,7 @@ class BP_Groups_Hierarchy_Template extends BP_Groups_Template {
 			/**
 			 * BP 1.7 switched to a single array param from the painstakingly-arranged series of params above
 			 */
-			if( (float)bp_get_version() >= 1.7 ) {
+			if ( version_compare( bp_get_version(), 1.7, '>=' ) ) {
 				parent::__construct( $params );
 			} else {
 				call_user_func_array( array( 'parent', '__construct' ), $args );
