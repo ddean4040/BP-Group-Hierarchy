@@ -42,7 +42,7 @@ function bp_group_hierarchy_install() {
 
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-	
+
 	$sql[] = "CREATE TABLE {$bp->groups->table_name} (
 				parent_id BIGINT(20) NOT NULL DEFAULT 0,
 				KEY parent_id (parent_id),
@@ -53,7 +53,7 @@ function bp_group_hierarchy_install() {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta($sql);
 	}
-	
+
 	if( bp_group_hierarchy_verify_install( true ) ) {
 		update_site_option( 'bp-group-hierarchy-db-version', BP_GROUP_HIERARCHY_DB_VERSION );
 	} else {
@@ -72,7 +72,7 @@ function bp_group_hierarchy_verify_install( $debug_column = false ) {
 	/** Manually confirm that parent_id column exists */
 	$parent_id_exists = true;
 	$columns = $wpdb->get_results( 'DESCRIBE ' . $bp->groups->table_name );
-	
+
 	if( $columns ) {
 		$parent_id_exists = false;
 		foreach( $columns as $column ) {
@@ -81,19 +81,19 @@ function bp_group_hierarchy_verify_install( $debug_column = false ) {
 				break;
 			}
 		}
-		
+
 		if( ! $parent_id_exists && $debug_column ) {
 			bp_group_hierarchy_debug( 'Required column was not found - last MySQL error was: ' . $wpdb->last_error );
 			return $parent_id_exists;
 		}
-		
+
 	} else {
 		bp_group_hierarchy_debug( 'Could not DESCRIBE table - last MySQL error was: ' . $wpdb->last_error );
 		return false;
 	}
-	
+
 	return $parent_id_exists;
-	
+
 }
 
 /**
@@ -115,7 +115,7 @@ function bp_group_hierarchy_debug( $message ) {
 	if( defined('WP_DEBUG_DISPLAY') && false !== WP_DEBUG_DISPLAY) {
 		echo '<div class="log">BP Group Hierarchy - ' . $message . "</div>\n";
 	}
-	
+
 }
 
 ?>
