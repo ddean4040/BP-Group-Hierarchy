@@ -814,6 +814,11 @@ function bp_group_hierarchy_maybe_replace_group_loop_template( $templates, $slug
  */
 function bp_group_hierarchy_extension_init() {
 	global $bp;
+
+	// Don't do anything if we're not on a groups page.
+	if ( ! bp_is_groups_component() ) {
+		return;
+	}
 	
 	add_action( 'wp_ajax_groups_tree_filter', 'bp_dtheme_object_template_loader' );
 	add_action( 'wp_ajax_nopriv_groups_tree_filter', 'bp_dtheme_object_template_loader' );
@@ -845,9 +850,8 @@ function bp_group_hierarchy_extension_init() {
 		wp_register_style( 'bp-group-hierarchy-tree-style', str_replace(array(substr(ABSPATH,0,-1),'\\'), array('','/'), $hierarchy_css) );
 	}
 
-	if(bp_is_groups_component() && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['hide_group_list']) {
+	if( $bp->current_action == '' && $bp->group_hierarchy->extension_settings['hide_group_list'] ) {
 		add_filter( 'groups_get_groups', 'bp_group_hierarchy_get_groups_tree', 10, 2 );
-		
 		add_filter( 'wp_title', 'bp_group_hierarchy_group_tree_title', 10, 3 );
 		
 		if( ! isset( $_POST['object'] ) ) {
@@ -868,7 +872,7 @@ function bp_group_hierarchy_extension_init() {
 			}
 		}
 		
-	} else if(bp_is_groups_component() && $bp->current_action == '' && $bp->group_hierarchy->extension_settings['show_group_tree']) {
+	} else if( $bp->current_action == '' && $bp->group_hierarchy->extension_settings['show_group_tree'] ) {
 		wp_enqueue_script('bp-group-hierarchy-tree-script');
 		wp_enqueue_style('bp-group-hierarchy-tree-style');
 
@@ -877,5 +881,3 @@ function bp_group_hierarchy_extension_init() {
 	
 }
 add_action( 'init', 'bp_group_hierarchy_extension_init' );
-
-?>
