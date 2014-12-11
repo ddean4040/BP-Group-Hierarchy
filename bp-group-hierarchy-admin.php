@@ -1,9 +1,9 @@
 <?php
 
 /**
- * 
+ *
  * Admin options
- * 
+ *
  */
 
 add_action( 'network_admin_menu', 'bp_group_hierarchy_extension_admin' );
@@ -13,14 +13,14 @@ add_action( 'admin_menu', 'bp_group_hierarchy_extension_admin' );
  * Load the Group Hierarchy settings dashboard page and the Toplevel group permissions filter
  */
 function bp_group_hierarchy_extension_admin() {
-	
+
 	if( bpgh_has_groups_admin_menu() ) {
 		add_submenu_page( 'bp-groups', __('Hierarchy Settings','bp-group-hierarchy'), __('Hierarchy Settings','bp-group-hierarchy'), 'manage_options', 'bp_group_hierarchy_settings', 'bp_group_hierarchy_admin_page' );
 	} else {
 		add_submenu_page( 'bp-general-settings', __('Group Hierarchy','bp-group-hierarchy'), __('Group Hierarchy','bp-group-hierarchy'), 'manage_options', 'bp_group_hierarchy_settings', 'bp_group_hierarchy_admin_page' );
 	}
 	add_filter( 'bp_group_hierarchy_toplevel_subgroup_permissions', 'bp_group_hierarchy_limit_toplevel_permissions_options' );
-	
+
 	do_action( 'bp_group_hierarchy_admin_loaded' );
 }
 
@@ -42,25 +42,25 @@ function bp_group_hierarchy_limit_toplevel_permissions_options( $options ) {
  */
 function bp_group_hierarchy_admin_page() {
 	global $bp, $wpdb;
-	
+
 	$updated = false;
-	
+
 	if(isset($_POST['save-settings']) && check_admin_referer( 'bp_group_hierarchy_extension_options' )) {
-		
+
 		$options = $_POST['options'];
-		
+
 		update_site_option( 'bpgh_extension_show_group_tree', isset($options['show_group_tree']));
 		update_site_option( 'bpgh_extension_hide_group_list', isset($options['hide_group_list']));
 		update_site_option( 'bpgh_extension_toplevel_group_permission', $options['toplevel_group_permission']);
 		update_site_option( 'bpgh_extension_group_tree_name', $options['group_tree_name']);
 		update_site_option( 'bpgh_extension_nav_item_name',   $options['nav_item_name']);
-		
+
 		// allow plugins to receive saved data
 		do_action( 'bpgh_admin_after_save', $options );
-		
+
 		$updated = true;
 	}
-	
+
 	$options = array(
 		'show_group_tree'			=> get_site_option( 'bpgh_extension_show_group_tree', false ),
 		'hide_group_list'			=> get_site_option( 'bpgh_extension_hide_group_list', false ),
@@ -108,11 +108,11 @@ function bp_group_hierarchy_admin_page() {
 						</label>
 					</td>
 				</tr>
-				<?php 
-				
+				<?php
+
 				// allow plugins to add options
-				do_action( 'bpgh_admin_after_settings' ); 
-				
+				do_action( 'bpgh_admin_after_settings' );
+
 				?>
 			</table>
 			<h3>Labels</h3>

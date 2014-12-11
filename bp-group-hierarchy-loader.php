@@ -4,7 +4,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
-	
+
 	function __construct() {
 		parent::start(
 			'groups',
@@ -12,15 +12,15 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			BP_PLUGIN_DIR
 		);
 	}
-	
+
 	/**
 	 * In BP 1.5, stub the includes function to prevent re-including files
 	 * In BP 1.6, call it since we've suppressed the parent invocation
 	 */
 	function includes( $includes = array() ) {
-		
-		if( floatval( bp_get_version() ) >= 1.6 ) {
-		
+
+		if( version_compare( bp_get_version(), 1.6, '>=' ) ) {
+
 			$includes = array(
 				'cache',
 				'forums',
@@ -38,9 +38,9 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			);
 			parent::includes( $includes );
 		}
-		
+
 	}
-		
+
 	/**
 	 * A hierarchy-aware copy of the setup_globals function from BP_Groups_Component
 	 */
@@ -75,14 +75,14 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			'global_tables'         => $global_tables,
 			'meta_tables'           => $meta_tables,
 		);
-		
+
 		call_user_func(array(get_parent_class(get_parent_class($this)),'setup_globals'), $globals );
 
 		/** Single Group Globals **********************************************/
 
 		// Are we viewing a single group?
 		if ( bp_is_groups_component() && $group_id = BP_Groups_Hierarchy::group_exists( bp_current_action() ) ) {
-			
+
 			$bp->is_single_item  = true;
 			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Hierarchy' );
 
@@ -188,45 +188,48 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 		}
 
 		// Group access control
-		if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
-			if ( !$this->current_group->user_has_access ) {
+		// BuddyPress 2.1 handles group access differently, making this check no longer necessary. See https://buddypress.trac.wordpress.org/changeset/8605
+		if ( version_compare( bp_get_version(), 2.1, '<' ) ) {
+			if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
+				if ( !$this->current_group->user_has_access ) {
 
-				// Hidden groups should return a 404 for non-members.
-				// Unset the current group so that you're not redirected
-				// to the default group tab
-				if ( 'hidden' == $this->current_group->status ) {
-					$this->current_group = 0;
-					$bp->is_single_item  = false;
-					bp_do_404();
-					return;
+					// Hidden groups should return a 404 for non-members.
+					// Unset the current group so that you're not redirected
+					// to the default group tab
+					if ( 'hidden' == $this->current_group->status ) {
+						$this->current_group = 0;
+						$bp->is_single_item  = false;
+						bp_do_404();
+						return;
 
-				// Skip the no_access check on home and membership request pages
-				} elseif ( ! in_array( bp_current_action(), apply_filters( 'bp_group_hierarchy_allow_anon_access', array( 'home', 'request-membership', BP_GROUP_HIERARCHY_SLUG ) ) ) ) {
-					
-					// Off-limits to this user. Throw an error and redirect to the group's home page
-					if ( is_user_logged_in() ) {
-						bp_core_no_access( array(
-							'message'  => __( 'You do not have access to this group.', 'buddypress' ),
-							'root'     => bp_get_group_permalink( $bp->groups->current_group ),
-							'redirect' => false
-						) );
+					// Skip the no_access check on home and membership request pages
+					} elseif ( ! in_array( bp_current_action(), apply_filters( 'bp_group_hierarchy_allow_anon_access', array( 'home', 'request-membership', BP_GROUP_HIERARCHY_SLUG ) ) ) ) {
 
-					// User does not have access, and does not get a message
-					} else {
-						bp_core_no_access();
+						// Off-limits to this user. Throw an error and redirect to the group's home page
+						if ( is_user_logged_in() ) {
+							bp_core_no_access( array(
+								'message'  => __( 'You do not have access to this group.', 'buddypress' ),
+								'root'     => bp_get_group_permalink( $bp->groups->current_group ),
+								'redirect' => false
+							) );
+
+						// User does not have access, and does not get a message
+						} else {
+							bp_core_no_access();
+						}
 					}
 				}
-			}
 
-			// Protect the admin tab from non-admins
-			if ( bp_is_current_action( 'admin' ) && !bp_is_item_admin() ) {
-				bp_core_no_access( array(
-					'message'  => __( 'You are not an admin of this group.', 'buddypress' ),
-					'root'     => bp_get_group_permalink( $bp->groups->current_group ),
-					'redirect' => false
-				) );
+				// Protect the admin tab from non-admins
+				if ( bp_is_current_action( 'admin' ) && !bp_is_item_admin() ) {
+					bp_core_no_access( array(
+						'message'  => __( 'You are not an admin of this group.', 'buddypress' ),
+						'root'     => bp_get_group_permalink( $bp->groups->current_group ),
+						'redirect' => false
+					) );
+				}
 			}
-		}
+		} // End version_compare( bp_get_version(), 2.1, '<' )
 
 		// Preconfigured group creation steps
 		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', array(
