@@ -42,7 +42,7 @@ get_header( 'buddypress' ); ?>
 
 				</ul>
 			</div><!-- .item-list-tabs -->
-			
+
 			<div class="item-list-tabs" id="subnav" role="navigation">
 				<ul>
 

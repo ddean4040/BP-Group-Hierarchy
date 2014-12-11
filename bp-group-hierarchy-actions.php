@@ -20,10 +20,10 @@ function bp_group_hierarchy_setup_globals() {
 	$bp->group_hierarchy->id = 'group_hierarchy';
 	$bp->group_hierarchy->table_name = $wpdb->base_prefix . 'bp_group_hierarchy';
 	$bp->group_hierarchy->slug = BP_GROUP_HIERARCHY_SLUG;
-	
+
 	/* Register this in the active components array */
 	$bp->active_components[$bp->group_hierarchy->slug] = $bp->group_hierarchy->id;
-	
+
 	do_action( 'bp_group_hierarchy_globals_loaded' );
 }
 
@@ -31,14 +31,14 @@ function bp_group_hierarchy_setup_globals() {
  * Activate group extension
  */
 function bp_group_hierarchy_init() {
-	
+
 	/** Enable logging with WP Debug Logger */
 	$GLOBALS['wp_log_plugins'][] = 'bp_group_hierarchy';
-	
+
 	/** Ensure BP is loaded before loading admin portion */
 	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-admin.php' );
 	require ( dirname( __FILE__ ) . '/extension.php' );
-	
+
 }
 
 /**
@@ -56,7 +56,7 @@ function bp_group_hierarchy_load_components() {
 	require ( dirname( __FILE__ ) . '/bp-group-hierarchy-template.php' );
 
 	if( is_admin() && ! strpos( admin_url('admin-ajax.php'), $_SERVER['REQUEST_URI'] ) ) return;
-	
+
 	do_action( 'bp_group_hierarchy_components_loaded' );
 }
 
@@ -79,14 +79,14 @@ function bp_group_hierarchy_rescue_child_groups( &$parent_group ) {
 	$parent_group_id = $parent_group->id;
 
 	if($child_groups = BP_Groups_Hierarchy::has_children( $parent_group_id )) {
-		
+
 		$group = new BP_Groups_Hierarchy($parent_group_id);
 		if($group) {
 			$new_parent_group_id = $group->parent_id;
 		} else {
 			$new_parent_group_id = 0;
 		}
-		
+
 		foreach($child_groups as $group_id) {
 			$child_group = new BP_Groups_Hierarchy($group_id);
 			$child_group->parent_id = $new_parent_group_id;
