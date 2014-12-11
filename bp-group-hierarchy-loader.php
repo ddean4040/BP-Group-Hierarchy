@@ -4,7 +4,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
-	
+
 	function __construct() {
 		parent::start(
 			'groups',
@@ -12,15 +12,15 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			BP_PLUGIN_DIR
 		);
 	}
-	
+
 	/**
 	 * In BP 1.5, stub the includes function to prevent re-including files
 	 * In BP 1.6, call it since we've suppressed the parent invocation
 	 */
 	function includes( $includes = array() ) {
-		
+
 		if( floatval( bp_get_version() ) >= 1.6 ) {
-		
+
 			$includes = array(
 				'cache',
 				'forums',
@@ -38,9 +38,9 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			);
 			parent::includes( $includes );
 		}
-		
+
 	}
-		
+
 	/**
 	 * A hierarchy-aware copy of the setup_globals function from BP_Groups_Component
 	 */
@@ -75,14 +75,14 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 			'global_tables'         => $global_tables,
 			'meta_tables'           => $meta_tables,
 		);
-		
+
 		call_user_func(array(get_parent_class(get_parent_class($this)),'setup_globals'), $globals );
 
 		/** Single Group Globals **********************************************/
 
 		// Are we viewing a single group?
 		if ( bp_is_groups_component() && $group_id = BP_Groups_Hierarchy::group_exists( bp_current_action() ) ) {
-			
+
 			$bp->is_single_item  = true;
 			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Hierarchy' );
 
@@ -202,7 +202,7 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 
 				// Skip the no_access check on home and membership request pages
 				} elseif ( ! in_array( bp_current_action(), apply_filters( 'bp_group_hierarchy_allow_anon_access', array( 'home', 'request-membership', BP_GROUP_HIERARCHY_SLUG ) ) ) ) {
-					
+
 					// Off-limits to this user. Throw an error and redirect to the group's home page
 					if ( is_user_logged_in() ) {
 						bp_core_no_access( array(

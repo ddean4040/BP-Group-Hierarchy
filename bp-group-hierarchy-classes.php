@@ -269,7 +269,7 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 		}
 	}
 	
-	function get_by_parent( $parent_id, $type='active', $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
+	public static function get_by_parent( $parent_id, $type='active', $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 		
 		$hidden_sql = '';
@@ -362,4 +362,3 @@ class BP_Groups_Hierarchy extends BP_Groups_Group {
 	}
 		
 }
-?>
