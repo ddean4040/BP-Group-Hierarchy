@@ -101,19 +101,24 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 	
 	function enable_nav_item() {
 		global $bp;
-		
-		if( is_admin() )	return false;
-		if( ! is_object($bp->groups->current_group) )	return false;
-		
-		/** Only display the nav item for admins, those who can create subgroups, or everyone if the group has subgroups */
-		if (
-				$bp->is_item_admin || 
-				$bp->groups->current_group->can_create_subitems || 
-				BP_Groups_Hierarchy::has_children( $bp->groups->current_group->id )
-			) {
-			return apply_filters( 'bp_group_hierarchy_show_member_groups', true );
+
+		if( is_admin() ) {
+			return false;
 		}
-		return false;
+		if( ! is_object( $bp->groups->current_group ) ) {
+			return false;
+		}
+
+		/** Only display the nav item for admins, those who can create subgroups, or everyone if the group has subgroups */
+		$show_tab = false;
+		if (
+				$is_item_admin = $bp->is_item_admin ||
+				$can_create = $bp->groups->current_group->can_create_subitems ||
+				BP_Groups_Hierarchy::has_children( $group_id = $bp->groups->current_group->id )
+			) {
+			$show_tab = true;
+		}
+		return apply_filters( 'bp_group_hierarchy_show_member_groups', $show_tab, $group_id, $is_item_admin, $can_create );
 	}
 	
 	function add_parent_selection() {
