@@ -345,18 +345,22 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		bp_core_redirect( bp_get_group_admin_permalink( $bp->groups->current_group ) );
 	}
 	
-	function display($page = 1) {
+	function display( $group_id = null ) {
 		global $bp, $groups_template;
 		
 		$parent_template = $groups_template;
 		$hide_button = false;
 		
-		if(isset($_REQUEST['grpage'])) {
-			$page = (int)$_REQUEST['grpage'];
-		} else if(!is_numeric($page)) {
+		// $_REQUEST['grpage'] is set when pagination in not handled via AJAX.
+		if ( isset( $_REQUEST['grpage'] ) ) {
+			$page = (int) $_REQUEST['grpage'];
+		} if ( isset( $_POST['page'] ) ) {
+			// $_POST['page'] is set if pagination is handled via AJAX
+			$page = (int) $_POST['page'];
+		} elseif( ! is_numeric( $page ) ) {
 			$page = 1;
 		} else {
-			$page = (int)$page;
+			$page = (int) $page;
 		}
 		
 		/** Respect BuddyPress group creation restriction */
@@ -624,7 +628,7 @@ add_action( 'wp_ajax_tree_filter', 'bp_group_hierarchy_object_template_loader' )
 add_action( 'wp_ajax_nopriv_tree_filter', 'bp_group_hierarchy_object_template_loader' );
 
 function bp_group_hierarchy_display_member_group_pages() {
-	die(BP_Groups_Hierarchy_Extension::display($_POST['page']));
+	die( BP_Groups_Hierarchy_Extension::display() );
 }
 add_action( 'wp_ajax_group_filter', 'bp_group_hierarchy_display_member_group_pages');
 add_action( 'wp_ajax_nopriv_group_filter', 'bp_group_hierarchy_display_member_group_pages');
