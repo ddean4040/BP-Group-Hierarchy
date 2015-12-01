@@ -345,7 +345,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 		bp_core_redirect( bp_get_group_admin_permalink( $bp->groups->current_group ) );
 	}
 	
-	function display($page = 1) {
+	function display( $group_id = null ) {
 		global $bp, $groups_template;
 		
 		$parent_template = $groups_template;
