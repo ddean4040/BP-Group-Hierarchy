@@ -119,7 +119,7 @@ class BP_Toplevel_Groups_Widget extends WP_Widget {
 class BP_Group_Navigator_Widget extends WP_Widget {
 
 	function __construct() {
-		parent::WP_Widget( false, $name = __( 'Group Navigator', 'bp-group-hierarchy' ), array('description' => __( 'A list of member groups of the current group, or top-level groups anywhere else.', 'bp-group-hierarchy' ) ) );
+		parent::__construct( false, $name = __( 'Group Navigator', 'bp-group-hierarchy' ), array('description' => __( 'A list of member groups of the current group, or top-level groups anywhere else.', 'bp-group-hierarchy' ) ) );
 	}
 	
 	function widget( $args, $instance ) {
