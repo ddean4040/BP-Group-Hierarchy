@@ -12,21 +12,21 @@ add_filter( 'bp_has_topic_posts', 'bp_group_hierarchy_fixup_forum_links', 10, 2 
  */
 function group_hierarchy_override_current_action( $current_action ) {
 	global $bp;
-	
+
 	do_action( 'bp_group_hierarchy_route_requests' );
 
 	/** Only process once - hopefully this won't have any side effects */
 	remove_filter( 'bp_current_action', 'group_hierarchy_override_current_action' );
-	
+
 	/** Abort processing on dashboard pages and when not in groups component */
 	if( is_admin() && ! strpos( admin_url('admin-ajax.php'), $_SERVER['REQUEST_URI'] ) ) {
 		return $current_action;
 	}
-	
+
 	if( ! bp_is_groups_component() ) {
 		return $current_action;
 	}
-	
+
 	$groups_slug = bp_get_groups_root_slug();
 
 	bp_group_hierarchy_debug('Routing request');
@@ -36,12 +36,12 @@ function group_hierarchy_override_current_action( $current_action ) {
 	bp_group_hierarchy_debug('Are we on a user profile page?: ' . ( empty($bp->displayed_user->id) ? 'N' : 'Y' ));
 
 	if($current_action == '')	return $current_action;
-	
+
 	if( ! empty($bp->displayed_user->id) || in_array($current_action, apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', $groups_slug, '' ) ) ) ) {
 		bp_group_hierarchy_debug('Not rewriting current action.');
 		return $current_action;
 	}
-	
+
 	$action_vars = $bp->action_variables;
 
 	$group = new BP_Groups_Hierarchy( $current_action );
@@ -72,7 +72,7 @@ function group_hierarchy_override_current_action( $current_action ) {
 
 	$bp->action_variables = $action_vars;
 	$bp->current_action = $current_action;
-	
+
 	return $current_action;
 }
 
@@ -83,16 +83,16 @@ function group_hierarchy_override_current_action( $current_action ) {
  *  @return int|bool number of matching groups or FALSE if none
  */
 function bp_group_hierarchy_override_template($has_groups) {
-	
+
 	global $bp, $groups_template;
 
 	if(!$has_groups)	return false;
-	
+
 	$groups_hierarchy_template = new BP_Groups_Hierarchy_Template();
 
 	bp_group_hierarchy_copy_vars(
 		$groups_template,
-		$groups_hierarchy_template, 
+		$groups_hierarchy_template,
 		array(
 			'group',
 			'group_count',
@@ -113,7 +113,7 @@ function bp_group_hierarchy_override_template($has_groups) {
 		}
 	}
 	$groups_template = $groups_hierarchy_template;
-	
+
 	return $has_groups;
 }
 
@@ -122,11 +122,11 @@ function bp_group_hierarchy_override_template($has_groups) {
  * Fix forum topic permalinks for subgroups
  */
 function bp_group_hierarchy_fixup_forum_paths( $topics ) {
-	
+
 	// replace each simple slug with its full path
 	if(is_array($topics)) {
 		foreach($topics as $key => $topic) {
-	
+
 			$group_id = BP_Groups_Group::group_exists($topic->object_slug);
 			if($group_id) {
 				$topics[$key]->object_slug = BP_Groups_Hierarchy::get_path( $group_id );
@@ -134,7 +134,7 @@ function bp_group_hierarchy_fixup_forum_paths( $topics ) {
 		}
 	}
 	return $topics;
-	
+
 }
 
 /**
@@ -142,33 +142,33 @@ function bp_group_hierarchy_fixup_forum_paths( $topics ) {
  */
 function bp_group_hierarchy_fixup_forum_links( $has_topics ) {
 	global $forum_template;
-	
+
 	$group_id = BP_Groups_Group::group_exists( $forum_template->topic->object_slug );
 	$forum_template->topic->object_slug = BP_Groups_Hierarchy::get_path( $group_id );
-	
+
 	return $has_topics;
-	
+
 }
 
 /**
  * Override the group slug in permalinks with a group's full path
  */
 function bp_group_hierarchy_fixup_permalink( $permalink ) {
-	
+
 	global $bp;
-	
+
 	$group_slug = substr( $permalink, strlen( $bp->root_domain . '/' . bp_get_groups_root_slug() . '/' ), -1 );
-	
+
 	if(strpos($group_slug,'/'))	return $permalink;
-	
+
 	$group_id = BP_Groups_Group::get_id_from_slug( $group_slug );
-	
+
 	if( $group_id ) {
 		$group_path = BP_Groups_Hierarchy::get_path( $group_id );
 		return str_replace( '/' . $group_slug . '/', '/' . $group_path . '/', $permalink );
 	}
 	return $permalink;
-	
+
 }
 
 
@@ -179,9 +179,9 @@ function bp_group_hierarchy_fixup_permalink( $permalink ) {
 function bp_group_hierarchy_overload_groups( $components ) {
 
 	require dirname(__FILE__) . '/bp-group-hierarchy-functions.php';
-	
+
 	if( is_admin() && ! strpos( admin_url('admin-ajax.php'), $_SERVER['REQUEST_URI'] ) )	return $components;
-	
+
 	global $bp;
 
 	$components = array_flip( $components );
@@ -190,17 +190,21 @@ function bp_group_hierarchy_overload_groups( $components ) {
 
 		require( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php' );
 
+		if ( ! class_exists( 'BP_Groups_Component', false ) && function_exists( 'bp_rest_api_init' ) ) {
+			require BP_PLUGIN_DIR . '/bp-groups/classes/class-bp-groups-component.php';
+		}
+
 		remove_action( 'bp_setup_components', 'bp_setup_groups', 6);
 		add_action( 'bp_setup_components', 'bp_setup_groups_hierarchy', 6);
-		
+
 		require dirname(__FILE__) . '/bp-group-hierarchy-loader.php';
-		
+
 	}
 
 	unset($components['groups']);
 	$components = array_flip( $components );
-	
+
 	return $components;
-	
+
 }
 ?>
