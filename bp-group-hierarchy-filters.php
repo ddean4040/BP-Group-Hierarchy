@@ -190,6 +190,10 @@ function bp_group_hierarchy_overload_groups( $components ) {
 
 		require( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php' );
 
+		if ( ! class_exists( 'BP_Groups_Component', false ) && function_exists( 'bp_rest_api_init' ) ) {
+			require BP_PLUGIN_DIR . '/bp-groups/classes/class-bp-groups-component.php';
+		}
+
 		remove_action( 'bp_setup_components', 'bp_setup_groups', 6);
 		add_action( 'bp_setup_components', 'bp_setup_groups_hierarchy', 6);
 
