@@ -592,7 +592,7 @@ function bp_group_hierarchy_tab() {
  */
 function bp_group_hierarchy_display( $query_string, $object, $parent_id = 0 ) {
 	if($object == 'tree') {
-		if(isset($_POST['scope']) && $_POST['scope'] != 'all') {
+	    if(isset($_POST['scope']) && $_POST['scope'] != 'all') {
 			$parent_id = substr($_POST['scope'],8);
 			$parent_id = (int)$parent_id;
 		}
@@ -667,29 +667,37 @@ add_filter( 'bp_located_template', 'bp_group_hierarchy_load_template_filter', 10
 function bp_group_hierarchy_get_groups_tree( $groups, $params, $parent_id = 0 ) {
 	global $bp, $groups_template;
 
-	if( isset($_POST['scope']) && $_POST['object'] == 'tree' && $_POST['scope'] != 'all' ) {
-		$parent_id = substr( $_POST['scope'], 8 );
-		$parent_id = (int)$parent_id;
+	if( $_POST['object'] == 'tree') {
+		if ( isset($_POST['scope']) && $_POST['scope'] != 'all' ) {
+			$parent_id = substr( $_POST['scope'], 8 );
+			$parent_id = (int)$parent_id;
+		}
 	}
 
 	/**
 	 * Replace retrieved list with toplevel groups
-	 * unless on a group page (member groups list) or viewing "My Groups"
+	 * unless on a group page (member groups list), viewing "My Groups" or a meta_query filter has been applied.
 	 */
 	if( ! isset( $bp->groups->current_group->id ) && ! $params['user_id'] ) {
 
 		/** remove search placeholder text for BP 1.5 */
 //		if( function_exists( 'bp_get_search_default_text' ) && trim( $params['search_terms'] ) == bp_get_search_default_text( 'groups' ) )	$params['search_terms'] = '';
-
-		if( empty( $params['search_terms'] ) ) {
-
+		
+		// If search terms or a meta query is set, and parent_id is 0, let BP build the results list.
+		// If parent_id is not 0, this is a subgroup request, and group hierarchy needs to build the list.
+		if ( $params['search_terms'] || $params['meta_query'] ) {
+			if ( $parent_id ) {  
+				$params['parent_id'] = $parent_id;
+				$groups = bp_group_hierarchy_get_by_hierarchy( $params );
+			}
+		} else {
 			$params['parent_id'] = $parent_id;
-
 			$toplevel_groups = bp_group_hierarchy_get_by_hierarchy( $params );
 			$groups = $toplevel_groups;
 		}
-
+		
 	}
+
 	return $groups;
 }
 
@@ -825,6 +833,11 @@ function bp_group_hierarchy_extension_init() {
 		'nav_item_name'		=> get_site_option( 'bpgh_extension_nav_item_name', __('Member Groups (%d)','bp-group-hierarchy') ),
 		'group_tree_name'	=> get_site_option( 'bpgh_extension_group_tree_name', __('Group Tree','bp-group-hierarchy') )
 	);
+
+	// Set a cookie if hide_group_list is true, used in hierarchy.js
+	if ( $bp->group_hierarchy->extension_settings['hide_group_list'] && !isset( $_COOKIE['bp_group_hierarchy_hide_group_list'] ) ) {
+		setcookie( 'bp_group_hierarchy_hide_group_list', 1 , 0, COOKIEPATH );
+	}
 
 	wp_register_script( 'bp-group-hierarchy-tree-script', plugins_url( 'includes/hierarchy.js', __FILE__ ), array('jquery') );
 
