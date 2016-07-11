@@ -130,6 +130,16 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 				$this->current_group->user_has_access = true;
 			}
 
+			// Check once if the current group has a custom front template.
+			if ( function_exists( 'bp_groups_get_front_template' ) ) {
+				$this->current_group->front_template = bp_groups_get_front_template( $this->current_group );
+			}
+
+			// Initialize the nav for the groups component.
+			if ( class_exists( 'BP_Core_Nav' ) ) {
+				$this->nav = new BP_Core_Nav( $this->current_group->id );
+			}
+
 		// Set current_group to 0 to prevent debug errors
 		} else {
 			$this->current_group = 0;
