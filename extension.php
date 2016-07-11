@@ -344,7 +344,7 @@ class BP_Groups_Hierarchy_Extension extends BP_Group_Extension {
 
 		bp_core_redirect( bp_get_group_admin_permalink( $bp->groups->current_group ) );
 	}
-	
+
 	function display( $group_id = null ) {
 		global $bp, $groups_template;
 
@@ -682,11 +682,11 @@ function bp_group_hierarchy_get_groups_tree( $groups, $params, $parent_id = 0 ) 
 
 		/** remove search placeholder text for BP 1.5 */
 //		if( function_exists( 'bp_get_search_default_text' ) && trim( $params['search_terms'] ) == bp_get_search_default_text( 'groups' ) )	$params['search_terms'] = '';
-		
+
 		// If search terms or a meta query is set, and parent_id is 0, let BP build the results list.
 		// If parent_id is not 0, this is a subgroup request, and group hierarchy needs to build the list.
 		if ( $params['search_terms'] || $params['meta_query'] ) {
-			if ( $parent_id ) {  
+			if ( $parent_id ) {
 				$params['parent_id'] = $parent_id;
 				$groups = bp_group_hierarchy_get_by_hierarchy( $params );
 			}
@@ -695,7 +695,7 @@ function bp_group_hierarchy_get_groups_tree( $groups, $params, $parent_id = 0 ) 
 			$toplevel_groups = bp_group_hierarchy_get_by_hierarchy( $params );
 			$groups = $toplevel_groups;
 		}
-		
+
 	}
 
 	return $groups;
