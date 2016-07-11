@@ -197,8 +197,8 @@ class BP_Groups_Hierarchy_Component extends BP_Groups_Component {
 
 		}
 
-		// Group access control
-		if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
+		// Group access control - only for < BP 2.1.
+		if ( version_compare( bp_get_version(), 2.1, '<' ) && bp_is_groups_component() && ! empty( $this->current_group ) ) {
 			if ( !$this->current_group->user_has_access ) {
 
 				// Hidden groups should return a 404 for non-members.
