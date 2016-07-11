@@ -26,7 +26,7 @@ require ( dirname( __FILE__ ) . '/bp-group-hierarchy-widgets.php' );
 *********************SETUP AND INSTALLATION*******************************
 *************************************************************************/
 
-register_activation_hook( __FILE__, 'bp_group_hierarchy_install' );
+add_action( 'activate_' . basename( dirname( __FILE__ ) ) . '/index.php', 'bp_group_hierarchy_install' );
 
 /**
  * Install and/or upgrade the database
