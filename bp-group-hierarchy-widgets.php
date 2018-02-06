@@ -11,7 +11,7 @@ function bp_group_hierarchy_init_widgets() {
 /*** TOPLEVEL GROUPS WIDGET *****************/
 class BP_Toplevel_Groups_Widget extends WP_Widget {
 	function bp_toplevel_groups_widget() {
-		parent::WP_Widget( false, $name = __( 'Toplevel Groups', 'bp-group-hierarchy' ), array( 'description' => __( 'A list of top-level BuddyPress groups', 'bp-group-hierarchy' ) ) );
+		parent::__construct( false, $name = __( 'Toplevel Groups', 'bp-group-hierarchy' ), array( 'description' => __( 'A list of top-level BuddyPress groups', 'bp-group-hierarchy' ) ) );
 	}
 
 	function widget($args, $instance) {
@@ -119,7 +119,7 @@ class BP_Toplevel_Groups_Widget extends WP_Widget {
 class BP_Group_Navigator_Widget extends WP_Widget {
 
 	function __construct() {
-		parent::WP_Widget( false, $name = __( 'Group Navigator', 'bp-group-hierarchy' ), array('description' => __( 'A list of member groups of the current group, or top-level groups anywhere else.', 'bp-group-hierarchy' ) ) );
+		parent::__construct( false, $name = __( 'Group Navigator', 'bp-group-hierarchy' ), array('description' => __( 'A list of member groups of the current group, or top-level groups anywhere else.', 'bp-group-hierarchy' ) ) );
 	}
 	
 	function widget( $args, $instance ) {
